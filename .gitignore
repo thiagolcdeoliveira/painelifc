@@ -87,6 +87,8 @@ celerybeat-schedule
 venv/
 ENV/
 
+
+painelifc/settingsapp/migrations/0*
 # Spyder project settings
 .spyderproject
 .spyproject
