@@ -1,0 +1,29 @@
+ul.ui.menu, article > ul.list > li.item {
+    list-style: none;
+    padding: 0;
+
+}
+
+ul.list > li.item:before {
+    display: none;
+}
+
+ul.list {
+    margin-left: 2px !important;
+}
+
+ul.errorlist > li, ul.errorlist {
+    list-style: none;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+article {
+    min-height: 70%;
+    padding-top: 2%;
+    padding-bottom: 4%;
+}
+
+footer {
+    min-height: 20%;
+}

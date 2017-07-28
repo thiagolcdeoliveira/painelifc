@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block active_home %} active {% endblock active_home %}
+
+{% block body_block %}
+<div class="ui grid">
+    <div class="sixteen wide column">
+        <h1 class="ui header">Agenda</h1>
+    </div>
+    {% if user.is_authenticated %}
+    {% if telefones %}
+    <div class="sixteen wide column">
+        <table class="ui celled inverted table">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Código do País</th>
+                <th>Código da Cidade</th>
+                <th>Número</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for contato in telefones %}
+            <tr>
+                <td>{{ contato.dono }}</td>
+                <td>{{ contato.codigo_pais }}</td>
+                <td>{{ contato.codigo_cidade }}</td>
+                <td>{{ contato.numero }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="ui inverted message sixteen wide column">
+        <i class="close icon"></i>
+        <h1 class="header">Não há telefones na sua agenda!</h1>
+        <span>
+        Quando você cadastrar eles irão aparecer aqui automaticamente na sua Agenda.
+        </span>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="ui inverted message sixteen wide column">
+        <i class="close icon"></i>
+        <h1 class="header">Faça seu Login!</h1>
+        <span>
+        Vocẽ precisa estar logado para visualizar a lista de contatos.
+        </span>
+    </div>
+    {% endif %}
+</div>
+{% endblock body_block %}

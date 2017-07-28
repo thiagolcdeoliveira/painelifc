@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+STATIC_PATH = os.path.join(BASE_DIR, 'static')
+MEDIA_PATH = os.path.join(BASE_DIR, 'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -25,7 +27,7 @@ SECRET_KEY = 'yuyao7%8gn18g&m7!9-0=a#4j(crlv7o391%poiq%4l47otj8#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'settingsapp'
 ]
 
 MIDDLEWARE = [
@@ -79,7 +82,7 @@ WSGI_APPLICATION = 'painelifc.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-#
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -99,7 +102,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+DATABASES = {
+    "default": {
+        # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
+        "ENGINE": "django.db.backends.mysql",
+        # DB name or path to database file if using sqlite3.
+        "NAME": "painelifc",
+        # Not used with sqlite3.
+        "USER": "root",
+        # Not used with sqlite3.
+        "PASSWORD": "root",
+        # Set to empty string for localhost. Not used with sqlite3.
+        "HOST": "localhost",
+        # Set to empty string for default. Not used with sqlite3.
+        "PORT": "3306",
+    }
+}
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -112,9 +130,15 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+#
+LOGIN_REDIRECT_URL="/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    STATIC_PATH,
+    MEDIA_PATH,
+)
