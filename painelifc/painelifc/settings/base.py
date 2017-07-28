@@ -120,10 +120,17 @@ LOGIN_REDIRECT_URL="/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+STATIC_PATH_MEDIA = os.path.join(BASE_DIR, '../static/media')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '../static'),
 )
+
 STATIC_URL = '/static/'
+# MEDIA_URL = STATIC_URL + "media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, STATIC_PATH_MEDIA)
+MEDIA_URL = '/static/media/'
+
 #
 # STATICFILES_DIRS = (
 #     STATIC_PATH,

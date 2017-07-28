@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load staticfiles system%}
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Agenda{% block title_block %} {% endblock title_block %}</title>
-    <head>
+    <title>{% nome %}{% block title_block %} {% endblock title_block %}</title>
+    <head><link href= "{% logo %}" rel='icon' type='image/x-icon'/>
+
         <link rel="stylesheet" type="text/css" href='{% static "semantic/semantic.min.css" %}'>
         <link rel="stylesheet" type="text/css" href='{% static "css/base.css" %}'>
         <script src='{% static "js/jquery-3.1.0.js" %}'></script>
@@ -16,15 +17,12 @@
 <body>
 <header>
     <ul class="ui stackable borderless menu">
-        <li><a class="item {% block active_home %}{% endblock active_home %}" href="{% url 'home' %}"><i
-                class="ui browser icon"></i>Agenda</a></li>
-        <li><a class="item {% block active_cad_p %}{% endblock active_cad_p %}" href="{% url 'home' %}"><i
-                class="ui user icon"></i>Cadastrar
-            Pessoa</a></li>
-        <li><a class="item {% block active_cad_t %}{% endblock active_cad_t %}" href="{% url 'home' %}"><i
-                class="ui phone icon"></i>Cadastrar
-            Telefone</a></li>
+
         {% if user.is_authenticated %}
+        <li><a class="item" href="{% url 'home' %}"><i
+                class="ui  icon"></i>Cadastar um Projeto</a></li>
+        <li><a class="item" href="{% url 'home' %}"><i
+                class="ui  icon"></i>Meus projetos</a></li>
         <li><a class="item {% block active_logout %}{% endblock active_logout %}" href="{% url 'home' %}"><i
                 class="ui sign in icon"></i>Logout</a></li>
         <li class="item disabled">{{ user|title }}</li>

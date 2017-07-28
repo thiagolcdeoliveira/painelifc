@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load staticfiles system %}
 {% load i18n %}
 
 {% block active_home %} active {% endblock active_home %}
@@ -7,7 +7,7 @@
 {% block body_block %}
 <div class="ui grid">
     <div class="sixteen wide column">
-        <h1 class="ui header">Agenda</h1>
+        <h1 class="ui header">{% nome %}</h1>
     </div>
     {% if user.is_authenticated %}
     {% if telefones %}
@@ -36,9 +36,9 @@
     {% else %}
     <div class="ui inverted message sixteen wide column">
         <i class="close icon"></i>
-        <h1 class="header">Não há telefones na sua agenda!</h1>
+        <h1 class="header">Submeta seu trabalho aqui</h1>
         <span>
-        Quando você cadastrar eles irão aparecer aqui automaticamente na sua Agenda.
+        Quando você cadastrar ele ira aparecer aqui automaticamente na aqui.
         </span>
     </div>
     {% endif %}

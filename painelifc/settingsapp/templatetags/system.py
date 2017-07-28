@@ -1,7 +1,7 @@
 from django import template
 
 from settingsapp.models.setting import Setting
-
+from painelifc.settings import MEDIA_URL
 # TODO criar um metodo no manager para 'Sistema.objects.order_by('data')' esta duplicando codigo
 register = template.Library()
 
@@ -11,7 +11,7 @@ register = template.Library()
 def logo():
     sis = Setting.objects.order_by('id').last()
     if sis:
-        return sis.logo
+        return MEDIA_URL + str(sis.logo)
     return None
 
 
@@ -32,7 +32,7 @@ def imagem_titulo():
 
 
 @register.simple_tag
-def name():
+def nome():
     sis = Setting.objects.order_by('id').last()
     if sis:
         return sis.name
