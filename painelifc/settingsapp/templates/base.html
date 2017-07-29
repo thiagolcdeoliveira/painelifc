@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% nome %}{% block title_block %} {% endblock title_block %}</title>
-    <head><link href= "{% logo %}" rel='icon' type='image/x-icon'/>
+    <head><link href= "{% imagem_titulo %}" rel='icon' type='image/x-icon'/>
 
         <link rel="stylesheet" type="text/css" href='{% static "semantic/semantic.min.css" %}'>
         <link rel="stylesheet" type="text/css" href='{% static "css/base.css" %}'>
@@ -40,9 +40,11 @@
     <div class="ui five column middle aligned centered inverted divided stackable grid">
         <div class="two wide column">
             <h2 class="ui inverted icon header">
-                <i class="rebel icon"></i>
+                <!--<i class="rebel icon"></i>-->
+                <!--<img src="{% logo %}" class="ui tiny image "/>-->
+                <a href="http://fabricadesoftware.ifc.edu.br"><img src="{% logo %}" class="ui medium image "/></a>
                 <div class="content">
-                    Rebel Corporation
+                    <!--Fábrica de Software-->
                     <div class="sub header">© Copyright 2017</div>
                 </div>
             </h2>
@@ -50,7 +52,7 @@
         <div class="three wide column">
             <ul class="ui divided celled relaxed inverted list">
                 <li class="item"><a href="http://git.fabricadesoftware.ifc.edu.br/users/sign_in" target="_blank"><i
-                        class="ui github large icon"></i>Github</a></li>
+                        class="ui github large icon"></i>Gitlab</a></li>
                 <li class="item"><a href="https://www.instagram.com/nodes.fabricadesoftware/" target="_blank"><i
                         class="ui instagram large icon"></i>Instagram</a></li>
                 <li class="item"><a href="https://www.facebook.com/fabricadesoftware" target="_blank"><i

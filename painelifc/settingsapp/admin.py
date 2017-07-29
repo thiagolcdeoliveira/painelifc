@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from settingsapp.models.setting import Setting
-from settingsapp.models.configuracao_trabalho import ConfiguracaoTrabalho
+from settingsapp.models.setting import SettingModel
+from settingsapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 
 # Register your models here.
-admin.site.register(Setting)
-admin.site.register(ConfiguracaoTrabalho)
+admin.site.register(SettingModel)
+admin.site.register(ConfiguracaoTrabalhoModel)

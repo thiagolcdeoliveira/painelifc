@@ -102,3 +102,5 @@ painelifc/settingsapp/migrations/0*
 # mypy
 .mypy_cache/
 .idea/
+painelifc/painelifc/db.sqlite3
+painelifc/static/media/

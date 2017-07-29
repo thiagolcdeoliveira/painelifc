@@ -1,1 +1,1 @@
-from thiago_mysql import *
+from thiago_sqlite import *
