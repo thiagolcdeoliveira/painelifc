@@ -23,11 +23,11 @@
                 class="ui  icon"></i>Cadastar um Projeto</a></li>
         <li><a class="item" href="{% url 'consu-trabalho' %}"><i
                 class="ui  icon"></i>Meus projetos</a></li>
-        <li><a class="item {% block active_logout %}{% endblock active_logout %}" href="{% url 'home' %}"><i
+        <li><a class="item {% block active_logout %}{% endblock active_logout %}" href="{% url 'logout' %}"><i
                 class="ui sign in icon"></i>Logout</a></li>
         <li class="item disabled">{{ user|title }}</li>
         {% else %}
-        <li><a class="item {% block active_login %}{% endblock active_login %}" href="{% url 'home' %}"><i
+        <li><a class="item {% block active_login %}{% endblock active_login %}" href="{% url 'login' %}"><i
                 class="ui sign in icon"></i>Login</a></li>
         <li class="item disabled">Você não está autenticado.</li>
         {% endif %}

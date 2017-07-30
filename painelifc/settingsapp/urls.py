@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^cadastro-trabalho/$', CadastroTrabalhoView.as_view(), name='cad-trabalho'),
     url(r'^cadastro-trabalho/(?P<id>\d+)/$', CadastroTrabalhoView.as_view(), name='edit-trabalho'),
     url(r'^consulta-trabalho/$', ConsultaTrabalhoView.as_view(), name='consu-trabalho'),
+    url(r'^consulta-trabalho/(?P<id>\d+)/$', ConsultaTrabalhoView.as_view(), name='trabalho'),
 
 ]

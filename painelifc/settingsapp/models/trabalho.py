@@ -10,10 +10,10 @@ from status import StatusModels
 class TrabalhoModel(models.Model):
     titulo = models.CharField(max_length=125)
     autor = models.ManyToManyField(PessoaModel, related_name="autor")
-    orientador = models.ManyToManyField(PessoaModel, related_name="orientador")
+    orientador = models.ForeignKey(PessoaModel, related_name="orientador")
     colaborador = models.ManyToManyField(PessoaModel, related_name="colaborador")
     usuario=models.ForeignKey(User, related_name="usuario")
-    disciplina = models.ForeignKey(DisciplinaModel, on_delete=models.CASCADE)
+    disciplina = models.ManyToManyField(DisciplinaModel,related_name="disciplina")
     status = models.ForeignKey(StatusModels, on_delete=models.CASCADE)
     resumo = models.CharField(max_length=500)
 
