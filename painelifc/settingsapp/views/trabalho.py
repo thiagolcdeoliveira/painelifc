@@ -34,8 +34,7 @@ class ConsultaTrabalhoView(View):
             print(pessoa)
             pessoa=PessoaModel.objects.filter(user_ptr_id=request.user.id)
             print(pessoa)
-            #trabalhos = TrabalhoModel.objects.filter(autor__pk=request.user)
-            #trabalhos = TrabalhoModel.objects.filter(usuario=request.user)
+
 
             return render(request, self.template, {'trabalhos': trabalhos})
 
