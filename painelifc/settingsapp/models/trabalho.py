@@ -1,15 +1,18 @@
 # coding:utf-8
 from django.db import models
-from painelifc.models.pessoa import PessoaModel
-from painelifc.models.disciplina import DisciplinaModel
-from painelifc.models.status import StatusModels
+from django.contrib.auth.models import User
+
+from pessoa import PessoaModel
+from disciplina import DisciplinaModel
+from status import StatusModels
 
 
 class TrabalhoModel(models.Model):
     titulo = models.CharField(max_length=125)
-    autor = models.ManyToManyField(PessoaModel)
-    orientador = models.ManyToManyField(PessoaModel)
-    colaborador = models.ManyToManyField(PessoaModel)
+    autor = models.ManyToManyField(PessoaModel, related_name="autor")
+    orientador = models.ManyToManyField(PessoaModel, related_name="orientador")
+    colaborador = models.ManyToManyField(PessoaModel, related_name="colaborador")
+    usuario=models.ForeignKey(User, related_name="usuario")
     disciplina = models.ForeignKey(DisciplinaModel, on_delete=models.CASCADE)
     status = models.ForeignKey(StatusModels, on_delete=models.CASCADE)
     resumo = models.CharField(max_length=500)

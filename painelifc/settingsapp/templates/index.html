@@ -10,7 +10,7 @@
         <h1 class="ui header">{% nome %}</h1>
     </div>
     {% if user.is_authenticated %}
-    {% if telefones %}
+    {% if trabalhos %}
     <div class="sixteen wide column">
         <table class="ui celled inverted table">
             <thead>
@@ -22,12 +22,17 @@
             </tr>
             </thead>
             <tbody>
-            {% for contato in telefones %}
+            {{ trabalhos }}
+            {% for trabalho in trabalhos %}
             <tr>
-                <td>{{ contato.dono }}</td>
-                <td>{{ contato.codigo_pais }}</td>
-                <td>{{ contato.codigo_cidade }}</td>
-                <td>{{ contato.numero }}</td>
+                <td>{{ trabalho.titulo }}</td>
+                    {{ trabalho.autor.all }}
+                <td>{% for autor in trabalho.autor.all %}
+                {{ autor }}
+                {% endfor %}
+                    {{ trabalho.codigo_pais }}</td>
+                <td>{{ trabalho.codigo_cidade }}</td>
+                <td>{{ trabalho.numero }}</td>
             </tr>
             {% endfor %}
             </tbody>
@@ -47,7 +52,7 @@
         <i class="close icon"></i>
         <h1 class="header">Faça seu Login!</h1>
         <span>
-        Vocẽ precisa estar logado para visualizar a lista de contatos.
+        Vocẽ precisa estar logado para visualizar a lista de trabalhos.
         </span>
     </div>
     {% endif %}
