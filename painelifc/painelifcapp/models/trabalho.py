@@ -2,9 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from pessoa import PessoaModel
-from disciplina import DisciplinaModel
-from status import StatusModels
+from painelifcapp.models.pessoa import PessoaModel
+from painelifcapp.models.disciplina import DisciplinaModel
+from painelifcapp.models.status import StatusModels
 
 
 class TrabalhoModel(models.Model):

@@ -1,7 +1,7 @@
 # coding=utf-8
 from painelifcapp.models.pessoa import PessoaModel
 from django import forms
-from validador import  *
+from painelifcapp.forms.validador import  *
 
 class FormPessoa(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label='Senha')

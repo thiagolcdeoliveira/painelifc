@@ -1,6 +1,6 @@
 # coding:utf-8
 from django.db import models
-from curso import CursoModel
+from painelifcapp.models.curso import CursoModel
 
 
 class DisciplinaModel(models.Model):

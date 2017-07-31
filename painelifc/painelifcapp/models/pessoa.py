@@ -1,7 +1,7 @@
 # coding:utf-8
 from django.db import models
 from django.contrib.auth.models import User
-from turma import TurmaModel
+from painelifcapp.models.turma import TurmaModel
 
 
 

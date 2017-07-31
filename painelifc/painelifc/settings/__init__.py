@@ -1,1 +1,1 @@
-from thiago_mysql import *
+from painelifc.settings.kauan_sqlite import *

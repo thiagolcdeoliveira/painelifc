@@ -17,8 +17,8 @@ Including another URLconf
 from __future__ import unicode_literals
 
 #from appagenda.views import *
-from views.pessoa import ConsultaPessoaView, CadastroPessoaView
-from views.trabalho import ConsultaTrabalhoView, CadastroTrabalhoView
+from painelifcapp.views.pessoa import ConsultaPessoaView, CadastroPessoaView
+from painelifcapp.views.trabalho import ConsultaTrabalhoView, CadastroTrabalhoView
 from django.conf.urls import include, url
 
 urlpatterns = [

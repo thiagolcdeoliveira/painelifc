@@ -2,9 +2,9 @@
 from painelifcapp.models.trabalho import TrabalhoModel
 from painelifcapp.models.pessoa import PessoaModel
 from django import forms
-from validador.colaborador import  *
-from validador.orientador import  *
-from validador.autor import  *
+from painelifcapp.forms.validador.colaborador import  *
+from painelifcapp.forms.validador.orientador import  *
+from painelifcapp.forms.validador.autor import  *
 from painelifcapp.variaveis.variaveis import *
 from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 
