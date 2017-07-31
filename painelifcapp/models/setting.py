@@ -5,7 +5,7 @@ from django.db import models
 
 class SettingModel(models.Model):
     name = models.CharField(max_length=100)
-    endereco = models.CharField(max_length=200, blank=True)
+    endereco = models.CharField(max_length=500, blank=True)
     logo = models.ImageField('Logo ', upload_to="image_upload/setting", blank=True)
     imagem_titulo = models.ImageField('Icone', upload_to="image_upload/setting", blank=True)
     git = models.URLField()
