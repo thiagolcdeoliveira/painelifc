@@ -1,1 +1,1 @@
-from kauan_mysql import *
+from thiago_mysql import *
