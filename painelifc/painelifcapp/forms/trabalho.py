@@ -73,4 +73,5 @@ class FormTrabalho(forms.ModelForm):
                 print(len(trabalhos), configuracao.trabalhos_por_autor)
                 if (len(trabalhos) <= configuracao.trabalhos_por_autor):
                     autores_habilitados.append(autor.pk)
+        print(autores_habilitados)
         return autores_habilitados

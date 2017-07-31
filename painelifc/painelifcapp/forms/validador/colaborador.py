@@ -4,6 +4,7 @@ from django import forms
 import re
 from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 from painelifcapp.models.trabalho import TrabalhoModel
+from painelifcapp.variaveis.variaveis import *
 
 def ValidarColaborador(colaborador):
     configuracao=ConfiguracaoTrabalhoModel.objects.order_by('id').last()
