@@ -44,7 +44,7 @@ class FormTrabalho(forms.ModelForm):
         colaboradores = PessoaModel.objects.filter(groups__pk__contains=COLABORADOR)
         if configuracao:
             for colaborador in colaboradores:
-                trabalhos = TrabalhoModel.objects.filter(colaborador=colaborador)
+                trabalhos = TrabalhoModel.objects.filter(colaborador=colaborador,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
 
                 if (len(trabalhos) <= configuracao.trabalhos_por_colaborador):
                     colaboradores_habilitados.append(colaborador.pk)
@@ -56,7 +56,7 @@ class FormTrabalho(forms.ModelForm):
         orientadores = PessoaModel.objects.filter(groups__pk__contains=ORIENTADOR)
         if configuracao:
             for orientador in orientadores:
-                trabalhos = TrabalhoModel.objects.filter(orientador=orientador)
+                trabalhos = TrabalhoModel.objects.filter(orientador=orientador,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
                 print(len(trabalhos),configuracao.trabalhos_por_orientador)
                 if (len(trabalhos) <= configuracao.trabalhos_por_orientador):
                     orientadores_habilitados.append(orientador.pk)
@@ -68,7 +68,7 @@ class FormTrabalho(forms.ModelForm):
         autores = PessoaModel.objects.filter(groups__pk__contains=ALUNO)
         if configuracao:
             for autor in autores:
-                trabalhos = TrabalhoModel.objects.filter(autor=autor)
+                trabalhos = TrabalhoModel.objects.filter(autor=autor,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
                 print(len(trabalhos), configuracao.trabalhos_por_autor)
                 if (len(trabalhos) <= configuracao.trabalhos_por_autor):
                     autores_habilitados.append(autor.pk)

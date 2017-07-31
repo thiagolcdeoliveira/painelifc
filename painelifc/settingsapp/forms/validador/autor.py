@@ -4,6 +4,7 @@ from django import forms
 import re
 from settingsapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 from settingsapp.models.trabalho import TrabalhoModel
+from settingsapp.variaveis.variaveis import *
 from django.db.models import Q
 
 def ValidarAutor(autor):
@@ -11,7 +12,7 @@ def ValidarAutor(autor):
     if configuracao:
         #if len(autor) >= min_autor and len(Autor) <= max_colabolador:
         if len(autor)+1 >= configuracao.min_autor and len(autor)+1 <= configuracao.max_autor:
-            trabalhos=TrabalhoModel.objects.filter(autor__in=autor)
+            trabalhos=TrabalhoModel.objects.filter(autor__in=autor,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
             if(len(trabalhos)<=configuracao.trabalhos_por_autor):
 
                 return autor

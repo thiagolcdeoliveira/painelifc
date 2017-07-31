@@ -69,7 +69,7 @@ class CadastroTrabalhoView(View):
             form_edit = form.save(commit=True)
 
             form_edit.usuario_id = request.user.id
-            form_edit.status_id = AGURADANDO_PROFESSOR
+            form_edit.status_id = AGUARDANDO_PROFESSOR
 
             form_edit.save()
             #form.save()
