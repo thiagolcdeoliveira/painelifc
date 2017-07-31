@@ -15,7 +15,7 @@ class TrabalhoModel(models.Model):
     usuario=models.ForeignKey(User, related_name="usuario")
     disciplina = models.ManyToManyField(DisciplinaModel,related_name="disciplina")
     status = models.ForeignKey(StatusModels, on_delete=models.CASCADE)
-    resumo = models.CharField(max_length=500)
+    resumo = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.titulo

@@ -11,9 +11,9 @@ def ValidarAutor(autor):
     configuracao=ConfiguracaoTrabalhoModel.objects.order_by('id').last()
     if configuracao:
         #if len(autor) >= min_autor and len(Autor) <= max_colabolador:
-        if len(autor)+1 >= configuracao.min_autor and len(autor)+1 <= configuracao.max_autor:
-            trabalhos=TrabalhoModel.objects.filter(autor__in=autor,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
-            if(len(trabalhos)<=configuracao.trabalhos_por_autor):
+        if len(autor) >= configuracao.min_autor and len(autor) <= configuracao.max_autor:
+            trabalhos=TrabalhoModel.objects.filter(autor__in=autor, status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
+            if(len(trabalhos) < configuracao.trabalhos_por_autor):
 
                 return autor
             else:

@@ -1,10 +1,10 @@
 # coding=utf-8
+from django import forms
 from painelifcapp.models.trabalho import TrabalhoModel
 from painelifcapp.models.pessoa import PessoaModel
-from django import forms
-from painelifcapp.forms.validador.colaborador import  *
-from painelifcapp.forms.validador.orientador import  *
-from painelifcapp.forms.validador.autor import  *
+from painelifcapp.forms.validador.colaborador import *
+from painelifcapp.forms.validador.orientador import *
+from painelifcapp.forms.validador.autor import *
 from painelifcapp.variaveis.variaveis import *
 from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 
@@ -27,7 +27,7 @@ class FormTrabalho(forms.ModelForm):
                     choices=PessoaModel.objects.filter(pk__in=self.orientadores()).values_list('id','username'))
 
         #self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
-        self.fields['autor'].widget = forms.SelectMultiple(attrs={'checked': False},
+        self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
                     choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id','username'))
 
     def clean_colaborador(self):
@@ -71,7 +71,7 @@ class FormTrabalho(forms.ModelForm):
             for autor in autores:
                 trabalhos = TrabalhoModel.objects.filter(autor=autor,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
                 print(len(trabalhos), configuracao.trabalhos_por_autor)
-                if (len(trabalhos) <= configuracao.trabalhos_por_autor):
+                if (len(trabalhos) < configuracao.trabalhos_por_autor):
                     autores_habilitados.append(autor.pk)
         print(autores_habilitados)
         return autores_habilitados

@@ -38,3 +38,30 @@ def nome():
         return sis.name
     return None
 
+@register.simple_tag
+def git():
+    sis = SettingModel.objects.order_by('id').last()
+    if sis:
+        return sis.git
+    return None
+
+@register.simple_tag
+def instagram():
+    sis = SettingModel.objects.order_by('id').last()
+    if sis:
+        return sis.instagram
+    return None
+
+@register.simple_tag
+def facebook():
+    sis = SettingModel.objects.order_by('id').last()
+    if sis:
+        return sis.facebook
+    return None
+
+@register.simple_tag
+def site():
+    sis = SettingModel.objects.order_by('id').last()
+    if sis:
+        return sis.site
+    return None
