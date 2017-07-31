@@ -12,12 +12,12 @@ class Command(BaseCommand):
         with open('csv/configuracoestrabalho.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for i,row in enumerate(reader):
-                #print(row)
+                # print(row)
                 configuracaotrabalho = ConfiguracaoTrabalhoModel(name=row['nome'],min_colaborador=row["min_colaborador"],
                                                                  max_colaborador=row["max_colaborador"],min_autor=row["max_autor"],
                                                                  max_autor=row["max_autor"],trabalhos_por_colaborador=row["max_trabalho_colaborador"],
-                                                                 trabalho_por_orientador=row["max_trabalho_orientador"],
-                                                                 trabalho_por_autor=row["max_trabalho_autor"],min_disciplina=row["min_disciplina"],
+                                                                 trabalhos_por_orientador=row["max_trabalho_orientador"],
+                                                                 trabalhos_por_autor=row["max_trabalho_autor"],min_disciplina=row["min_disciplina"],
                                                                  max_disciplina=row["max_disciplina"])
                 configuracaotrabalho.save()
 
