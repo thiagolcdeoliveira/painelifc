@@ -5,5 +5,5 @@ Passos:
 
 1. Execute as Migrações
 2. Execute: 
-  python manage.py grupos
+  python manage.py grupos \n
   python manage.py status
