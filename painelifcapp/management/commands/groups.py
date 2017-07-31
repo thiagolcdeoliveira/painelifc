@@ -17,7 +17,7 @@ class Command(BaseCommand):
            "Qual o lattes? ".'''
 
     def _create_grupos(self):
-        with open('grupos.csv') as csvfile:
+        with open('csv/grupos.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for i,row in enumerate(reader):
                 if not Group.objects.filter(name=row['nome']):

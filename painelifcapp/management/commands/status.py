@@ -16,7 +16,7 @@ class Command(BaseCommand):
            "Qual o lattes? ".'''
 
     def _create_status(self):
-        with open('status.csv') as csvfile:
+        with open('csv/status.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for i,row in enumerate(reader):
                 if not StatusModels.objects.filter(descricao=row['nome']):
