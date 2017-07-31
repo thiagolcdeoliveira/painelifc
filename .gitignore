@@ -88,7 +88,7 @@ venv/
 ENV/
 
 
-painelifc/painelifcapp/migrations/0*
+painelifcapp/migrations/0*
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -102,5 +102,6 @@ painelifc/painelifcapp/migrations/0*
 # mypy
 .mypy_cache/
 .idea/
-painelifc/painelifc/db.sqlite3
-painelifc/static/media/
+painelifc/db.sqlite3
+static/media/
+csv/setting.csv
