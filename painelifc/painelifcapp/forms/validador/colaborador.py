@@ -2,8 +2,8 @@
 
 from django import forms
 import re
-from settingsapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
-from settingsapp.models.trabalho import TrabalhoModel
+from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
+from painelifcapp.models.trabalho import TrabalhoModel
 
 def ValidarColaborador(colaborador):
     configuracao=ConfiguracaoTrabalhoModel.objects.order_by('id').last()

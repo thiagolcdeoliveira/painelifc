@@ -2,9 +2,9 @@
 
 from django import forms
 import re
-from settingsapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
-from settingsapp.models.trabalho import TrabalhoModel
-from settingsapp.variaveis.variaveis import *
+from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
+from painelifcapp.models.trabalho import TrabalhoModel
+from painelifcapp.variaveis.variaveis import *
 from django.db.models import Q
 
 def ValidarAutor(autor):

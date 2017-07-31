@@ -1,5 +1,5 @@
 # coding=utf-8
-from settingsapp.models.pessoa import PessoaModel
+from painelifcapp.models.pessoa import PessoaModel
 from django import forms
 from validador import  *
 

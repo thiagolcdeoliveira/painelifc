@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
-from settingsapp.models.status import StatusModels
+from painelifcapp.models.status import StatusModels
 import csv
 
 

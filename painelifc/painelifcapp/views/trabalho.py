@@ -1,14 +1,14 @@
 # coding: utf-8
-from settingsapp.forms.trabalho import FormTrabalho
-from settingsapp.models.trabalho import TrabalhoModel
-#from settingsapp.models.pessoa import PessoaModel
-from settingsapp.models.pessoa import PessoaModel
+from painelifcapp.forms.trabalho import FormTrabalho
+from painelifcapp.models.trabalho import TrabalhoModel
+#from painelifcapp.models.pessoa import PessoaModel
+from painelifcapp.models.pessoa import PessoaModel
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
 from django.contrib.auth.models import User
 from django.db.models import Q
-from settingsapp.variaveis.variaveis import *
+from painelifcapp.variaveis.variaveis import *
 
 class ConsultaTrabalhoView(View):
     template = 'index.html'

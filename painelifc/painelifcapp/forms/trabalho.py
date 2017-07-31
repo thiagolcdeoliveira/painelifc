@@ -1,12 +1,12 @@
 # coding=utf-8
-from settingsapp.models.trabalho import TrabalhoModel
-from settingsapp.models.pessoa import PessoaModel
+from painelifcapp.models.trabalho import TrabalhoModel
+from painelifcapp.models.pessoa import PessoaModel
 from django import forms
 from validador.colaborador import  *
 from validador.orientador import  *
 from validador.autor import  *
-from settingsapp.variaveis.variaveis import *
-from settingsapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
+from painelifcapp.variaveis.variaveis import *
+from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 
 class FormTrabalho(forms.ModelForm):
     class Meta:
@@ -26,7 +26,8 @@ class FormTrabalho(forms.ModelForm):
         self.fields['orientador'].widget = forms.Select(attrs={'checked': True},
                     choices=PessoaModel.objects.filter(pk__in=self.orientadores()).values_list('id','username'))
 
-        self.fields['autor'].widget = forms.SelectMultiple(attrs={'checked': True},
+        #self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
+        self.fields['autor'].widget = forms.SelectMultiple(attrs={'checked': False},
                     choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id','username'))
 
     def clean_colaborador(self):

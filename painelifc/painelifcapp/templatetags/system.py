@@ -1,6 +1,6 @@
 from django import template
 
-from settingsapp.models.setting import SettingModel
+from painelifcapp.models.setting import SettingModel
 from painelifc.settings import MEDIA_URL
 # TODO criar um metodo no manager para 'Sistema.objects.order_by('data')' esta duplicando codigo
 register = template.Library()

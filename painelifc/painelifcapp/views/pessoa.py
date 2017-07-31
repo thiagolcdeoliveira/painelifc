@@ -1,6 +1,6 @@
 # coding: utf-8
-from settingsapp.forms.pessoa import FormPessoa
-from settingsapp.models.pessoa import PessoaModel
+from painelifcapp.forms.pessoa import FormPessoa
+from painelifcapp.models.pessoa import PessoaModel
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
 
