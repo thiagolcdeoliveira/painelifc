@@ -18,7 +18,9 @@ class ConsultaTrabalhoView(View):
         if id:
             try:
                 autorizacao = TrabalhoModel.objects.filter( Q(colaborador__pk=request.user.id) | Q(orientador__pk=request.user.id)| Q(autor__pk=request.user.id) | Q (usuario=request.user.id)).distinct()
-                admin=PessoaModel.objects.get(pk=request.user.id).groups.filter(pk=ADMIN)
+                admin=request.user.is_superuser or  PessoaModel.objects.get(pk=request.user.id).groups.filter(pk=ADMIN)
+                print(autorizacao)
+                print(admin)
                 if(autorizacao or admin):
                      trabalho = TrabalhoModel.objects.get(pk=id)
                      return render(request, self.template_consulta, {'trabalho': trabalho})

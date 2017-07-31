@@ -26,7 +26,7 @@ class FormPessoa(forms.ModelForm):
 
     class Meta:
         model = PessoaModel
-        fields = ('username', 'email', 'first_name', 'last_name', 'password','groups')
+        fields = ('username', 'email', 'first_name', 'last_name', 'password','groups','matricula')
         #exclude = ("date_joined", "groups", "is_active", "user_permissions", "last_login", "is_staff", "is_superuser")
         exclude = ("date_joined", "is_active", "user_permissions", "last_login", "is_staff", "is_superuser")
         # fields = "__all__"
