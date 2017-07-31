@@ -20,7 +20,7 @@
 
         {% if user.is_authenticated %}
         <li><a class="item" href="{% url 'cad-trabalho' %}"><i
-                class="ui  icon"></i>Cadastar um Projeto</a></li>
+                class="ui  icon"></i>Cadastrar um Projeto</a></li>
         <li><a class="item" href="{% url 'consu-trabalho' %}"><i
                 class="ui  icon"></i>Meus projetos</a></li>
         <li><a class="item {% block active_logout %}{% endblock active_logout %}" href="{% url 'logout' %}"><i

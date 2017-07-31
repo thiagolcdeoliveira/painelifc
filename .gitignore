@@ -102,6 +102,5 @@ painelifcapp/migrations/0*
 # mypy
 .mypy_cache/
 .idea/
-painelifc/db.sqlite3
 static/media/
 csv/setting.csv
