@@ -10,12 +10,7 @@ class FormPessoa(forms.ModelForm):
     last_name = forms.CharField(label='Sobrenome')
     email = forms.EmailField(label='E-mail')
 
-    '''def save(self, commit=True):
-        pessoa = super(FormPessoa, self).save(commit=False)
-        pessoa.set_password(self.cleaned_data['password'])
-        if commit:
-            pessoa.save()
-        return pessoa'''
+
     def save(self, commit=True):
         user = super(FormPessoa, self).save(commit=True)
         user.set_password(self.cleaned_data["password"])
@@ -27,6 +22,5 @@ class FormPessoa(forms.ModelForm):
     class Meta:
         model = PessoaModel
         fields = ('username', 'email', 'first_name', 'last_name', 'password','groups','matricula')
-        #exclude = ("date_joined", "groups", "is_active", "user_permissions", "last_login", "is_staff", "is_superuser")
         exclude = ("date_joined", "is_active", "user_permissions", "last_login", "is_staff", "is_superuser")
         # fields = "__all__"

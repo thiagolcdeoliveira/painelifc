@@ -67,11 +67,7 @@ class CadastroTrabalhoView(View):
         print(request.POST)
         if form.is_valid():
             form_edit = form.save(commit=True)
-            '''pessoa=PessoaModel.objects.filter(user_ptr_id=request.user.id)
 
-            #form_edit.usuario_id = request.user.id
-            if pessoa:
-                form_edit.usuario_id = pessoa[0].id'''
             form_edit.usuario_id = request.user.id
             form_edit.status_id = AGURADANDO_PROFESSOR
 
