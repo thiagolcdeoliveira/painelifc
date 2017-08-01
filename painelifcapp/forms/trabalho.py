@@ -5,16 +5,15 @@ from painelifcapp.models.pessoa import PessoaModel
 from painelifcapp.forms.validador.colaborador import *
 from painelifcapp.forms.validador.orientador import *
 from painelifcapp.forms.validador.autor import *
-from painelifcapp.forms.validador.disciplina import *
 from painelifcapp.variaveis.variaveis import *
 from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 
 class FormTrabalho(forms.ModelForm):
     class Meta:
         model = TrabalhoModel
-        #exclude = ("status","usuario")
+        exclude = ("status","usuario")
 
-        fields = "__all__"
+        # fields = "__all__"
 
 
     def __init__(self, *args, **kwargs):
@@ -31,6 +30,8 @@ class FormTrabalho(forms.ModelForm):
         self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
                     choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id','username'))
 
+        self.fields['resumo'].widget = forms.Textarea()
+
     def clean_colaborador(self):
         return ValidarColaborador(self.cleaned_data.get('colaborador'))
 
@@ -39,8 +40,6 @@ class FormTrabalho(forms.ModelForm):
 
     def clean_orientador(self):
         return ValidarOrientador(self.cleaned_data.get('orientador'))
-    def clean_disciplina(self):
-        return ValidarDisciplina(self.cleaned_data.get('disciplina'))
 
     def colaboradores(self):
         colaboradores_habilitados=[]

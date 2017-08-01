@@ -18,21 +18,116 @@
         {{ hidden }}
         {% endfor %}
 
-        {% for field in form %}
         <div class="field">
-            <label>{{ field.label }}:</label>
-            {{ field }}
-            {% if field.help_text %}
-            <span class="ui pointing label">Ajuda: {{ field.help_text }}</span>
+            <label>{{ form.titulo.label }}:</label>
+            {{ form.titulo }}
+            {% if form.titulo.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.titulo.help_text }}</span>
             {% endif %}
             </br>
             {% if field.errors %}
-                    <span class="ui pointing red label">
+                <span class="ui pointing red label">
             {{ field.errors }}
             </span>
             {% endif %}
         </div>
-        {% endfor %}
+
+        <div class="field">
+            <label>Autores:</label>
+            <select name="autor" multiple="multiple" required="" id="id_autor">
+            </select>
+        </div>
+
+        <div class="two fields">
+            <div class="field">
+                <label>Turma:</label>
+                <select name="turma" id="id_turma" onchange="turma_pesquisar()">
+                    <option value="select">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                        <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Autor:</label>
+                <select name="autor_select" id="id_autor_select" >
+                    <option>Selecione primeiro uma turma</option>
+                </select>
+            </div>
+        </div>
+
+{#        <div class="field">#}
+{#            <label>{{ form.autor.label }}:</label>#}
+{#            {{ form.autor }}#}
+{#            {% if form.titulo.help_text %}#}
+{#            <span class="ui pointing label">Ajuda: {{ form.autor.help_text }}</span>#}
+{#            {% endif %}#}
+{#            </br>#}
+{#            {% if field.errors %}#}
+{#                <span class="ui pointing red label">#}
+{#            {{ field.errors }}#}
+{#            </span>#}
+{#            {% endif %}#}
+{#        </div>#}
+
+        <div class="field">
+            <label>{{ form.orientador.label }}:</label>
+            {{ form.orientador }}
+            {% if form.orientador.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.orientador.help_text }}</span>
+            {% endif %}
+            </br>
+            {% if field.errors %}
+                <span class="ui pointing red label">
+            {{ field.errors }}
+            </span>
+            {% endif %}
+        </div>
+
+
+        <div class="field">
+            <label>{{ form.colaborador.label }}:</label>
+            {{ form.colaborador }}
+            {% if form.colaborador.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.colaborador.help_text }}</span>
+            {% endif %}
+            </br>
+            {% if field.errors %}
+                <span class="ui pointing red label">
+            {{ field.errors }}
+            </span>
+            {% endif %}
+        </div>
+
+        <div class="field">
+            <label>{{ form.disciplina.label }}:</label>
+            {{ form.disciplina }}
+            {% if form.disciplina.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.disciplina.help_text }}</span>
+            {% endif %}
+            </br>
+            {% if field.errors %}
+                <span class="ui pointing red label">
+            {{ field.errors }}
+            </span>
+            {% endif %}
+        </div>
+
+        <div class="field">
+            <label>{{ form.resumo.label }}:</label>
+            {{ form.resumo }}
+            {% if form.resumo.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.resumo.help_text }}</span>
+            {% endif %}
+            </br>
+            {% if field.errors %}
+                <span class="ui pointing red label">
+            {{ field.errors }}
+            </span>
+            {% endif %}
+        </div>
+
         <div class="ui two buttons">
             <a class="ui button" href="{{ request.META.HTTP_REFERER }}"> Voltar </a>
             <button class="ui secondary button" type="submit" name="submit">Cadastrar trabalho</button>

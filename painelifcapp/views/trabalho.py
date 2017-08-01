@@ -1,4 +1,6 @@
 # coding: utf-8
+from django.http import HttpResponse
+
 from painelifcapp.forms.trabalho import FormTrabalho
 from painelifcapp.models.trabalho import TrabalhoModel
 #from painelifcapp.models.pessoa import PessoaModel
@@ -8,6 +10,8 @@ from django.shortcuts import render, redirect
 from django.views.generic.base import View
 from django.contrib.auth.models import User
 from django.db.models import Q
+
+from painelifcapp.models.turma import TurmaModel
 from painelifcapp.variaveis.variaveis import *
 
 
@@ -18,13 +22,9 @@ class ConsultaTrabalhoView(View):
 
     def get(self, request, id=None):
         if id:
-            print(request.user.id)
-            print('oi')
             try:
-                autorizacao = TrabalhoModel.objects.filter(Q(colaborador__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(autor__pk=request.user.id) | Q (usuario=request.user.id)).distinct()
+                autorizacao = TrabalhoModel.objects.filter(Q(colaborador__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(autor__pk=request.user.id)).distinct()
                 admin = request.user.is_superuser or PessoaModel.objects.get(pk=request.user.id).groups.filter(pk=ADMIN)
-                print(autorizacao)
-                print(admin)
                 if(autorizacao or admin):
                      trabalho = TrabalhoModel.objects.get(pk=id)
                      return render(request, self.template_consulta, {'trabalho': trabalho})
@@ -32,13 +32,10 @@ class ConsultaTrabalhoView(View):
                      return redirect('/')
             except:
                 return redirect('/')
-
         else:
-            print('oi2')
             #trabalhos = TrabalhoModel.objects.all()
-            trabalhos = TrabalhoModel.objects.filter(Q(autor__pk=request.user.id) | Q(usuario=request.user.id) | Q(orientador__pk=request.user.id) | Q(colaborador__pk=request.user.id)).distinct()
+            trabalhos = TrabalhoModel.objects.filter(Q(autor__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(colaborador__pk=request.user.id)).distinct()
             is_orientador = PessoaModel.objects.filter(pk=request.user.id, groups__in=[ORIENTADOR]).exists()
-            print(is_orientador)
             return render(request, self.template, {'trabalhos': trabalhos, 'orientador': is_orientador})
 
         # def post(self, request):
@@ -49,12 +46,26 @@ class CadastroTrabalhoView(View):
 
     def get(self, request, id=None):
 
+        # ajax
+        if 'turma_id' in request.GET:
+            import json
+            als = PessoaModel.objects.filter(turma=request.GET['turma_id']).only('id', 'first_name')
+            print(als)
+            alunos = []
+            for al in als:
+                dict = {'id': al.id, 'nome': al.first_name + al.last_name}
+                alunos.append(dict)
+            json = json.dumps(alunos)
+            # json = serializers.serialize("json", als)
+            return HttpResponse(json)
+
         if id:
             trabalho = TrabalhoModel.objects.get(pk=id)
             form = FormTrabalho(instance=trabalho)
         else:
             form = FormTrabalho()
-        return render(request, self.template, {'form': form})
+            turmas = TurmaModel.objects.all()
+        return render(request, self.template, {'form': form, 'turmas': turmas})
 
     def post(self, request, id=None):
 
