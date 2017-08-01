@@ -5,6 +5,7 @@ from painelifcapp.models.pessoa import PessoaModel
 from painelifcapp.forms.validador.colaborador import *
 from painelifcapp.forms.validador.orientador import *
 from painelifcapp.forms.validador.autor import *
+from painelifcapp.forms.validador.disciplina import *
 from painelifcapp.variaveis.variaveis import *
 from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 
@@ -38,6 +39,8 @@ class FormTrabalho(forms.ModelForm):
 
     def clean_orientador(self):
         return ValidarOrientador(self.cleaned_data.get('orientador'))
+    def clean_disciplina(self):
+        return ValidarDisciplina(self.cleaned_data.get('disciplina'))
 
     def colaboradores(self):
         colaboradores_habilitados=[]

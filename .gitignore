@@ -102,7 +102,8 @@ painelifcapp/migrations/0*
 # mypy
 .mypy_cache/
 .idea/
-/painelifc/db.sqlite3
+painelifc/db.sqlite3
 
 
 !/static/media/
+/static/media/
