@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 #from appagenda.views import *
 from painelifcapp.views.pessoa import ConsultaPessoaView, CadastroPessoaView
-from painelifcapp.views.trabalho import ConsultaTrabalhoView, CadastroTrabalhoView
+from painelifcapp.views.trabalho import ConsultaTrabalhoView, CadastroTrabalhoView, ImprimeTrabalhoView
 from django.conf.urls import include, url
 
 urlpatterns = [
@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^cadastro-trabalho/(?P<id>\d+)/$', CadastroTrabalhoView.as_view(), name='edit-trabalho'),
     url(r'^consulta-trabalho/$', ConsultaTrabalhoView.as_view(), name='consu-trabalho'),
     url(r'^consulta-trabalho/(?P<id>\d+)/$', ConsultaTrabalhoView.as_view(), name='trabalho'),
+    url(r'^imprime-trabalho/(?P<id>\d+)/$', ImprimeTrabalhoView.as_view(), name='impri-trabalho'),
 
 ]

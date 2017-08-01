@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from django.db import models
 
 
@@ -16,11 +15,8 @@ class ConfiguracaoTrabalhoModel(models.Model):
     trabalhos_por_orientador=models.IntegerField(verbose_name="Quantidade máximo de Trabalhos por orientador ")
     trabalhos_por_autor = models.IntegerField(verbose_name="Quantidade máxima de Trabalhos por autores")
 
-
-
     def __unicode__(self):
         return self.name
-
 
     class Meta:
         verbose_name = "Configuração dos Trabalhos"

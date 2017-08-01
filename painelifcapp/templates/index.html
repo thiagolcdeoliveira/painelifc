@@ -15,11 +15,9 @@
                     <table class="ui celled inverted table">
                         <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>Autor</th>
+                            <th>Título</th>
                             <th>Orientador</th>
-                            <th>Colaborador</th>
-                            <th>Disciplina</th>
+                            <th>Status</th>
                             {% if orientador %}
                                 <th>Aceitar</th>
                             {% endif %}
@@ -33,29 +31,10 @@
                             <tr>
                                 <td>{{ trabalho.titulo }}</td>
                                 {# {{ trabalho.autor.all }}#}
-                                <td>
-                                    <table>{% for autor in trabalho.autor.all %}
-                                        <tr><td>{{ autor }}</td></tr>
-                                        <!--{# {{ autor }}#}-->
-                                    {% endfor %}
-                                    </table>
                                 <td> {{ trabalho.orientador }}</td>
-                                <td>
-                                    <table>
-                                    {% for colaborador in trabalho.colaborador.all %}
-                                        <tr><td>{{ colaborador }}</td></tr>
-                                    {% endfor %}
-                                    </table>
-                                </td>
-                                <td>
-                                    <table>
-                                        {% for disciplina in trabalho.disciplina.all %}
-                                            <tr> <td>{{ disciplina }}</td></tr>
-                                        {% endfor %}
-                                    </table>
-                                </td>
                                 <td>{{ trabalho.status.nome }}</td>
-                                <td><a href="{% url 'trabalho' trabalho.id  %}">Mais</a></td>
+                                <td><a href="{% url 'trabalho' trabalho.id %}">Mais</a><br>
+                                    <a href="{% url 'impri-trabalho' trabalho.id %}">Download</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -63,10 +42,10 @@
                 </div>
             {% else %}
                 <div class="ui inverted message sixteen wide column">
-                    <h1 class="header">Submeta seu trabalho aqui</h1>
+                    <h1 class="header">Bem vindo {{ user|title }}!</h1>
                     <span>
-        Quando você cadastrar ele ira aparecer aqui automaticamente na aqui.
-        </span>
+                        Caso você tenha projetos cadastrados, é possível visualizá-los na guia <a class="item" href="{% url 'consu-trabalho' %}">Meus projetos</a>.
+                    </span>
                 </div>
             {% endif %}
         {% else %}
