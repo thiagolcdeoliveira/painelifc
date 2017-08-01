@@ -53,7 +53,7 @@ class CadastroTrabalhoView(View):
             print(als)
             alunos = []
             for al in als:
-                dict = {'id': al.id, 'nome': al.first_name + al.last_name}
+                dict = {'id': al.id, 'nome': al.first_name + " " + al.last_name}
                 alunos.append(dict)
             json = json.dumps(alunos)
             # json = serializers.serialize("json", als)
