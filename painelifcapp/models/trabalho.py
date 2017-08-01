@@ -12,7 +12,7 @@ class TrabalhoModel(models.Model):
     autor = models.ManyToManyField(PessoaModel, related_name="autor")
     orientador = models.ForeignKey(PessoaModel, related_name="orientador")
     colaborador = models.ManyToManyField(PessoaModel, related_name="colaborador")
-    # usuario=models.ForeignKey(User, related_name="usuario")
+    usuario=models.ForeignKey(User, related_name="usuario")
     disciplina = models.ManyToManyField(DisciplinaModel,related_name="disciplina")
     status = models.ForeignKey(StatusModels, on_delete=models.CASCADE)
     resumo = models.CharField(max_length=1000)

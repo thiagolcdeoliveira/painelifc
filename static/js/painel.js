@@ -32,3 +32,19 @@ function turma_pesquisar() {
         $("#id_autor_field > .selection.ui.dropdown").addClass("disabled");
     }
 }
+
+function adicionar_autor() {
+    var select_lista_autores = $("select#id_autor");
+    var select_autor = $("select#id_autor_select");
+    // console.log();
+    if (select_autor != "select") {
+        var id = select_autor.val();
+        var autor = select_autor.find("[value='" + select_autor.val() + "']").text();
+        // select_lista_autores.multiselect({
+        //     header: false,
+        //     noneSelectedText: "Select"
+        // });
+        select_lista_autores.append('<option value="' + id + '">' + autor + '</option>');
+        // select_lista_autores.multiselect('refresh');
+    }
+}

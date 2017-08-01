@@ -2,6 +2,7 @@
 from django.http import HttpResponse
 
 from painelifcapp.forms.trabalho import FormTrabalho
+from painelifcapp.models.status import StatusModels
 from painelifcapp.models.trabalho import TrabalhoModel
 #from painelifcapp.models.pessoa import PessoaModel
 from painelifcapp.models.pessoa import PessoaModel
@@ -23,7 +24,7 @@ class ConsultaTrabalhoView(View):
     def get(self, request, id=None):
         if id:
             try:
-                autorizacao = TrabalhoModel.objects.filter(Q(colaborador__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(autor__pk=request.user.id)).distinct()
+                autorizacao = TrabalhoModel.objects.filter(Q(colaborador__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(autor__pk=request.user.id) | Q (usuario=request.user.id)).distinct()
                 admin = request.user.is_superuser or PessoaModel.objects.get(pk=request.user.id).groups.filter(pk=ADMIN)
                 if(autorizacao or admin):
                      trabalho = TrabalhoModel.objects.get(pk=id)
@@ -34,7 +35,7 @@ class ConsultaTrabalhoView(View):
                 return redirect('/')
         else:
             #trabalhos = TrabalhoModel.objects.all()
-            trabalhos = TrabalhoModel.objects.filter(Q(autor__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(colaborador__pk=request.user.id)).distinct()
+            trabalhos = TrabalhoModel.objects.filter(Q(autor__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(colaborador__pk=request.user.id) | Q (usuario=request.user.id)).distinct()
             is_orientador = PessoaModel.objects.filter(pk=request.user.id, groups__in=[ORIENTADOR]).exists()
             return render(request, self.template, {'trabalhos': trabalhos, 'orientador': is_orientador})
 
@@ -73,15 +74,17 @@ class CadastroTrabalhoView(View):
             trabalho = TrabalhoModel.objects.get(pk=id)
             form = FormTrabalho(instance=trabalho, data=request.POST)
         else:
-
             form = FormTrabalho(request.POST)
         print(request.POST)
+
         if form.is_valid():
             form_edit = form.save(commit=True)
             form_edit.usuario_id = request.user.id
-            form_edit.status_id = AGUARDANDO_PROFESSOR
             form_edit.save()
             #form.save()
             return redirect('/')
-
-        return render(request, self.template, {'form': form})
+        print(form.errors)
+        turmas = TurmaModel.objects.all()
+        autores = request.POST['autor']
+        print(autores)
+        return render(request, self.template, {'form': form, 'turmas': turmas, 'autores': autores})

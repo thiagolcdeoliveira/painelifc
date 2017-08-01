@@ -1,5 +1,7 @@
 # coding=utf-8
 from django import forms
+
+from painelifcapp.models.status import StatusModels
 from painelifcapp.models.trabalho import TrabalhoModel
 from painelifcapp.models.pessoa import PessoaModel
 from painelifcapp.forms.validador.colaborador import *
@@ -11,14 +13,15 @@ from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 class FormTrabalho(forms.ModelForm):
     class Meta:
         model = TrabalhoModel
-        exclude = ("status","usuario")
+        # exclude = ("usuario", )
 
-        # fields = "__all__"
+        fields = "__all__"
 
 
     def __init__(self, *args, **kwargs):
         #id = kwargs.pop('id_turma')
-
+        status = StatusModels.objects.filter(
+            pk=AGUARDANDO_PROFESSOR).values_list('id', 'descricao')
         super(FormTrabalho, self).__init__(*args, **kwargs)
         self.fields['colaborador'].widget = forms.SelectMultiple(attrs={'checked': True},
                     choices=PessoaModel.objects.filter(pk__in=self.colaboradores()).values_list('id', 'username'))
@@ -29,6 +32,8 @@ class FormTrabalho(forms.ModelForm):
         #self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
         self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
                     choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id','username'))
+
+        self.fields['status'].widget = forms.HiddenInput(attrs={'value': status[0][0]})
 
         self.fields['resumo'].widget = forms.Textarea()
 

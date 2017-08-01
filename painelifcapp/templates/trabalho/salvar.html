@@ -32,16 +32,10 @@
             {% endif %}
         </div>
 
-        <div class="field">
-            <label>Autores:</label>
-            <select name="autor" multiple="multiple" required="" id="id_autor">
-            </select>
-        </div>
-
         <div class="two fields">
             <div class="field">
                 <label>Turma:</label>
-                <select name="turma" id="id_turma" onchange="turma_pesquisar()">
+                <select name="turma" id="id_turma" onchange="turma_pesquisar()" class="search selection">
                     <option value="select">Selecione uma turma</option>
                     {% for turma in turmas %}
                         <option value="{{ turma.id }}">{{ turma.nome }}</option>
@@ -51,10 +45,16 @@
 
             <div class="field" id="id_autor_field">
                 <label>Autor:</label>
-                <select name="autor_select" id="id_autor_select" disabled="true">
+                <select name="autor_select" id="id_autor_select" disabled="true" onchange="adicionar_autor()" class="search selection">
                     <option value="select">Selecione uma turma primeiro</option>
                 </select>
             </div>
+        </div>
+
+        <div class="field">
+            <label>Autores:</label>
+            <select name="autor" multiple="multiple" required="" id="id_autor">
+            </select>
         </div>
 
 {#        <div class="field">#}
@@ -128,10 +128,15 @@
             {% endif %}
         </div>
 
+        {{ form.status }}
+
+        <input type="hidden" name="usuario" id="id_usuario" value="{{ user.id }}"/>
+
         <div class="ui two buttons">
             <a class="ui button" href="{{ request.META.HTTP_REFERER }}"> Voltar </a>
             <button class="ui secondary button" type="submit" name="submit">Cadastrar trabalho</button>
         </div>
+
 
         {% if form.instance.id %}
     </form>
