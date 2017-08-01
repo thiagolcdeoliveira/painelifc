@@ -104,3 +104,4 @@ painelifcapp/migrations/0*
 .idea/
 painelifc/db.sqlite3
 static/media/
+painelifc/db.sqlite3
