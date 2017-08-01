@@ -8,4 +8,4 @@ Passos:
   * python manage.py groups  
   * python manage.py status
   * python manage.py configuracoestrabalho
-3. Popule as tabela Setting e ConfiguracaoTrabalho
+  * python manage.py setting
