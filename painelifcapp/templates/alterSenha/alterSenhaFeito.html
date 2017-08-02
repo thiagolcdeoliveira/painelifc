@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load staticfiles system %}
+{% load i18n %}
+
+{% block active_home %} active {% endblock active_home %}
+
+{% block body_block %}
+<p>{% trans 'Your password was changed.' %}</p>
+{% endblock body_block %}

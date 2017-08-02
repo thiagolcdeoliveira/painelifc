@@ -16,19 +16,19 @@ Including another URLconf
 # coding=utf-8
 from __future__ import unicode_literals
 
-#from appagenda.views import *
+# from appagenda.views import *
 from painelifcapp.views.pessoa import ConsultaPessoaView, CadastroPessoaView
-from painelifcapp.views.trabalho import ConsultaTrabalhoView, CadastroTrabalhoView, ImprimeTrabalhoView
+from painelifcapp.views.trabalho import ConsultaTrabalhoView, CadastroTrabalhoView, AceitaTrabalhoView, NegaTrabalhoView, ImprimeTrabalhoView
 from django.conf.urls import include, url
 
 urlpatterns = [
     url(r'^cadastro-pessoa/$', CadastroPessoaView.as_view(), name='cad-pessoa'),
     url(r'^cadastro-pessoa/(?P<id>\d+)/$', CadastroPessoaView.as_view(), name='edit-pessoa'),
-
     url(r'^cadastro-trabalho/$', CadastroTrabalhoView.as_view(), name='cad-trabalho'),
     url(r'^cadastro-trabalho/(?P<id>\d+)/$', CadastroTrabalhoView.as_view(), name='edit-trabalho'),
     url(r'^consulta-trabalho/$', ConsultaTrabalhoView.as_view(), name='consu-trabalho'),
     url(r'^consulta-trabalho/(?P<id>\d+)/$', ConsultaTrabalhoView.as_view(), name='trabalho'),
+    url(r'^aceita-trabalho/(?P<id>\d+)/(?P<status>\d+)$', AceitaTrabalhoView.as_view(), name='aceita-trabalho'),
+    url(r'^nega-trabalho/(?P<id>\d+)/(?P<status>\d+)$', NegaTrabalhoView.as_view(), name='nega-trabalho'),
     url(r'^imprime-trabalho/(?P<id>\d+)/$', ImprimeTrabalhoView.as_view(), name='impri-trabalho'),
-
 ]

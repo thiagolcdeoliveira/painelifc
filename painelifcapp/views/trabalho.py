@@ -1,12 +1,12 @@
 # coding: utf-8
 from django.http import HttpResponse
-
+from django.utils.decorators import method_decorator
 from painelifcapp.forms.trabalho import FormTrabalho
 from painelifcapp.models.status import StatusModels
 from painelifcapp.models.trabalho import TrabalhoModel
 # from painelifcapp.models.pessoa import PessoaModel
 from painelifcapp.models.pessoa import PessoaModel
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
 from django.contrib.auth.models import User
@@ -84,13 +84,11 @@ class CadastroTrabalhoView(View):
             form = FormTrabalho(instance=trabalho, data=request.POST)
         else:
             form = FormTrabalho(request.POST)
-        print(request.POST)
-
         if form.is_valid():
             form_edit = form.save(commit=True)
             form_edit.usuario_id = request.user.id
+            form_edit.status_id = AGUARDANDO_PROFESSOR
             form_edit.save()
-            #form.save()
             return redirect('/')
         print(form.errors)
         turmas = TurmaModel.objects.all()
@@ -142,3 +140,37 @@ class ImprimeTrabalhoView(View):
 
        return redirect("/" + nome)
           # render(request, self.template_consulta, {'':''})
+
+class AceitaTrabalhoView(View):
+    def group_test(user):
+       return user.groups.filter(pk__in=[ORIENTADOR])
+
+    @method_decorator(user_passes_test(group_test))
+    def get(self, request, id,status):
+        template = 'index.html'
+
+        trabalho = TrabalhoModel.objects.get(pk=id)
+        print(trabalho.orientador.pk == request.user.pk)
+        if trabalho.orientador.pk == request.user.pk:
+            trabalho.status= StatusModels.objects.get(pk=SUBMETIDO)
+            print(trabalho.status)
+            trabalho.save()
+        return render(request, template, {'status' : trabalho.status})
+
+class NegaTrabalhoView(View):
+    def group_test(user):
+       return user.groups.filter(pk__in=[ORIENTADOR])
+
+    @method_decorator(user_passes_test(group_test))
+    def get(self, request, id,status):
+        template = 'index.html'
+
+        trabalho = TrabalhoModel.objects.get(pk=id)
+        print(trabalho.orientador.pk == request.user.pk)
+        if trabalho.orientador.pk == request.user.pk:
+            trabalho.status= StatusModels.objects.get(pk=NEGADO_PROFESSOR)
+            print(trabalho.status)
+            trabalho.save()
+        return render(request, template, {'status': trabalho.status})
+
+
