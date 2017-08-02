@@ -6,8 +6,10 @@ from painelifcapp.models.turma import TurmaModel
 from painelifcapp.models.curso import CursoModel
 from django.contrib.auth.models import Group
 from painelifcapp.variaveis.variaveis import *
+from django.contrib.auth.hashers import make_password
 import csv
-
+#from django.
+import hashlib
 
 class Command(BaseCommand):
     args = '<foo bar ...>'
@@ -30,7 +32,8 @@ class Command(BaseCommand):
                     orientador_colaborador = PessoaModel(first_name=row['nome'],
                      last_name=row["sobrenome"],
                      username=row["usuario"],
-                     password=""                    )
+                     password=make_password(row["matricula"]+"@painel")
+                    )
 
 
                     g=Group.objects.filter(pk__in=[ORIENTADOR,COLABORADOR])
