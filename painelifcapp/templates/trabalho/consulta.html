@@ -12,57 +12,23 @@
         {% if user.is_authenticated %}
             {% if trabalho %}
                 <div class="sixteen wide column">
-                    <table class="ui celled inverted table">
-                        <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Autor</th>
-                            <th>Orientador</th>
-                            <th>Colaborador</th>
-                            <th>Disciplina</th>
-                            <th>Status</th>
-                            <th>Resumo</th>
-                            <th>Imprimir</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                       {#  {% for trabalho in trabalho %}#}
-                            <tr>
-                                <td>{{ trabalho.titulo }}</td>
-                                {# {{ trabalho.autor.all }}#}
-                                <td>
-                                    <table>{% for autor in trabalho.autor.all %}
-                                        <tr><td>{{ autor }}</td></tr>
-                                        <!--{# {{ autor }}#}-->
-                                    {% endfor %}
-                                        <td>{{ trabalho.usuario }}</td>
-                                    </table>
-                                <td> {{ trabalho.orientador }}</td>
-                                <td>
-                                    <table>
-                                    {% for colaborador in trabalho.colaborador.all %}
-                                        <tr><td>{{ colaborador }}</td></tr>
-                                    {% endfor %}
-                                    </table>
-                                </td>
-                                <td>
-                                    <table>
-                                        {% for disciplina in trabalho.disciplina.all %}
-                                            <tr> <td>{{ disciplina }}</td></tr>
-                                        {% endfor %}
-                                    </table>
-                                </td>
-                                <td>{{ trabalho.status }}</td>
-                                <td>{{ trabalho.resumo }}</td>
-
-                                <!--<td><a href="{# {% url 'trabalho' trabalho.id  %}#}">Mais</a></td>-->
-
-                                <td>imprimir</td>
-                            </tr>
-                       {#  {% endfor %} #}
-                        </tbody>
-                    </table>
+                    <h1 style="text-align: center;">{{ trabalho.titulo }}</h1>
+                    <h3>Autores:
+                        {% for autor in trabalho.autor.all %}
+                            {{ autor }};
+                        {% endfor %}
+                    </h3>
+                    <h3>Orientador:
+                        {{ trabalho.orientador }};
+                    </h3>
+                    <h3>Colaboradores:
+                        {% for colaborador in trabalho.colaborador.all %}
+                            {{ colaborador }};
+                        {% endfor %}
+                    </h3>
+                    <h4 style="text-align: justify">
+                        {{ trabalho.resumo }}
+                    </h4>
                 </div>
             {% else %}
                 <div class="ui inverted message sixteen wide column">

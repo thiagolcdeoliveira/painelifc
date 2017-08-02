@@ -2,7 +2,6 @@
 {% load staticfiles %}
 {% load i18n %}
 {% block title_block %} - Trabalho{% endblock title_block %}
-
 {% block active_cad_t %} active {% endblock active_cad_t %}
 
 {% block body_block %}
@@ -25,9 +24,9 @@
             <span class="ui pointing label">Ajuda: {{ form.titulo.help_text }}</span>
             {% endif %}
             </br>
-            {% if field.errors %}
+            {% if form.titulo.errors %}
                 <span class="ui pointing red label">
-            {{ field.errors }}
+            {{ form.titulo.errors }}
             </span>
             {% endif %}
         </div>
@@ -55,6 +54,11 @@
             <label>Autores:</label>
             <select name="autor" multiple="multiple" required="" id="id_autor">
             </select>
+            {% if form.autor.errors %}
+                <span class="ui pointing red label">
+                    {{ form.autor.errors }}
+                </span>
+            {% endif %}
         </div>
 
 {#        <div class="field">#}
@@ -78,9 +82,9 @@
             <span class="ui pointing label">Ajuda: {{ form.orientador.help_text }}</span>
             {% endif %}
             </br>
-            {% if field.errors %}
+            {% if form.orientador.errors %}
                 <span class="ui pointing red label">
-            {{ field.errors }}
+            {{ form.orientador.errors }}
             </span>
             {% endif %}
         </div>
@@ -93,10 +97,10 @@
             <span class="ui pointing label">Ajuda: {{ form.colaborador.help_text }}</span>
             {% endif %}
             </br>
-            {% if field.errors %}
+            {% if form.colaborador.errors %}
                 <span class="ui pointing red label">
-            {{ field.errors }}
-            </span>
+                    {{ form.colaborador.errors }}
+                </span>
             {% endif %}
         </div>
 
@@ -107,9 +111,9 @@
             <span class="ui pointing label">Ajuda: {{ form.disciplina.help_text }}</span>
             {% endif %}
             </br>
-            {% if field.errors %}
+            {% if form.disciplina.errors %}
                 <span class="ui pointing red label">
-            {{ field.errors }}
+            {{ form.disciplina.errors }}
             </span>
             {% endif %}
         </div>
@@ -121,9 +125,9 @@
             <span class="ui pointing label">Ajuda: {{ form.resumo.help_text }}</span>
             {% endif %}
             </br>
-            {% if field.errors %}
+            {% if form.resumo.errors %}
                 <span class="ui pointing red label">
-            {{ field.errors }}
+            {{ form.resumo.errors }}
             </span>
             {% endif %}
         </div>

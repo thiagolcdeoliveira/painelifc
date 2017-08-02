@@ -46,3 +46,5 @@ class CadastroPessoaView(View):
             return redirect('/')
 
         return render(request, self.template, {'form': form})
+
+

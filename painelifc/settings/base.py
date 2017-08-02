@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'painelifcapp'
+    'painelifcapp',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +136,4 @@ MEDIA_URL = '/static/media/'
 #     STATIC_PATH,
 #     MEDIA_PATH,
 # )
+

@@ -7,7 +7,11 @@
 {% block body_block %}
     <div class="ui grid">
         <div class="sixteen wide column">
-            <h1 class="ui header">{% nome %}</h1>
+            <h1 class="ui header">
+                {% if user|title != "Anonymoususer" %}
+                    {{ user|title }}
+                {% endif %}
+            </h1>
         </div>
         {% if user.is_authenticated %}
             {% if trabalhos %}
@@ -53,7 +57,7 @@
                 <i class="close icon"></i>
                 <h1 class="header">Faça seu Login!</h1>
                 <span>
-        Vocẽ precisa estar logado para visualizar a lista de trabalhos.
+        Vocẽ precisa estar logado para visualizar os seus trabalhos.
         </span>
             </div>
         {% endif %}

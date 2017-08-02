@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.http import HttpResponse
+
 from painelifcapp.forms.trabalho import FormTrabalho
 from painelifcapp.models.status import StatusModels
 from painelifcapp.models.trabalho import TrabalhoModel
@@ -77,15 +78,19 @@ class CadastroTrabalhoView(View):
         return render(request, self.template, {'form': form, 'turmas': turmas})
 
     def post(self, request, id=None):
+
         if id:
             trabalho = TrabalhoModel.objects.get(pk=id)
             form = FormTrabalho(instance=trabalho, data=request.POST)
         else:
             form = FormTrabalho(request.POST)
+        print(request.POST)
+
         if form.is_valid():
             form_edit = form.save(commit=True)
             form_edit.usuario_id = request.user.id
             form_edit.save()
+            #form.save()
             return redirect('/')
         print(form.errors)
         turmas = TurmaModel.objects.all()
@@ -112,18 +117,21 @@ class ImprimeTrabalhoView(View):
        colaboradoes = ""
        disciplinas = ""
        for autor in trabalho.autor.all():
-           autores += str(autor.first_name) + "; "
+           autores += (str(autor.first_name) + " " + str(autor.last_name)).title() + " (" +str(autor.turma) + "); "
+
        for orientador in trabalho.orientador.orientador.all():
-           orientadores += str(orientador.orientador.first_name) + "; "
+           orientadores += (str(orientador.orientador.first_name) + " " + str(orientador.orientador.last_name)).title() + "; "
+
        for colaborador in trabalho.colaborador.all():
-           colaboradoes += str(colaborador.first_name) + "; "
+           colaboradoes += (str(colaborador.first_name) + " " + str(colaborador.last_name)).title() + "; "
+
        for disciplina in trabalho.disciplina.all():
            disciplinas += str(disciplina.nome) + "; "
 
        logo = "static/media/image_upload/setting/sepe.png"
        imagem = Image(logo, 8.2 * inch, 1 * inch)
        Story.append(imagem)
-       Story.append(Paragraph("<b>Título:</b>" + str(trabalho.titulo), styles["inicial"]))
+       Story.append(Paragraph("<b>Título: </b>" + str(trabalho.titulo), styles["inicial"]))
        Story.append(Paragraph("<b>Integrantes do grupo: </b>" + str(autores), styles["linhas"]))
        Story.append(Paragraph("<b>Orientador: </b>" + str(orientadores), styles["linhas"]))
        Story.append(Paragraph("<b>Colaborador(es): </b>" + str(colaboradoes), styles["linhas"]))

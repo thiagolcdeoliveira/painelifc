@@ -14,3 +14,6 @@ class PessoaModel(User):
     class Meta:
         verbose_name = "Pessoa"
         verbose_name_plural = "Pessoas"
+
+    def get_full_name(self):
+        return ('%s %s' % (self.first_name, self.last_name)).title()

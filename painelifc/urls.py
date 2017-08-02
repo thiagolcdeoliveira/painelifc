@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^login/$', login, {'template_name': 'login/login.html'}, name='login'),
     url(r'^logout/$', logout, {'template_name': 'login/logout.html'}, name='logout'),
     url(r'^', include('painelifcapp.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),
 
 ]
