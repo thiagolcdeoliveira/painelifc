@@ -6,6 +6,7 @@ from painelifcapp.models.turma import TurmaModel
 from painelifcapp.models.curso import CursoModel
 from django.contrib.auth.models import Group
 from painelifcapp.variaveis.variaveis import *
+from django.contrib.auth.hashers import *
 import csv
 
 
@@ -50,8 +51,8 @@ class Command(BaseCommand):
                      turma=TurmaModel.objects.get(nome=row['turma']),
                      last_name=row["sobrenome"],
                     # group=Group.objects.get(pk__in=[ALUNO]),
-                     username=row["usuario"]
-                                         )
+                     username=row["usuario"],
+                      password=make_password(row["matricula"])                   )
                     g=Group.objects.get(pk__in=[ALUNO])
                     aluno.save()
                     g.user_set.add(aluno)
