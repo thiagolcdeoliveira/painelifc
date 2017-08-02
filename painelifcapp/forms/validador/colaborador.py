@@ -11,7 +11,7 @@ def ValidarColaborador(colaborador):
     if configuracao:
         #if len(colaborador) >= min_colaborador and len(colaborador) <= max_colabolador:
         if len(colaborador) >= configuracao.min_colaborador and len(colaborador) <= configuracao.max_colaborador:
-            trabalhos=TrabalhoModel.objects.filter(colaborador__in=colaborador,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
+            trabalhos=TrabalhoModel.objects.filter(colaborador__in=colaborador,status__in=[SUBMETIDO,APROVADO])
 
             if(len(trabalhos)< configuracao.trabalhos_por_colaborador):
 

@@ -11,7 +11,7 @@ def ValidarOrientador(orientador):
 
     configuracao=ConfiguracaoTrabalhoModel.objects.order_by('id').last()
     if configuracao:
-        trabalhos=TrabalhoModel.objects.filter(orientador=orientador,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
+        trabalhos=TrabalhoModel.objects.filter(orientador=orientador,status__in=[SUBMETIDO,APROVADO])
         if(len(trabalhos)< configuracao.trabalhos_por_orientador):
             return orientador
         else:

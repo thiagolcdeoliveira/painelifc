@@ -7,9 +7,11 @@ from painelifcapp.models.pessoa import PessoaModel
 from painelifcapp.forms.validador.colaborador import *
 from painelifcapp.forms.validador.orientador import *
 from painelifcapp.forms.validador.autor import *
+from painelifcapp.forms.validador.disciplina import *
 from painelifcapp.forms.validador.resumo import *
 from painelifcapp.variaveis.variaveis import *
 from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
+from painelifcapp.models.disciplina import DisciplinaModel
 
 class FormTrabalho(forms.ModelForm):
     class Meta:
@@ -31,7 +33,7 @@ class FormTrabalho(forms.ModelForm):
                     choices=PessoaModel.objects.filter(pk__in=self.orientadores()).values_list('id','username'))
 
         #self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
-        self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
+        self.fields['autor'].widget = forms.SelectMultiple(attrs={'checked': False},
                     choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id','username'))
 
         self.fields['status'].widget = forms.HiddenInput(attrs={'value': status[0][0]})
@@ -49,6 +51,8 @@ class FormTrabalho(forms.ModelForm):
 
     def clean_resumo(self):
         return ValidarResumo(self.cleaned_data.get('resumo'))
+    def clean_disciplina(self):
+        return ValidarDisciplina(self.cleaned_data.get('disciplina'))
 
     def colaboradores(self):
         colaboradores_habilitados=[]
@@ -56,9 +60,9 @@ class FormTrabalho(forms.ModelForm):
         colaboradores = PessoaModel.objects.filter(groups__pk__contains=COLABORADOR)
         if configuracao:
             for colaborador in colaboradores:
-                trabalhos = TrabalhoModel.objects.filter(colaborador=colaborador,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
+                trabalhos = TrabalhoModel.objects.filter(colaborador=colaborador,status__in=[SUBMETIDO,APROVADO])
 
-                if (len(trabalhos) <= configuracao.trabalhos_por_colaborador):
+                if (len(trabalhos) < configuracao.trabalhos_por_colaborador):
                     colaboradores_habilitados.append(colaborador.pk)
         return colaboradores_habilitados
 
@@ -68,9 +72,9 @@ class FormTrabalho(forms.ModelForm):
         orientadores = PessoaModel.objects.filter(groups__pk__contains=ORIENTADOR)
         if configuracao:
             for orientador in orientadores:
-                trabalhos = TrabalhoModel.objects.filter(orientador=orientador,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
+                trabalhos = TrabalhoModel.objects.filter(orientador=orientador,status__in=[SUBMETIDO,APROVADO])
                 print(len(trabalhos),configuracao.trabalhos_por_orientador)
-                if (len(trabalhos) <= configuracao.trabalhos_por_orientador):
+                if (len(trabalhos) < configuracao.trabalhos_por_orientador):
                     orientadores_habilitados.append(orientador.pk)
         return orientadores_habilitados
 

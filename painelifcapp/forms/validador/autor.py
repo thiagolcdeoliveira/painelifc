@@ -8,11 +8,12 @@ from painelifcapp.variaveis.variaveis import *
 from django.db.models import Q
 
 def ValidarAutor(autor):
+
     configuracao=ConfiguracaoTrabalhoModel.objects.order_by('id').last()
     if configuracao:
         #if len(autor) >= min_autor and len(Autor) <= max_colabolador:
         if len(autor) >= configuracao.min_autor and len(autor) <= configuracao.max_autor:
-            trabalhos=TrabalhoModel.objects.filter(autor__in=autor, status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
+            trabalhos=TrabalhoModel.objects.filter(autor__in=autor, status__in=[SUBMETIDO,APROVADO])
             if(len(trabalhos) < configuracao.trabalhos_por_autor):
 
                 return autor
