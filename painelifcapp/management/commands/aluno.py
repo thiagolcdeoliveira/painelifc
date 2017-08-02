@@ -43,15 +43,20 @@ class Command(BaseCommand):
     def _create_aluno(self):
         with open('csv/alunos.csv') as csvfile:
             reader = csv.DictReader(csvfile)
+            print(Group.objects.get(pk__in=[ALUNO]))
             for i,row in enumerate(reader):
                 if not PessoaModel.objects.filter(username=row['usuario']):
                     aluno = PessoaModel(first_name=row['nome'],
                      turma=TurmaModel.objects.get(nome=row['turma']),
                      last_name=row["sobrenome"],
-                    #group=Group.objects.filter(pk__in=[ALUNO])
+                    # group=Group.objects.get(pk__in=[ALUNO]),
                      username=row["usuario"]
                                          )
+                    g=Group.objects.get(pk__in=[ALUNO])
                     aluno.save()
+                    g.user_set.add(aluno)
+                    g.save()
+                    #aluno.save()
 
 
 
