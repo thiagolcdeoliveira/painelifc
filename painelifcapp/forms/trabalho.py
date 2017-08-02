@@ -13,13 +13,13 @@ from painelifcapp.variaveis.variaveis import *
 from painelifcapp.models.configuracao_trabalho import ConfiguracaoTrabalhoModel
 from painelifcapp.models.disciplina import DisciplinaModel
 
+
 class FormTrabalho(forms.ModelForm):
     class Meta:
         model = TrabalhoModel
         # exclude = ("usuario", )
 
         fields = "__all__"
-
 
     def __init__(self, *args, **kwargs):
         #id = kwargs.pop('id_turma')

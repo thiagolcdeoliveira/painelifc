@@ -15,7 +15,7 @@ Including another URLconf
 """
 from __future__ import unicode_literals
 
-from django.conf.urls import url,include
+from django.conf.urls import url, include
 from django.contrib import admin
 from painelifcapp.views.home import Home
 from django.contrib.auth.views import login, logout
@@ -26,6 +26,5 @@ urlpatterns = [
     url(r'^login/$', login, {'template_name': 'login/login.html'}, name='login'),
     url(r'^logout/$', logout, {'template_name': 'login/logout.html'}, name='logout'),
     url(r'^', include('painelifcapp.urls')),
-    url(r'^tinymce/', include('tinymce.urls')),
 
 ]

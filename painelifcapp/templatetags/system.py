@@ -39,13 +39,6 @@ def nome():
     return None
 
 @register.simple_tag
-def git():
-    sis = SettingModel.objects.order_by('id').last()
-    if sis:
-        return sis.git
-    return None
-
-@register.simple_tag
 def instagram():
     sis = SettingModel.objects.order_by('id').last()
     if sis:

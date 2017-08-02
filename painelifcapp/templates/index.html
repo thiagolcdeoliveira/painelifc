@@ -9,7 +9,7 @@
         <div class="sixteen wide column">
             <h1 class="ui header">
                 {% if user|title != "Anonymoususer" %}
-                    {{ user|title }}
+                    <i class="ui icon user"></i> {{ user|title }}
                 {% endif %}
             </h1>
         </div>
@@ -19,14 +19,13 @@
                     <table class="ui celled inverted table">
                         <thead>
                         <tr>
-                            <th>Título</th>
-                            <th>Orientador</th>
-                            <th>Status</th>
+                            <th><i class="ui icon file text outline"></i> Título</th>
+                            <th><i class="ui icon talk"></i> Orientador</th>
+                            <th><i class="ui icon talk checkmark"></i> Status</th>
                             {% if orientador %}
                                 <th>Aceitar</th>
                             {% endif %}
-                            <th>Mais</th>
-                            <th></th>
+                            <th><i class="ui icon setting"></i> Ações</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -37,8 +36,9 @@
                                 {# {{ trabalho.autor.all }}#}
                                 <td> {{ trabalho.orientador }}</td>
                                 <td>{{ trabalho.status.nome }}</td>
-                                <td><a href="{% url 'trabalho' trabalho.id %}">Mais</a><br>
-                                    <a href="{% url 'impri-trabalho' trabalho.id %}">Download</a></td>
+                                <td><a href="{% url 'trabalho' trabalho.id %}"><i class="ui icon plus"></i> Mais</a><br>
+                                    <a href="{% url 'impri-trabalho' trabalho.id %}"><i class="ui icon download"></i>
+                                        Download</a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -47,9 +47,13 @@
             {% else %}
                 <div class="ui inverted message sixteen wide column">
                     <h1 class="header">Bem vindo {{ user|title }}!</h1>
-                    <span>
-                        Caso você tenha projetos cadastrados, é possível visualizá-los na guia <a class="item" href="{% url 'consu-trabalho' %}">Meus projetos</a>.
-                    </span>
+                    {% if possui_trabalhos %}
+                        Para visualizar seus trabalhos -
+                        <a class="item" href="{% url 'consu-trabalho' %}">Clique aqui</a>.
+                    {% else %}
+                        Você não possui projetos cadastrados.
+                        <a class="item" href="{% url 'cad-trabalho' %}">Adicionar novo projeto</a>.
+                    {% endif %}
                 </div>
             {% endif %}
         {% else %}
@@ -57,9 +61,10 @@
                 <i class="close icon"></i>
                 <h1 class="header">Faça seu Login!</h1>
                 <span>
-        Vocẽ precisa estar logado para visualizar os seus trabalhos.
-        </span>
+                    Vocẽ precisa estar logado para visualizar os seus trabalhos.
+                </span>
             </div>
+            <a class="ui button green" href="{% url 'login' %}">Login</a>
         {% endif %}
     </div>
 {% endblock body_block %}

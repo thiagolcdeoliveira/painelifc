@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-{% load staticfiles system%}
+{% load staticfiles system %}
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% nome %}{% block title_block %} {% endblock title_block %}</title>
-    <head><link href= "{% imagem_titulo %}" rel='icon' type='image/x-icon'/>
-
+    <head>
+        <link href="{% imagem_titulo %}" rel='icon' type='image/x-icon'/>
         <link rel="stylesheet" type="text/css" href='{% static "semantic/semantic.min.css" %}'>
         <link rel="stylesheet" type="text/css" href='{% static "css/base.css" %}'>
         <script src='{% static "js/jquery-3.1.0.js" %}'></script>
@@ -18,20 +18,24 @@
 <body>
 <header>
     <ul class="ui stackable borderless menu">
+        <div class="ui container">
+            <li><a class="item" href="{% url 'home' %}"><i class="ui icon home"></i> Início</a></li>
 
-        {% if user.is_authenticated %}
-        <li><a class="item" href="{% url 'cad-trabalho' %}"><i
-                class="ui  icon"></i>Cadastrar um Projeto</a></li>
-        <li><a class="item" href="{% url 'consu-trabalho' %}"><i
-                class="ui  icon"></i>Meus projetos</a></li>
-        <li><a class="item {% block active_logout %}{% endblock active_logout %}" href="{% url 'logout' %}"><i
-                class="ui sign in icon"></i>Logout</a></li>
-        <li class="item disabled">{{ user|title }}</li>
-        {% else %}
-        <li><a class="item {% block active_login %}{% endblock active_login %}" href="{% url 'login' %}"><i
-                class="ui sign in icon"></i>Login</a></li>
-        <li class="item disabled">Você não está autenticado.</li>
-        {% endif %}
+            {% if user.is_authenticated %}
+                <li><a class="item" href="{% url 'cad-trabalho' %}"><i
+                        class="ui icon plus"></i>Cadastrar um Projeto</a></li>
+                <li><a class="item" href="{% url 'consu-trabalho' %}"><i
+                        class="ui list icon"></i>Meus projetos</a></li>
+                <li><a class="item {% block active_logout %}{% endblock active_logout %}" href="{% url 'logout' %}"><i
+                        class="ui sign in icon"></i>Logout</a></li>
+                <div class="divider"></div>
+                <li class="item disabled"><i class="ui icon user"></i> {{ user|title }}</li>
+            {% else %}
+                <li><a class="item {% block active_login %}{% endblock active_login %}" href="{% url 'login' %}"><i
+                        class="ui sign in icon"></i>Login</a></li>
+                <li class="item disabled">Você não está autenticado.</li>
+            {% endif %}
+        </div>
     </ul>
 </header>
 <article class="ui container">
@@ -52,8 +56,6 @@
         </div>
         <div class="three wide column">
             <ul class="ui divided celled relaxed inverted list">
-                <li class="item"><a href="{% git %}" target="_blank"><i
-                        class="ui github large icon"></i>Gitlab</a></li>
                 <li class="item"><a href="{% instagram %}" target="_blank"><i
                         class="ui instagram large icon"></i>Instagram</a></li>
                 <li class="item"><a href="{% facebook %}" target="_blank"><i
