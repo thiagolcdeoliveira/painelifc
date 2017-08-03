@@ -14,6 +14,8 @@ from django.db.models import Q
 
 from painelifcapp.models.turma import TurmaModel
 from painelifcapp.variaveis.variaveis import *
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Pra gerar PDF e Zip#
 from reportlab.lib.enums import TA_JUSTIFY
@@ -27,6 +29,7 @@ class ConsultaTrabalhoView(View):
     template = 'index.html'
     template_consulta = 'trabalho/consulta.html'
 
+    @method_decorator(login_required)
     def get(self, request, id=None):
         if id:
             try:
@@ -60,6 +63,7 @@ class ConsultaTrabalhoView(View):
 class CadastroTrabalhoView(View):
     template = 'trabalho/salvar.html'
 
+    @method_decorator(login_required)
     def get(self, request, id=None):
 
         # ajax
@@ -84,6 +88,7 @@ class CadastroTrabalhoView(View):
             turmas = TurmaModel.objects.all()
         return render(request, self.template, {'form': form, 'turmas': turmas})
 
+    @method_decorator(login_required)
     def post(self, request, id=None):
 
         if id:
@@ -105,6 +110,7 @@ class CadastroTrabalhoView(View):
 class ImprimeTrabalhoView(View):
     template_consulta = 'trabalho/consulta.html'
 
+    @method_decorator(login_required)
     def get(self, request, id=None):
         trabalho = TrabalhoModel.objects.get(pk=id)
         nome = "static/media/trabalhos/" + trabalho.titulo + ".pdf"
