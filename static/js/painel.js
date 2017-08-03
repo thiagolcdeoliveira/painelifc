@@ -16,7 +16,7 @@ function turma_pesquisar(n) {
                     alunos += '<option value="' + data[i]['id'] + '">' + data[i]['nome'] + '</option>';
                 }
                 select_autor.html(alunos);
-                $("#id_autor_field > .selection.ui.dropdown > .text").html("Seleicone um autor");
+                $("#id_autor_field > .selection.ui.dropdown > .text").html("Selecione um autor");
             },
             error: function (xhr, errmsg) {
                 console.log(xhr.status + ": " + xhr.responseText + "Error: " + errmsg);

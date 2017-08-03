@@ -1,7 +1,7 @@
 # coding: utf-8
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
-from painelifcapp.forms.trabalho import FormTrabalho
+from painelifcapp.forms.trabalho import FormTrabalho, ConfiguracaoTrabalhoModel
 from painelifcapp.models.status import StatusModels
 from painelifcapp.models.trabalho import TrabalhoModel
 # from painelifcapp.models.pessoa import PessoaModel
@@ -88,7 +88,6 @@ class CadastroTrabalhoView(View):
 
             turma_usuario_logado = None
             turma_usuario_logado_id = None
-            print(PessoaModel.objects.get(pk=request.user.id).turma)
             if PessoaModel.objects.get(pk=request.user.id).turma:
                 turma_usuario_logado_id = PessoaModel.objects.get(pk=request.user.id).turma.id
                 turma_usuario_logado = PessoaModel.objects.get(pk=request.user.id).turma.nome
@@ -106,11 +105,37 @@ class CadastroTrabalhoView(View):
             form = FormTrabalho(instance=trabalho, data=request.POST)
         else:
             form = FormTrabalho(request.POST)
+        lista_autores = [request.POST['autor1'], request.POST['autor2'], request.POST['autor3'], request.POST['autor4'],
+                         request.POST['autor5'], request.POST['autor6'], request.POST['autor7']]
+        configuracao = ConfiguracaoTrabalhoModel.objects.order_by('id').last()
+        erro = ""
+        if len(lista_autores) <= 6 or len(lista_autores) <= 7:
+            for i, autor in enumerate(lista_autores):
+                if autor:
+                    trabalhos = TrabalhoModel.objects.filter(
+                        Q(colaborador__pk=autor) | Q(orientador__pk=autor) | Q(
+                            autor1__pk=autor) | Q(autor2__pk=autor) | Q(autor3__pk=autor) | Q(
+                            autor4__pk=autor) | Q(autor5__pk=autor) | Q(autor6__pk=autor) | Q(
+                            autor7__pk=autor) | Q(usuario=autor)).distinct()
+                    for autor in lista_autores:
+                        if autor != None:
+                            if lista_autores.count(autor) > 1:
+                                erro = "Autor selecioando mais de uma vez"
+                    if (len(trabalhos) >= configuracao.trabalhos_por_autor):
+                        # raise forms.ValidationError("O  autor %s %s já está escrito em outro trabalho "  %(autor.first_name,autor.last_name))
+                        erro = "autor já ta inscrito"
+        else:
+            # raise forms.ValidationError(" Prencha pelo menos 6 autores" )
+            erro = "falta autor"
+
+        if erro != "":
+            turmas = TurmaModel.objects.all()
+            return render(request, self.template, {'form': form, 'turmas': turmas, "erro": erro})
         if form.is_valid():
             form_edit = form.save(commit=True)
             form_edit.usuario_id = request.user.id
             form_edit.status_id = AGUARDANDO_PROFESSOR
-            form_edit.autor1 = request.user.id
+            form_edit.autor1.id = request.user.id
             form_edit.save()
             return redirect('/')
         print(form.errors)

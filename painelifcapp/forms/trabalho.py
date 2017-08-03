@@ -70,9 +70,9 @@ class FormTrabalho(forms.ModelForm):
     def clean_colaborador(self):
         return ValidarColaborador(self.cleaned_data.get('colaborador'))
 
-    def clean(self):
-        print("ooooo")
-        return ValidarAutor(self)
+    # def clean(self):
+    #     print("ooooo")
+    #     return ValidarAutor(self)
 
     def clean_orientador(self):
         print("orientador")

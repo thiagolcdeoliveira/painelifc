@@ -17,6 +17,7 @@
     {{ hidden }}
 {% endfor %}
 
+{{ erro }}
 <div class="field">
     <label>{{ form.titulo.label }} <i class="asterisk icon red"></i></label>
     {{ form.titulo }}
@@ -72,7 +73,7 @@
         {% if form.autor2.errors %}
             <span class="ui pointing red label">
                 {{ form.autor2.errors }}
-                </span>
+            </span>
         {% endif %}
     </div>
 </div>
