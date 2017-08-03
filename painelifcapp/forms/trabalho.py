@@ -26,15 +26,25 @@ class FormTrabalho(forms.ModelForm):
         status = StatusModels.objects.filter(
             pk=AGUARDANDO_PROFESSOR).values_list('id', 'descricao')
         super(FormTrabalho, self).__init__(*args, **kwargs)
-        self.fields['colaborador'].widget = forms.SelectMultiple(attrs={'checked': True},
+        self.fields['colaborador'].widget = forms.SelectMultiple(attrs={'checked': True, 'class': 'search selection'},
                     choices=PessoaModel.objects.filter(pk__in=self.colaboradores()).values_list('id', 'username'))
 
-        self.fields['orientador'].widget = forms.Select(attrs={'checked': True},
+        self.fields['orientador'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
                     choices=PessoaModel.objects.filter(pk__in=self.orientadores()).values_list('id','username'))
 
         #self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
-        self.fields['autor'].widget = forms.SelectMultiple(attrs={'checked': False},
-                    choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id','username'))
+        # self.fields['autor'].widget = forms.SelectMultiple(attrs={'checked': False, 'placeholder': 'Selecione uma turma primeiro', 'class': 'search selection'})
+        self.fields['autor2'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        self.fields['autor3'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        self.fields['autor4'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        self.fields['autor5'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        self.fields['autor6'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        self.fields['autor7'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+
+        self.fields['disciplina'].widget = forms.SelectMultiple(attrs={'checked': False, 'placeholder': 'Selecione uma turma primeiro', 'class': 'search selection'},
+                                                                choices=DisciplinaModel.objects.all().values_list('id',
+                                                                                                            'nome')
+                                                                )
 
         self.fields['status'].widget = forms.HiddenInput(attrs={'value': status[0][0]})
 
@@ -43,8 +53,8 @@ class FormTrabalho(forms.ModelForm):
     def clean_colaborador(self):
         return ValidarColaborador(self.cleaned_data.get('colaborador'))
 
-    def clean_autor(self):
-        return ValidarAutor(self.cleaned_data.get('autor'))
+    # def clean_autor(self):
+    #     return ValidarAutor(self.cleaned_data.get('autor'))
 
     def clean_orientador(self):
         return ValidarOrientador(self.cleaned_data.get('orientador'))
@@ -78,15 +88,15 @@ class FormTrabalho(forms.ModelForm):
                     orientadores_habilitados.append(orientador.pk)
         return orientadores_habilitados
 
-    def autores(self):
-        autores_habilitados = []
-        configuracao = ConfiguracaoTrabalhoModel.objects.order_by("id").last()
-        autores = PessoaModel.objects.filter(groups__pk__contains=ALUNO)
-        if configuracao:
-            for autor in autores:
-                trabalhos = TrabalhoModel.objects.filter(autor=autor,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
-                print(len(trabalhos), configuracao.trabalhos_por_autor)
-                if (len(trabalhos) < configuracao.trabalhos_por_autor):
-                    autores_habilitados.append(autor.pk)
-        print(autores_habilitados)
-        return autores_habilitados
+    # def autores(self):
+    #     autores_habilitados = []
+    #     configuracao = ConfiguracaoTrabalhoModel.objects.order_by("id").last()
+    #     autores = PessoaModel.objects.filter(groups__pk__contains=ALUNO)
+    #     if configuracao:
+    #         for autor in autores:
+    #             trabalhos = TrabalhoModel.objects.filter(autor=autor,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
+    #             print(len(trabalhos), configuracao.trabalhos_por_autor)
+    #             if (len(trabalhos) < configuracao.trabalhos_por_autor):
+    #                 autores_habilitados.append(autor.pk)
+    #     print(autores_habilitados)
+    #     return autores_habilitados

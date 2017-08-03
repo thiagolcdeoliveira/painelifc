@@ -31,49 +31,191 @@
             {% endif %}
         </div>
 
+        {# BEGIM 7 AUTORES #}
         <div class="two fields">
             <div class="field">
                 <label>Turma:</label>
-                <select name="turma" id="id_turma" onchange="turma_pesquisar()" class="search selection">
+                <select name="turma1" id="id_turma1" onchange="turma_pesquisar(1)" class="search selection" disabled>
+{#                    {% for turma in turmas %}#}
+{#                        <option value="{{ turma.id }}">{{ turma.nome }}</option>#}
+{#                    {% endfor %}#}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor1.label }}:</label>
+                <select name="autor1" id="id_autor1">
+                    <option value="{{ user.id }}" selected>{{ user.first_name }} {{ user.last_name }}</option>
+                </select>
+                {% if form.autor1.help_text %}
+                    <select name="autor1" class="ui fluid search dropdown">
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    </select>
+                {% endif %}
+                </br>
+                {% if form.autor1.errors %}
+                    <span class="ui pointing red label">
+                {{ form.autor1.errors }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>Turma:</label>
+                <select name="turma2" id="id_turma2" onchange="turma_pesquisar(2)" class="search selection">
                     <option value="select">Selecione uma turma</option>
                     {% for turma in turmas %}
                         <option value="{{ turma.id }}">{{ turma.nome }}</option>
                     {% endfor %}
                 </select>
             </div>
-
-            <div class="field" id="id_autor_field">
-                <label>Autor:</label>
-                <select name="autor_select" id="id_autor_select" disabled="true" onchange="adicionar_autor()" class="search selection">
-                    <option value="select">Selecione uma turma primeiro</option>
-                </select>
+            <div class="field">
+                <label>{{ form.autor2.label }}:</label>
+                {{ form.autor2 }}
+                {% if form.autor2.help_text %}
+                    <select name="autor2" class="ui fluid search dropdown">
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    </select>
+                {% endif %}
+                </br>
+                {% if form.autor2.errors %}
+                    <span class="ui pointing red label">
+                {{ form.autor2.errors }}
+                </span>
+                {% endif %}
             </div>
         </div>
-
-        <div class="field">
-            <label>Autores:</label>
-            <select name="autor" multiple="multiple" required="" id="id_autor">
-            </select>
-            {% if form.autor.errors %}
-                <span class="ui pointing red label">
-                    {{ form.autor.errors }}
+        <div class="two fields">
+            <div class="field">
+                <label>Turma:</label>
+                <select name="turma3" id="id_turma3" onchange="turma_pesquisar(3)" class="search selection">
+                    <option value="select">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                        <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor3.label }}:</label>
+                {{ form.autor3 }}
+                {% if form.autor3.help_text %}
+                    <select name="autor3" class="ui fluid search dropdown">
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    </select>
+                {% endif %}
+                </br>
+                {% if form.autor3.errors %}
+                    <span class="ui pointing red label">
+                {{ form.autor3.errors }}
                 </span>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
-
-{#        <div class="field">#}
-{#            <label>{{ form.autor.label }}:</label>#}
-{#            {{ form.autor }}#}
-{#            {% if form.titulo.help_text %}#}
-{#            <span class="ui pointing label">Ajuda: {{ form.autor.help_text }}</span>#}
-{#            {% endif %}#}
-{#            </br>#}
-{#            {% if field.errors %}#}
-{#                <span class="ui pointing red label">#}
-{#            {{ field.errors }}#}
-{#            </span>#}
-{#            {% endif %}#}
-{#        </div>#}
+        <div class="two fields">
+            <div class="field">
+                <label>Turma:</label>
+                <select name="turma4" id="id_turma4" onchange="turma_pesquisar(4)" class="search selection">
+                    <option value="select">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                        <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor4.label }}:</label>
+                {{ form.autor4 }}
+                {% if form.autor4.help_text %}
+                    <select name="autor4" class="ui fluid search dropdown">
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    </select>
+                {% endif %}
+                </br>
+                {% if form.autor4.errors %}
+                    <span class="ui pointing red label">
+                {{ form.autor4.errors }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>Turma:</label>
+                <select name="turma5" id="id_turma5" onchange="turma_pesquisar(5)" class="search selection">
+                    <option value="select">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                        <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor5.label }}:</label>
+                {{ form.autor5 }}
+                {% if form.autor5.help_text %}
+                    <select name="autor5" class="ui fluid search dropdown">
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    </select>
+                {% endif %}
+                </br>
+                {% if form.autor5.errors %}
+                    <span class="ui pointing red label">
+                {{ form.autor5.errors }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>Turma:</label>
+                <select name="turma6" id="id_turma6" onchange="turma_pesquisar(6)" class="search selection">
+                    <option value="select">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                        <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor6.label }}:</label>
+                {{ form.autor6 }}
+                {% if form.autor6.help_text %}
+                    <select name="autor6" class="ui fluid search dropdown">
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    </select>
+                {% endif %}
+                </br>
+                {% if form.autor6.errors %}
+                    <span class="ui pointing red label">
+                {{ form.autor6.errors }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label>Turma:</label>
+                <select name="turma7" id="id_turma7" onchange="turma_pesquisar(7)" class="search selection">
+                    <option value="select">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                        <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor7.label }}:</label>
+                {{ form.autor6 }}
+                {% if form.autor7.help_text %}
+                    <select name="autor7" class="ui fluid search dropdown">
+                    <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    </select>
+                {% endif %}
+                </br>
+                {% if form.autor7.errors %}
+                    <span class="ui pointing red label">
+                {{ form.autor7.errors }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        {# FIM 7 AUTORES #}
 
         <div class="field">
             <label>{{ form.orientador.label }}:</label>

@@ -17,9 +17,18 @@
                         <hr style="border-color: #c6c6c6"/>
 
                         <h3><i class="ui icon group"></i> Autores</h3>
-                        {% for autor in trabalho.autor.all %}
-                            {{ autor }};
-                        {% endfor %}
+{#                        {% for autor in trabalho.autor.all %}#}
+{#                            {{ autor }};#}
+{#                        {% endfor %}#}
+                            {{ trabalho.autor1.first_name }} {{ trabalho.autor1.last_name }};
+                            {{ trabalho.autor2 }} {{ trabalho.autor2.last_name }};
+                            {{ trabalho.autor3 }} {{ trabalho.autor3.last_name }};
+                            {{ trabalho.autor4 }} {{ trabalho.autor4.last_name }};
+                            {{ trabalho.autor5 }} {{ trabalho.autor5.last_name }};
+                            {{ trabalho.autor6 }} {{ trabalho.autor6.last_name }};
+                            {% if trabalho.autor7 %}
+                                {{ trabalho.autor7 }} {{ trabalho.autor7.last_name }};
+                            {% endif %}
 
                         <h3><i class="ui icon talk"></i> Orientador</h3>
                         {{ trabalho.orientador }};
