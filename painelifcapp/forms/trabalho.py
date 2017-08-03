@@ -15,6 +15,7 @@ from painelifcapp.models.disciplina import DisciplinaModel
 
 
 class FormTrabalho(forms.ModelForm):
+
     class Meta:
         model = TrabalhoModel
         # exclude = ("usuario", )

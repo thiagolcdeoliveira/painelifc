@@ -70,7 +70,6 @@ class CadastroTrabalhoView(View):
         if 'turma_id' in request.GET:
             import json
             als = PessoaModel.objects.filter(turma=request.GET['turma_id']).only('id', 'first_name')
-            print(als)
             alunos = []
             for al in als:
                 dict = {'id': al.id, 'nome': al.first_name + " " + al.last_name}
@@ -86,10 +85,20 @@ class CadastroTrabalhoView(View):
         else:
             form = FormTrabalho()
             turmas = TurmaModel.objects.all()
-        return render(request, self.template, {'form': form, 'turmas': turmas})
+
+            turma_usuario_logado = None
+            turma_usuario_logado_id = None
+            if PessoaModel.objects.get(pk=request.user.id).turma:
+                turma_usuario_logado_id = PessoaModel.objects.get(pk=request.user.id).turma.id
+                turma_usuario_logado = PessoaModel.objects.get(pk=request.user.id).turma.nome
+
+        return render(request, self.template,
+                      {'form': form, 'turmas': turmas, 'turma_usuario_logado': turma_usuario_logado,
+                       'turma_usuario_logado_id': turma_usuario_logado_id})
 
     @method_decorator(login_required)
     def post(self, request, id=None):
+        print("Oi")
 
         if id:
             trabalho = TrabalhoModel.objects.get(pk=id)
