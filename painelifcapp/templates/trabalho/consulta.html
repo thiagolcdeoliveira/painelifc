@@ -44,11 +44,14 @@
                         </div>
                         <br/>
                         {% if trabalho.status.pk == 1 %}
-                            <a href="{% url 'aceita-trabalho' trabalho.pk 1 %}">
-                                <button>Aceitar</button>
-                            </a>
+                            <hr/>
+                            <p><strong><i class="ui icon checkmark"></i> Status</strong></p>
+                            <div class="ui info message">{{ trabalho.status.descricao }}</div>
                             <a href="{% url 'nega-trabalho' trabalho.pk 0 %}">
-                                <button>Negar</button>
+                                <button class="ui button red">Negar</button>
+                            </a>
+                            <a href="{% url 'aceita-trabalho' trabalho.pk 1 %}">
+                                <button class="ui button green">Aceitar</button>
                             </a>
                         {% endif %}
                     </div>

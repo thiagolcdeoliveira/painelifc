@@ -30,10 +30,9 @@
                         {% for trabalho in trabalhos %}
                             <tr>
                                 <td>{{ trabalho.titulo }}</td>
-                                {# {{ trabalho.autor.all }}#}
                                 <td> {{ trabalho.orientador }}</td>
-                                <td>{{ trabalho.status.nome }}</td>
-                                <td><a href="{% url 'trabalho' trabalho.id %}"><i class="ui icon plus"></i> Mais</a><br>
+                                <td>{{ trabalho.status.descricao }}</td>
+                                <td><a href="{% url 'trabalho' trabalho.id %}"><i class="ui icon unhide"></i> Visualizar</a><br>
                                     <a href="{% url 'impri-trabalho' trabalho.id %}"><i class="ui icon download"></i>
                                         Download</a></td>
                             </tr>
@@ -42,15 +41,20 @@
                     </table>
                 </div>
             {% else %}
+                <div class="sixteen wide column">
                 <div class="ui inverted message sixteen wide column">
                     <h1 class="header">Bem vindo {{ user|title }}!</h1>
-                    {% if possui_trabalhos %}
-                        Para visualizar seus trabalhos -
-                        <a class="item" href="{% url 'consu-trabalho' %}">Clique aqui</a>.
-                    {% else %}
-                        Você não possui projetos cadastrados.
-                        <a class="item" href="{% url 'cad-trabalho' %}">Adicionar novo projeto</a>.
-                    {% endif %}
+                </div>
+                {% if possui_trabalhos %}
+                    <a class="ui blue button" href="{% url 'consu-trabalho' %}">Seus trabalhos</a>
+                {% else %}
+                    <div class="ui yellow message">
+                        <div class="header">
+                            Você não possui projetos cadastrados.
+                        </div>
+                    </div>
+                {% endif %}
+                <a class="ui green button" href="{% url 'cad-trabalho' %}">Adicionar novo projeto</a>
                 </div>
             {% endif %}
         {% else %}
