@@ -11,7 +11,7 @@ def ValidarDisciplina(disciplina):
 
     configuracao=ConfiguracaoTrabalhoModel.objects.order_by('id').last()
     if configuracao:
-        if(len(disciplina)> configuracao.min_disciplina and len(disciplina)< configuracao.max_disciplina):
+        if(len(disciplina)>= configuracao.min_disciplina and len(disciplina)<= configuracao.max_disciplina):
             return disciplina
         else:
             raise forms.ValidationError("Número incorreto de disciplinas. min: %d max: %d" %(configuracao.min_disciplina,configuracao.max_disciplina))

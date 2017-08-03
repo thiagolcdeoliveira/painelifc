@@ -88,9 +88,11 @@ class CadastroTrabalhoView(View):
 
             turma_usuario_logado = None
             turma_usuario_logado_id = None
+            print( PessoaModel.objects.get(pk=request.user.id).turma)
             if PessoaModel.objects.get(pk=request.user.id).turma:
                 turma_usuario_logado_id = PessoaModel.objects.get(pk=request.user.id).turma.id
                 turma_usuario_logado = PessoaModel.objects.get(pk=request.user.id).turma.nome
+                print(turma_usuario_logado)
 
         return render(request, self.template,
                       {'form': form, 'turmas': turmas, 'turma_usuario_logado': turma_usuario_logado,
@@ -109,6 +111,7 @@ class CadastroTrabalhoView(View):
             form_edit = form.save(commit=True)
             form_edit.usuario_id = request.user.id
             form_edit.status_id = AGUARDANDO_PROFESSOR
+            form_edit.autor1 = request.user.id
             form_edit.save()
             return redirect('/')
         print(form.errors)

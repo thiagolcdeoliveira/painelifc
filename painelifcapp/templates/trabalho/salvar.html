@@ -33,20 +33,26 @@
 
 {# BEGIN 7 AUTORES #}
 <div class="two fields">
-    <div class="field">
+    <div class=" field">
         <label>Turma</label>
-        <select name="turma1" id="id_turma1" class="search selection" disabled>
+        <select class="disabled" name="turma1" id="id_turma1" class="search selection" >
             {% for turma in turmas %}
                 <option value="{{ turma_usuario_logado_id }}" selected>{{ turma_usuario_logado }}</option>
             {% endfor %}
         </select>
     </div>
-    <div class="field">
+    <div class=" field">
         <label>{{ form.autor1.label }}:</label>
-        <select name="autor1" id="id_autor1" disabled>
+        <select  class="disabled" name="autor1" id="id_autor1"  >
             <option value="{{ user.id }}" selected="selected">{{ user.first_name }} {{ user.last_name }}</option>
         </select>
     </div>
+
+        {% if form.autor1.errors %}
+            <span class="ui pointing red label">
+                {{ form.autor1.errors }}
+                </span>
+        {% endif %}
 </div>
 
 <div class="two fields">

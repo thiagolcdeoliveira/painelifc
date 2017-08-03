@@ -1,5 +1,6 @@
 # coding=utf-8
 from django import forms
+from django.forms import Textarea
 
 from painelifcapp.models.status import StatusModels
 from painelifcapp.models.trabalho import TrabalhoModel
@@ -18,6 +19,8 @@ class FormTrabalho(forms.ModelForm):
 
     class Meta:
         model = TrabalhoModel
+        # widgets = {"text": Textarea(required=False)}
+
         # exclude = ("usuario", )
 
         fields = "__all__"
@@ -32,15 +35,28 @@ class FormTrabalho(forms.ModelForm):
 
         self.fields['orientador'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
                     choices=PessoaModel.objects.filter(pk__in=self.orientadores()).values_list('id','username'))
+        # self.fields['autor1'].widget.attrs['readonly'] = True
+        self.fields['autor1'].required = False
+        self.fields['autor2'].required = False
+        self.fields['autor3'].required = False
+        self.fields['autor4'].required = False
+        self.fields['autor5'].required = False
+        self.fields['autor6'].required = False
+        self.fields['autor7'].required = False
+        self.fields['orientador'].required = False
+        self.fields['colaborador'].required = False
+        self.fields['disciplina'].required = False
+        self.fields['resumo'].required = False
+        self.fields['titulo'].required = False
 
         #self.fields['autor'].widget = forms.CheckboxSelectMultiple(attrs={'checked': False},
-        # self.fields['autor'].widget = forms.SelectMultiple(attrs={'checked': False, 'placeholder': 'Selecione uma turma primeiro', 'class': 'search selection'})
-        self.fields['autor2'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
-        self.fields['autor3'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
-        self.fields['autor4'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
-        self.fields['autor5'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
-        self.fields['autor6'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
-        self.fields['autor7'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        # self.fields['autor1'].widget = forms.Select(attrs={'required':False,'checked': False, 'placeholder': 'Selecione uma turma primeiro', 'class': 'search selection'})
+        # self.fields['autor2'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        # self.fields['autor3'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        # self.fields['autor4'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        # self.fields['autor5'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        # self.fields['autor6'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
+        # self.fields['autor7'].widget = forms.Select(attrs={'checked': False, 'class': 'search selection'})
 
         self.fields['disciplina'].widget = forms.SelectMultiple(attrs={'checked': False, 'placeholder': 'Selecione uma turma primeiro', 'class': 'search selection'},
                                                                 choices=DisciplinaModel.objects.all().values_list('id',
@@ -54,15 +70,22 @@ class FormTrabalho(forms.ModelForm):
     def clean_colaborador(self):
         return ValidarColaborador(self.cleaned_data.get('colaborador'))
 
-    # def clean_autor(self):
-    #     return ValidarAutor(self.cleaned_data.get('autor'))
+    def clean(self):
+        print("ooooo")
+        return ValidarAutor(self)
 
     def clean_orientador(self):
+        print("orientador")
         return ValidarOrientador(self.cleaned_data.get('orientador'))
 
     def clean_resumo(self):
+        print("resumo")
+
         return ValidarResumo(self.cleaned_data.get('resumo'))
+
     def clean_disciplina(self):
+        print("discilpna")
+
         return ValidarDisciplina(self.cleaned_data.get('disciplina'))
 
     def colaboradores(self):
