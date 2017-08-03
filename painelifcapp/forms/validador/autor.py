@@ -18,17 +18,22 @@ def ValidarAutor(autores):
         for i,autor in enumerate(lista_autores):
             if i != 7:
                 if autor:
-                    print(autor.id)
                     trabalhos=TrabalhoModel.objects.filter(
                         Q(colaborador__pk=autor.id) | Q(orientador__pk=autor.id) | Q(
                             autor1__pk=autor.id) | Q(autor2__pk=autor.id) | Q(autor3__pk=autor.id) | Q(
                             autor4__pk=autor.id) | Q(autor5__pk=autor.id) | Q(autor6__pk=autor.id) | Q(
                             autor7__pk=autor.id) | Q(usuario=autor.id)).distinct()
                     #trabalhos = TrabalhoModel.objects.filter(autor=autor.id, status__in=[SUBMETIDO, APROVADO])
+                    lista_autores_formatada = []
+
+                    for autor_lista in list(lista_autores):
+                        if autor == autor_lista:
+                            lista_autores_formatada.append(autor_lista)
+
                     if(len(trabalhos) >= configuracao.trabalhos_por_autor):
                         raise forms.ValidationError("O  autor %s %s já está escrito em outro trabalho "  %(autor.first_name,autor.last_name))
-                    elif autor in autores.remove(autor):
-                        raise forms.ValidationError("O  autor %  %s foi selecionado mais de uma vez"  %(autor.first_name,autor.last_name))
+                    elif (len(lista_autores_formatada)) > 1:
+                        raise forms.ValidationError("O  autor %s  %s foi selecionado mais de uma vez"  %(autor.first_name,autor.last_name))
                     else:
                         return autores
                 else:

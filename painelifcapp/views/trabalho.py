@@ -88,7 +88,7 @@ class CadastroTrabalhoView(View):
 
             turma_usuario_logado = None
             turma_usuario_logado_id = None
-            print( PessoaModel.objects.get(pk=request.user.id).turma)
+            print(PessoaModel.objects.get(pk=request.user.id).turma)
             if PessoaModel.objects.get(pk=request.user.id).turma:
                 turma_usuario_logado_id = PessoaModel.objects.get(pk=request.user.id).turma.id
                 turma_usuario_logado = PessoaModel.objects.get(pk=request.user.id).turma.nome
@@ -100,7 +100,6 @@ class CadastroTrabalhoView(View):
 
     @method_decorator(login_required)
     def post(self, request, id=None):
-        print("Oi")
 
         if id:
             trabalho = TrabalhoModel.objects.get(pk=id)
