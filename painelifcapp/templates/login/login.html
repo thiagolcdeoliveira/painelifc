@@ -6,35 +6,35 @@
 {% block active_login %}active{% endblock active_login %}
 
 {% block body_block %}
-<div class="ui two column centered grid">
-    <div class=" column">
-        <h1 class="ui header">Faça seu login</h1>
-        <form class="ui form" method="post" action=".">
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-            {% endfor %}
+    <div class="ui two column centered grid">
+        <div class="column">
+            <h1 class="ui header">Faça seu login</h1>
+            <form class="ui form" method="post" action=".">
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
 
-            {% for field in form.visible_fields %}
-            <div class="field">
-                <label>{{ field.label }}:</label>
-                {{ field }}
-                {% if field.help_text %}
-                <span class="ui pointing label">Ajuda: {{ field.help_text }}</span>
-                {% endif %}
-                </br>
-                {% if field.errors %}
+                {% for field in form.visible_fields %}
+                    <div class="field">
+                        <label>{{ field.label }}:</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <span class="ui pointing label">Ajuda: {{ field.help_text }}</span>
+                        {% endif %}
+                        </br>
+                        {% if field.errors %}
                             <span class="ui pointing red label">
                 		{{ field.errors }}
                 	</span>
-                {% endif %}
-            </div>
-            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
 
-            <button class="ui secondary fluid button" type="submit" name="submit">Entrar</button>
-        </form>
+                <button class="ui secondary fluid button" type="submit" name="submit">Entrar</button>
+            </form>
 
+        </div>
     </div>
-</div>
 
 {% endblock %}

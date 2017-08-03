@@ -5,5 +5,15 @@
 {% block active_home %} active {% endblock active_home %}
 
 {% block body_block %}
-<p>{% trans 'Your password was changed.' %}</p>
+
+    <div class="ui centered grid">
+        <div class="nine wide column">
+            <div class="ui green message">
+                <div class="header">
+                    {% trans 'Your password was changed.' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock body_block %}

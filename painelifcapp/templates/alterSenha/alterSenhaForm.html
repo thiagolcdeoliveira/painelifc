@@ -7,51 +7,78 @@
 {% block content_title %}<h1>{{ title }}</h1>{% endblock %}
 
 {% block body_block %}
-    <div id="content-main">
+    <div class="ui centered grid">
+        <div class="nine wide column">
 
-        <form method="post" class="ui form">{% csrf_token %}
-            <div>
+            <h1 class="ui header"><i class="ui icon key"></i> Alteração de senha</h1><br/>
+
+            <form method="post" class="ui form">
+                {% csrf_token %}
+
                 {% if form.errors %}
-                    <p class="errornote">
-                        {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}
-                            {% trans "Please correct the errors below." %}{% endif %}
-                    </p>
+                    <div class="ui red message">
+                        <div class="header">
+                            {% if form.errors.items|length == 1 %}
+                                {% trans "Please correct the error below." %}{% else %}
+                                {% trans "Please correct the errors below." %}{% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if form.old_password.errors %}
+                    <div class="ui red message">
+                        <div class="header">
+                            {{ form.old_password.errors }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="field">
+                    <label>{{ form.old_password.label_tag }}</label>
+                    {{ form.old_password }}
+                </div>
+
+                <br/>
+
+                {% if form.new_password1.help_text %}
+                    <div class="ui info message">{{ form.new_password1.help_text|safe }}</div>
+                {% endif %}
+
+                <div class="field">
+                    <label>{{ form.new_password1.label_tag }}</label>
+                    {{ form.new_password1 }}
+                </div>
+
+                {% if form.new_password1.errors %}
+                    <div class="ui red message">
+                        <div class="header">
+                            {{ form.new_password1.errors }}
+                        </div>
+                    </div>
                 {% endif %}
 
 
-{#                <p>{% trans "Please enter your old password, for security's sake, and then enter your new password twice so we can verify you typed it in correctly." %}</p>#}
-
-                <fieldset class="module aligned wide">
-
-                    <div class="form-row">
-                        {{ form.old_password.errors }}
-                        {{ form.old_password.label_tag }} {{ form.old_password }}
+                {% if form.new_password2.errors %}
+                    <div class="ui red message">
+                        <div class="header">
+                            {{ form.new_password2.errors }}
+                        </div>
                     </div>
+                {% endif %}
 
-                    <div class="form-row">
-                        {{ form.new_password1.errors }}
-                        {{ form.new_password1.label_tag }} {{ form.new_password1 }}
-                        {% if form.new_password1.help_text %}
-                            <div class="help">{{ form.new_password1.help_text|safe }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="form-row">
-                        {{ form.new_password2.errors }}
-                        {{ form.new_password2.label_tag }} {{ form.new_password2 }}
-                        {% if form.new_password2.help_text %}
-                            <div class="help">{{ form.new_password2.help_text|safe }}</div>
-                        {% endif %}
-                    </div>
-
-                </fieldset>
-
-                <div class="submit-row">
-                    <input type="submit" value="{% trans 'Change my password' %}" class="default"/>
+                <div class="field">
+                    <label>{{ form.new_password2.label_tag }}</label>
+                    {{ form.new_password2 }}
                 </div>
 
-            </div>
-        </form>
-    </div>
+                {% if form.new_password2.help_text %}
+                    <div class="help">{{ form.new_password2.help_text|safe }}</div>
+                {% endif %}
 
-{% endblock body_block%}
+                <input type="submit" value="{% trans 'Change my password' %}" class="ui button green"/>
+
+            </form>
+
+        </div>
+    </div>
+{% endblock body_block %}
