@@ -123,16 +123,16 @@ class FormTrabalho(forms.ModelForm):
         return orientadores_habilitados
 
     def autores(self):
-        # autores_habilitados = []
-        # configuracao = ConfiguracaoTrabalhoModel.objects.order_by("id").last()
-        # autores = PessoaModel.objects.filter(groups__pk__contains=ALUNO)
-        # if configuracao:
-        #     for autor in autores:
-        #         trabalhos = TrabalhoModel.objects.filter(autor=autor,status__in=[SUBMETIDO,APROVADO])
-        #         print(len(trabalhos), configuracao.trabalhos_por_autor)
-        #         if (len(trabalhos) < configuracao.trabalhos_por_autor):
-        #             autores_habilitados.append(autor.pk)
-        # print(autores_habilitados)
+        autores_habilitados = []
+        configuracao = ConfiguracaoTrabalhoModel.objects.order_by("id").last()
+        autores = PessoaModel.objects.filter(groups__pk__contains=ALUNO)
+        if configuracao:
+            for autor in autores:
+                trabalhos = TrabalhoModel.objects.filter(autor=autor,status__in=[SUBMETIDO,APROVADO])
+                print(len(trabalhos), configuracao.trabalhos_por_autor)
+                if (len(trabalhos) < configuracao.trabalhos_por_autor):
+                    autores_habilitados.append(autor.pk)
+        print(autores_habilitados)
 
-        # return autores_habilitados
-        return PessoaModel.objects.filter(groups__pk__contains=ALUNO)
+        return autores_habilitados
+        # return PessoaModel.objects.filter(groups__pk__contains=ALUNO)
