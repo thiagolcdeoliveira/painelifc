@@ -47,7 +47,6 @@ class ConsultaTrabalhoView(View):
             except:
                 return redirect('/')
         else:
-            # trabalhos = TrabalhoModel.objects.all()
             trabalhos = TrabalhoModel.objects.filter(
                 Q(autor1__pk=request.user.id) | Q(autor2__pk=request.user.id) | Q(
                     autor3__pk=request.user.id) | Q(autor4__pk=request.user.id) | Q(autor5__pk=request.user.id) | Q(
@@ -56,8 +55,6 @@ class ConsultaTrabalhoView(View):
             is_orientador = PessoaModel.objects.filter(pk=request.user.id, groups__in=[ORIENTADOR]).exists()
             return render(request, self.template, {'trabalhos': trabalhos, 'orientador': is_orientador})
 
-            # def post(self, request):
-            #     return render(request, self.template, {'form': ""})
 
 
 class CadastroTrabalhoView(View):
@@ -75,7 +72,6 @@ class CadastroTrabalhoView(View):
                 dict = {'id': al.id, 'nome': al.first_name + " " + al.last_name}
                 alunos.append(dict)
             json = json.dumps(alunos)
-            # json = serializers.serialize("json", als)
             return HttpResponse(json)
 
         if id:
@@ -91,7 +87,6 @@ class CadastroTrabalhoView(View):
             if PessoaModel.objects.get(pk=request.user.id).turma:
                 turma_usuario_logado_id = PessoaModel.objects.get(pk=request.user.id).turma.id
                 turma_usuario_logado = PessoaModel.objects.get(pk=request.user.id).turma.nome
-                print(turma_usuario_logado)
 
         return render(request, self.template,
                       {'form': form, 'turmas': turmas, 'turma_usuario_logado': turma_usuario_logado,
@@ -120,17 +115,16 @@ class CadastroTrabalhoView(View):
                     for autor in lista_autores:
                         if autor != None:
                             if lista_autores.count(autor) > 1:
-                                erro = "Autor selecioando mais de uma vez"
+                                erro = "Autor selecionado mais de uma vez!"
                     if (len(trabalhos) >= configuracao.trabalhos_por_autor):
-                        # raise forms.ValidationError("O  autor %s %s já está escrito em outro trabalho "  %(autor.first_name,autor.last_name))
-                        erro = "autor já ta inscrito"
+                        erro = "Autor já ta inscrito!"
         else:
-            # raise forms.ValidationError(" Prencha pelo menos 6 autores" )
-            erro = "falta autor"
+            erro = "Quantidade de autores insuficientes!"
 
         if erro != "":
             turmas = TurmaModel.objects.all()
             return render(request, self.template, {'form': form, 'turmas': turmas, "erro": erro})
+
         if form.is_valid():
             form_edit = form.save(commit=True)
             form_edit.usuario_id = request.user.id
@@ -138,7 +132,6 @@ class CadastroTrabalhoView(View):
             form_edit.autor1.id = request.user.id
             form_edit.save()
             return redirect('/')
-        print(form.errors)
         turmas = TurmaModel.objects.all()
         return render(request, self.template, {'form': form, 'turmas': turmas})
 
@@ -162,8 +155,6 @@ class ImprimeTrabalhoView(View):
         orientadores = ""
         colaboradoes = ""
         disciplinas = ""
-        # for autor in trabalho.autor.all():
-        #     autores += (str(autor.first_name) + " " + str(autor.last_name)).title() + " (" +str(autor.turma) + "); "
 
         autor1 = trabalho.autor1
         autor2 = trabalho.autor2
@@ -205,7 +196,6 @@ class ImprimeTrabalhoView(View):
         doc.build(Story)
 
         return redirect("/" + nome)
-        # render(request, self.template_consulta, {'':''})
 
 
 class AceitaTrabalhoView(View):
@@ -217,10 +207,8 @@ class AceitaTrabalhoView(View):
         template = 'index.html'
 
         trabalho = TrabalhoModel.objects.get(pk=id)
-        print(trabalho.orientador.pk == request.user.pk)
         if trabalho.orientador.pk == request.user.pk:
             trabalho.status = StatusModels.objects.get(pk=SUBMETIDO)
-            print(trabalho.status)
             trabalho.save()
         return render(request, template, {'status': trabalho.status})
 
@@ -234,9 +222,7 @@ class NegaTrabalhoView(View):
         template = 'index.html'
 
         trabalho = TrabalhoModel.objects.get(pk=id)
-        print(trabalho.orientador.pk == request.user.pk)
         if trabalho.orientador.pk == request.user.pk:
             trabalho.status = StatusModels.objects.get(pk=NEGADO_PROFESSOR)
-            print(trabalho.status)
             trabalho.save()
         return render(request, template, {'status': trabalho.status})

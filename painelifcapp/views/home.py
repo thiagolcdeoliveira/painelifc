@@ -1,10 +1,16 @@
 # coding: utf-8
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.generic import ListView
 from django.views.generic.base import View
+
+from painelifcapp.models.pessoa import PessoaModel
 from painelifcapp.models.trabalho import TrabalhoModel
 from django.db.models import Q
+
+from painelifcapp.variaveis.variaveis import *
 
 
 class Home(View):
@@ -18,6 +24,36 @@ class Home(View):
                     autor7__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(
                     colaborador__pk=request.user.id) | Q(usuario=request.user.id)).distinct().count()
             possui_trabalhos = True if trabalhos > 0 else False
-            return render(request, self.template, {'possui_trabalhos': possui_trabalhos})
+            grupo = request.user.groups.filter(pk=ALUNO)
+            # print('grupo %s'%grupo)
+            return render(request, self.template, {'possui_trabalhos': possui_trabalhos, 'grupo': grupo})
         else:
             return HttpResponseRedirect(reverse('login'))
+
+
+class HomeAdminAguardandoListView(ListView):
+    model = TrabalhoModel
+    queryset = TrabalhoModel.objects.filter(id=AGUARDANDO_PROFESSOR)
+    template_name = 'admin/consulta.html'
+    context_object_name = 'trabalho'
+
+
+class HomeAdminSubmetidoListView(ListView):
+    model = TrabalhoModel
+    queryset = TrabalhoModel.objects.filter(id=SUBMETIDO)
+    template_name = 'admin/consulta.html'
+    context_object_name = 'trabalho'
+
+
+class HomeAdminNegadoProfessorListView(ListView):
+    model = TrabalhoModel
+    queryset = TrabalhoModel.objects.filter(id=NEGADO_PROFESSOR)
+    template_name = 'admin/consulta.html'
+    context_object_name = 'trabalho'
+
+
+class HomeAdminProfessorListView(ListView):
+    model = TrabalhoModel
+    queryset = TrabalhoModel.objects.filter(id=NEGADO_PROFESSOR)
+    template_name = 'admin/consulta.html'
+    context_object_name = 'trabalho'

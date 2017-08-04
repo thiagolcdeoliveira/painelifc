@@ -26,7 +26,6 @@ class Command(BaseCommand):
     def _create_orientador_colaborador(self):
         with open('csv/alunos.csv') as csvfile:
             reader = csv.DictReader(csvfile)
-            print(Group.objects.filter(pk__in=[ORIENTADOR,COLABORADOR]))
             for i,row in enumerate(reader):
                 if not PessoaModel.objects.filter(username=row['usuario']):
                     orientador_colaborador = PessoaModel(first_name=row['nome'],

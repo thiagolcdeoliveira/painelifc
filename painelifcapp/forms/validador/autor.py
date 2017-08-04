@@ -10,7 +10,6 @@ from django.db.models import Q
 def ValidarAutor(autores):
     configuracao = ConfiguracaoTrabalhoModel.objects.order_by('id').last()
     if configuracao:
-        print(autores.cleaned_data.get('autor1'))
         lista_autores=[autores.cleaned_data.get('autor1'), autores.cleaned_data.get('autor2') ,
                        autores.cleaned_data.get('autor3'), autores.cleaned_data.get('autor4'),
                        autores.cleaned_data.get('autor5'), autores.cleaned_data.get('autor6')]

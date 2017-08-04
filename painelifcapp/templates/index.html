@@ -54,7 +54,9 @@
                         </div>
                     </div>
                 {% endif %}
-                <a class="ui green button" href="{% url 'cad-trabalho' %}">Adicionar novo projeto</a>
+                {% if grupo %}
+                    <a class="ui green button" href="{% url 'cad-trabalho' %}">Adicionar novo projeto</a>
+                {% endif %}
                 </div>
             {% endif %}
         {% else %}

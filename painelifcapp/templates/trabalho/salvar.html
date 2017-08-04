@@ -6,7 +6,21 @@
 
 {% block body_block %}
 
-    <h1><i class="ui icon plus"></i> Cadastrar Trabalho</h1>
+    <h1><i class='ui icon plus'></i> Cadastrar Trabalho</h1>
+    <div class="ui warning message">
+        <i class='close icon'></i>
+        <div class="header">
+            <i class="info icon"></i> Dica
+        </div>
+            <p>Campos com <i class="asterisk icon red"></i> são obrigatórios!</p>
+    </div>
+    <div class='ui error message'>
+        <i class='close icon'></i>
+        <div class="header">
+            <i class="warning sign icon red"></i> Erro
+        </div>
+        <p>{{ erro }}</p>
+    </div>
     {% if form.instance.id %}
         <form method="POST" action="{% url 'edit-trabalho' form.instance.id %}" class='ui form'>
     {% else %}
@@ -16,8 +30,8 @@
 {% for hidden in form.hidden_fields %}
     {{ hidden }}
 {% endfor %}
-
-{{ erro }}
+{% if erro %}
+{% endif %}
 <div class="field">
     <label>{{ form.titulo.label }} <i class="asterisk icon red"></i></label>
     {{ form.titulo }}
@@ -36,7 +50,7 @@
 <div class="two fields">
     <div class=" field">
         <label>Turma</label>
-        <select class="disabled" name="turma1" id="id_turma1" class="search selection" >
+        <select class="disabled" name="turma1" id="id_turma1" class="search selection">
             {% for turma in turmas %}
                 <option value="{{ turma_usuario_logado_id }}" selected>{{ turma_usuario_logado }}</option>
             {% endfor %}
@@ -44,16 +58,16 @@
     </div>
     <div class=" field">
         <label>{{ form.autor1.label }}:</label>
-        <select  class="disabled" name="autor1" id="id_autor1"  >
+        <select class="disabled" name="autor1" id="id_autor1">
             <option value="{{ user.id }}" selected="selected">{{ user.first_name }} {{ user.last_name }}</option>
         </select>
     </div>
 
-        {% if form.autor1.errors %}
-            <span class="ui pointing red label">
+    {% if form.autor1.errors %}
+        <span class="ui pointing red label">
                 {{ form.autor1.errors }}
                 </span>
-        {% endif %}
+    {% endif %}
 </div>
 
 <div class="two fields">
@@ -244,12 +258,6 @@
             {{ form.resumo.errors }}
             </span>
     {% endif %}
-</div>
-
-<div class="ui message red">
-    <div class="header">
-        <i class="asterisk icon red"></i> Campos Obrigatórios!
-    </div>
 </div>
 
 {{ form.status }}

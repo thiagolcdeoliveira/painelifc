@@ -25,7 +25,6 @@ class Command(BaseCommand):
         with open('csv/alunos.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                print(row)
                 if not CursoModel.objects.filter(nome=row['curso']):
                     curso = CursoModel(nome=row['curso'])
                     curso.save()
@@ -34,7 +33,6 @@ class Command(BaseCommand):
         with open('csv/alunos.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                print(row)
                 if not TurmaModel.objects.filter(nome=row['turma']):
                     turma =TurmaModel(nome=row['turma'],
                     curso=CursoModel.objects.get(nome=row["curso"])
@@ -44,7 +42,6 @@ class Command(BaseCommand):
     def _create_aluno(self):
         with open('csv/alunos.csv') as csvfile:
             reader = csv.DictReader(csvfile)
-            print(Group.objects.get(pk__in=[ALUNO]))
             for i,row in enumerate(reader):
                 if not PessoaModel.objects.filter(username=row['usuario']):
                     aluno = PessoaModel(first_name=row['nome'],

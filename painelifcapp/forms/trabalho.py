@@ -75,17 +75,12 @@ class FormTrabalho(forms.ModelForm):
     #     return ValidarAutor(self)
 
     def clean_orientador(self):
-        print("orientador")
         return ValidarOrientador(self.cleaned_data.get('orientador'))
 
     def clean_resumo(self):
-        print("resumo")
-
         return ValidarResumo(self.cleaned_data.get('resumo'))
 
     def clean_disciplina(self):
-        print("discilpna")
-
         return ValidarDisciplina(self.cleaned_data.get('disciplina'))
 
     def colaboradores(self):
@@ -107,7 +102,6 @@ class FormTrabalho(forms.ModelForm):
         if configuracao:
             for orientador in orientadores:
                 trabalhos = TrabalhoModel.objects.filter(orientador=orientador,status__in=[SUBMETIDO,APROVADO])
-                print(len(trabalhos),configuracao.trabalhos_por_orientador)
                 if (len(trabalhos) < configuracao.trabalhos_por_orientador):
                     orientadores_habilitados.append(orientador.pk)
         return orientadores_habilitados
