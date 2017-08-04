@@ -21,7 +21,7 @@
         <div class="ui container">
             <li><a class="item" href="{% url 'home' %}"><i class="ui icon home"></i> Início</a></li>
             {% if user.is_authenticated %}
-                {% if grupo.pk == ALUNO %}
+                {% if grupo == ALUNO %}
                     <li><a class="item" href="{% url 'cad-trabalho' %}"><i
                             class="ui icon plus"></i>Cadastrar um Projeto</a></li>
                 {% endif %}

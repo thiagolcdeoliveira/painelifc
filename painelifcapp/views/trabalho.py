@@ -62,7 +62,7 @@ class CadastroTrabalhoView(View):
 
     @method_decorator(login_required)
     def get(self, request, id=None):
-
+        grupo = request.user.groups.filter(pk=ORIENTADOR)
         # ajax
         if 'turma_id' in request.GET:
             import json
@@ -90,11 +90,11 @@ class CadastroTrabalhoView(View):
 
         return render(request, self.template,
                       {'form': form, 'turmas': turmas, 'turma_usuario_logado': turma_usuario_logado,
-                       'turma_usuario_logado_id': turma_usuario_logado_id,
-                       })
+                       'turma_usuario_logado_id': turma_usuario_logado_id, 'grupo': grupo})
 
     @method_decorator(login_required)
     def post(self, request, id=None):
+        grupo = request.user.groups.filter(pk=ORIENTADOR)
         # erro = "Quantidade de autores insuficientes!"
         if id:
             trabalho = TrabalhoModel.objects.get(pk=id)
@@ -145,7 +145,7 @@ class CadastroTrabalhoView(View):
             form_edit.save()
             return redirect('/')
         turmas = TurmaModel.objects.all()
-        return render(request, self.template, {'form': form, 'turmas': turmas})
+        return render(request, self.template, {'form': form, 'turmas': turmas, 'grupo': grupo})
 
 
 class ImprimeTrabalhoView(View):
@@ -216,7 +216,7 @@ class AceitaTrabalhoView(View):
 
     @method_decorator(user_passes_test(group_test))
     def get(self, request, id, status):
-        template = 'index.html'
+        template = 'trabalho/consulta.html'
         grupo = request.user.groups.filter(pk=ORIENTADOR)
         trabalho = TrabalhoModel.objects.get(pk=id)
         if trabalho.orientador.pk == request.user.pk:
@@ -226,6 +226,21 @@ class AceitaTrabalhoView(View):
 
 
 class NegaTrabalhoView(View):
+    def group_test(user):
+        return user.groups.filter(pk__in=[ORIENTADOR])
+
+    @method_decorator(user_passes_test(group_test))
+    def get(self, request, id, status):
+        template = 'trabalho/consulta.html'
+        grupo = request.user.groups.filter(pk=ORIENTADOR)
+        print(grupo)
+        trabalho = TrabalhoModel.objects.get(pk=id)
+        if trabalho.orientador.pk == request.user.pk:
+            trabalho.status = StatusModels.objects.get(pk=NEGADO_PROFESSOR)
+            trabalho.save()
+        return render(request, template, {'status': trabalho.status, 'grupo': grupo})
+
+class AlteraTrabalhoView(View):
     def group_test(user):
         return user.groups.filter(pk__in=[ORIENTADOR])
 
