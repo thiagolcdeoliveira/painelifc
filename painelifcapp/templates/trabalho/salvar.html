@@ -6,276 +6,278 @@
 
 {% block body_block %}
 
-    <h1><i class='ui icon plus'></i> Cadastrar Trabalho</h1>
-    <div class="ui warning message">
-        <i class='close icon'></i>
-        <div class="header">
-            <i class="info icon"></i> Informações
-        </div>
-            <p>Campos com <i class="asterisk icon red"></i> são obrigatórios! | O resumo deve ter no mínimo 1700 caracteres e no máximo 2400 caracteres.</p>
+<h1><i class='ui icon plus'></i> Cadastrar Trabalho</h1>
+<div class="ui warning message">
+    <i class='close icon'></i>
+    <div class="header">
+        <i class="info icon"></i> Informações
     </div>
-    {% if erro %}
-        <div class='ui error message'>
-            <i class='close icon'></i>
-            <div class="header">
-                <i class="warning sign icon red"></i> Erro
-            </div>
-            <p>{{ erro }}</p>
-        </div>
-    {% endif %}
-    {% if form.instance.id %}
-        <form method="POST" action="{% url 'edit-trabalho' form.instance.id %}" class='ui form'>
-    {% else %}
-        <form method="POST" action="{% url 'cad-trabalho' %}" class='ui form'>
-    {% endif %}
-{% csrf_token %}
-{% for hidden in form.hidden_fields %}
-    {{ hidden }}
-{% endfor %}
+    <p>Campos com <i class="asterisk icon red"></i> são obrigatórios! | O resumo deve ter no mínimo 1700 caracteres e no
+        máximo 2400 caracteres.</p>
+</div>
 {% if erro %}
+<div class='ui error message'>
+    <i class='close icon'></i>
+    <div class="header">
+        <i class="warning sign icon red"></i> Erro
+    </div>
+    <p>{{ erro }}</p>
+</div>
 {% endif %}
-<div class="field">
-    <label>{{ form.titulo.label }} <i class="asterisk icon red"></i></label>
-    {{ form.titulo }}
-    {% if form.titulo.help_text %}
-        <span class="ui pointing label">Ajuda: {{ form.titulo.help_text }}</span>
-    {% endif %}
-    </br>
-    {% if form.titulo.errors %}
-        <span class="ui pointing red label">
+{% if form.instance.id %}
+<form method="POST" action="{% url 'edit-trabalho' form.instance.id %}" class='ui form'>
+    {% else %}
+    <form method="POST" action="{% url 'cad-trabalho' %}" class='ui form'>
+        {% endif %}
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+        {% if erro %}
+        {% endif %}
+        <div class="field">
+            <label>{{ form.titulo.label }}: <i class="asterisk icon red"></i></label>
+            {{ form.titulo }}
+            {% if form.titulo.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.titulo.help_text }}</span>
+            {% endif %}
+            </br>
+            {% if form.titulo.errors %}
+            <span class="ui pointing red label">
             {{ form.titulo.errors }}
             </span>
-    {% endif %}
-</div>
+            {% endif %}
+        </div>
 
-{# BEGIN 7 AUTORES #}
-<div class="two fields">
-    <div class=" field">
-        <label>Turma</label>
-        <select class="disabled" name="turma1" id="id_turma1" class="search selection">
-            {% for turma in turmas %}
-                <option value="{{ turma_usuario_logado_id }}" selected>{{ turma_usuario_logado }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class=" field">
-        <label>{{ form.autor1.label }}:</label>
-        <select class="disabled" name="autor1" id="id_autor1">
-            <option value="{{ user.id }}" selected="selected">{{ user.first_name }} {{ user.last_name }}</option>
-        </select>
-    </div>
+        {# BEGIN 7 AUTORES #}
+        <div class="two fields">
+            <div class=" field">
+                <label>Turma:</label>
+                <select class="disabled" name="turma1" id="id_turma1" class="search selection">
+                    {% for turma in turmas %}
+                    <option value="{{ turma_usuario_logado_id }}" selected>{{ turma_usuario_logado }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class=" field">
+                <label>{{ form.autor1.label }}:</label>
+                <select class="disabled" name="autor1" id="id_autor1">
+                    <option value="{{ user.id }}" selected="selected">{{ user.first_name }} {{ user.last_name }}
+                    </option>
+                </select>
+            </div>
 
-    {% if form.autor1.errors %}
-        <span class="ui pointing red label">
+            {% if form.autor1.errors %}
+            <span class="ui pointing red label">
                 {{ form.autor1.errors }}
                 </span>
-    {% endif %}
-</div>
+            {% endif %}
+        </div>
 
-<div class="two fields">
-    <div class="field">
-        <label>Turma <i class="asterisk icon red"></i></label>
-        <select name="turma2" id="id_turma2" onchange="turma_pesquisar(2)" class="search selection">
-            <option value="">Selecione uma turma</option>
-            {% for turma in turmas %}
-                <option value="{{ turma.id }}">{{ turma.nome }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="field">
-        <label>{{ form.autor2.label }} <i class="asterisk icon red"></i></label>
-        {{ form.autor2 }}
-        </br>
-        {% if form.autor2.errors %}
-            <span class="ui pointing red label">
+        <div class="two fields">
+            <div class="field">
+                <label>Filtro de Alunos por Turma: </label>
+                <select name="turma2" id="id_turma2" onchange="turma_pesquisar(2)" class="search selection">
+                    <option value="">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                    <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor2.label }}: <i class="asterisk icon red"></i></label>
+                {{ form.autor2 }}
+                </br>
+                {% if form.autor2.errors %}
+                <span class="ui pointing red label">
                 {{ form.autor2.errors }}
             </span>
-        {% endif %}
-    </div>
-</div>
+                {% endif %}
+            </div>
+        </div>
 
-<div class="two fields">
-    <div class="field">
-        <label>Turma <i class="asterisk icon red"></i></label>
-        <select name="turma3" id="id_turma3" onchange="turma_pesquisar(3)" class="search selection">
-            <option value="">Selecione uma turma</option>
-            {% for turma in turmas %}
-                <option value="{{ turma.id }}">{{ turma.nome }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="field">
-        <label>{{ form.autor3.label }} <i class="asterisk icon red"></i></label>
-        {{ form.autor3 }}
-        </br>
-        {% if form.autor3.errors %}
-            <span class="ui pointing red label">
+        <div class="two fields">
+            <div class="field">
+                <label>Filtro de Alunos por Turma: </label>
+                <select name="turma3" id="id_turma3" onchange="turma_pesquisar(3)" class="search selection">
+                    <option value="">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                    <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor3.label }}: <i class="asterisk icon red"></i></label>
+                {{ form.autor3 }}
+                </br>
+                {% if form.autor3.errors %}
+                <span class="ui pointing red label">
                 {{ form.autor3.errors }}
                 </span>
-        {% endif %}
-    </div>
-</div>
+                {% endif %}
+            </div>
+        </div>
 
-<div class="two fields">
-    <div class="field">
-        <label>Turma <i class="asterisk icon red"></i></label>
-        <select name="turma4" id="id_turma4" onchange="turma_pesquisar(4)" class="search selection">
-            <option value="">Selecione uma turma</option>
-            {% for turma in turmas %}
-                <option value="{{ turma.id }}">{{ turma.nome }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="field">
-        <label>{{ form.autor4.label }} <i class="asterisk icon red"></i></label>
-        {{ form.autor4 }}
-        </br>
-        {% if form.autor4.errors %}
-            <span class="ui pointing red label">
+        <div class="two fields">
+            <div class="field">
+                <label>Filtro de Alunos por Turma: </label>
+                <select name="turma4" id="id_turma4" onchange="turma_pesquisar(4)" class="search selection">
+                    <option value="">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                    <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor4.label }}: <i class="asterisk icon red"></i></label>
+                {{ form.autor4 }}
+                </br>
+                {% if form.autor4.errors %}
+                <span class="ui pointing red label">
                 {{ form.autor4.errors }}
                 </span>
-        {% endif %}
-    </div>
-</div>
+                {% endif %}
+            </div>
+        </div>
 
-<div class="two fields">
-    <div class="field">
-        <label>Turma <i class="asterisk icon red"></i></label>
-        <select name="turma5" id="id_turma5" onchange="turma_pesquisar(5)" class="search selection">
-            <option value="">Selecione uma turma</option>
-            {% for turma in turmas %}
-                <option value="{{ turma.id }}">{{ turma.nome }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="field">
-        <label>{{ form.autor5.label }} <i class="asterisk icon red"></i></label>
-        {{ form.autor5 }}
-        </br>
-        {% if form.autor5.errors %}
-            <span class="ui pointing red label">
+        <div class="two fields">
+            <div class="field">
+                <label>Filtro de Alunos por Turma: </label>
+                <select name="turma5" id="id_turma5" onchange="turma_pesquisar(5)" class="search selection">
+                    <option value="">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                    <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor5.label }}: <i class="asterisk icon red"></i></label>
+                {{ form.autor5 }}
+                </br>
+                {% if form.autor5.errors %}
+                <span class="ui pointing red label">
                 {{ form.autor5.errors }}
                 </span>
-        {% endif %}
-    </div>
-</div>
+                {% endif %}
+            </div>
+        </div>
 
-<div class="two fields">
-    <div class="field">
-        <label>Turma <i class="asterisk icon red"></i></label>
-        <select name="turma6" id="id_turma6" onchange="turma_pesquisar(6)" class="search selection">
-            <option value="">Selecione uma turma</option>
-            {% for turma in turmas %}
-                <option value="{{ turma.id }}">{{ turma.nome }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="field">
-        <label>{{ form.autor6.label }} <i class="asterisk icon red"></i></label>
-        {{ form.autor6 }}
-        </br>
-        {% if form.autor6.errors %}
-            <span class="ui pointing red label">
+        <div class="two fields">
+            <div class="field">
+                <label>Filtro de Alunos por Turma: </label>
+                <select name="turma6" id="id_turma6" onchange="turma_pesquisar(6)" class="search selection">
+                    <option value="">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                    <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor6.label }}: <i class="asterisk icon red"></i></label>
+                {{ form.autor6 }}
+                </br>
+                {% if form.autor6.errors %}
+                <span class="ui pointing red label">
                 {{ form.autor6.errors }}
                 </span>
-        {% endif %}
-    </div>
-</div>
+                {% endif %}
+            </div>
+        </div>
 
-<div class="two fields">
-    <div class="field">
-        <label>Turma</label>
-        <select name="turma7" id="id_turma7" onchange="turma_pesquisar(7)" class="search selection">
-            <option value="">Selecione uma turma</option>
-            {% for turma in turmas %}
-                <option value="{{ turma.id }}">{{ turma.nome }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="field">
-        <label>{{ form.autor7.label }}:</label>
-        {{ form.autor7 }}
-        </br>
-        {% if form.autor7.errors %}
-            <span class="ui pointing red label">
+        <div class="two fields">
+            <div class="field">
+                <label>Filtro de Alunos por Turma: </label>
+                <select name="turma7" id="id_turma7" onchange="turma_pesquisar(7)" class="search selection">
+                    <option value="">Selecione uma turma</option>
+                    {% for turma in turmas %}
+                    <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="field">
+                <label>{{ form.autor7.label }}:</label>
+                {{ form.autor7 }}
+                </br>
+                {% if form.autor7.errors %}
+                <span class="ui pointing red label">
                 {{ form.autor7.errors }}
                 </span>
-        {% endif %}
-    </div>
-</div>
-{# FIM 7 AUTORES #}
+                {% endif %}
+            </div>
+        </div>
+        {# FIM 7 AUTORES #}
 
-<div class="field">
-    <label>{{ form.orientador.label }} <i class="asterisk icon red"></i></label>
-    {{ form.orientador }}
+        <div class="field">
+            <label>{{ form.orientador.label }}:: <i class="asterisk icon red"></i></label>
+            {{ form.orientador }}
 
-    {% if form.orientador.help_text %}
-        <span class="ui pointing label">Ajuda: {{ form.orientador.help_text }}</span>
-    {% endif %}
-    </br>
-    {% if form.orientador.errors %}
-        <span class="ui pointing red label">
+            {% if form.orientador.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.orientador.help_text }}</span>
+            {% endif %}
+            </br>
+            {% if form.orientador.errors %}
+            <span class="ui pointing red label">
             {{ form.orientador.errors }}
             </span>
-    {% endif %}
-</div>
+            {% endif %}
+        </div>
 
 
-<div class="field">
-    <label>{{ form.colaborador.label }} <i class="asterisk icon red"></i></label>
-    {{ form.colaborador }}
-    {% if form.colaborador.help_text %}
-        <span class="ui pointing label">Ajuda: {{ form.colaborador.help_text }}</span>
-    {% endif %}
-    </br>
-    {% if form.colaborador.errors %}
-        <span class="ui pointing red label">
+        <div class="field">
+            <label>{{ form.colaborador.label }}: <i class="asterisk icon red"></i></label>
+            {{ form.colaborador }}
+            {% if form.colaborador.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.colaborador.help_text }}</span>
+            {% endif %}
+            </br>
+            {% if form.colaborador.errors %}
+            <span class="ui pointing red label">
                     {{ form.colaborador.errors }}
                 </span>
-    {% endif %}
-</div>
+            {% endif %}
+        </div>
 
-<div class="field">
-    <label>{{ form.disciplina.label }} <i class="asterisk icon red"></i></label>
-    {{ form.disciplina }}
-    {% if form.disciplina.help_text %}
-        <span class="ui pointing label">Ajuda: {{ form.disciplina.help_text }}</span>
-    {% endif %}
-    </br>
-    {% if form.disciplina.errors %}
-        <span class="ui pointing red label">
+        <div class="field">
+            <label>{{ form.disciplina.label }}: <i class="asterisk icon red"></i></label>
+            {{ form.disciplina }}
+            {% if form.disciplina.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.disciplina.help_text }}</span>
+            {% endif %}
+            </br>
+            {% if form.disciplina.errors %}
+            <span class="ui pointing red label">
             {{ form.disciplina.errors }}
             </span>
-    {% endif %}
-</div>
+            {% endif %}
+        </div>
 
-<div class="field">
-    <label>{{ form.resumo.label }} <i class="asterisk icon red"></i></label>
-    {{ form.resumo }}
-    {% if form.resumo.help_text %}
-        <span class="ui pointing label">Ajuda: {{ form.resumo.help_text }}</span>
-    {% endif %}
-    </br>
-    {% if form.resumo.errors %}
-        <span class="ui pointing red label">
+        <div class="field">
+            <label>{{ form.resumo.label }}: <i class="asterisk icon red"></i></label>
+            {{ form.resumo }}
+            {% if form.resumo.help_text %}
+            <span class="ui pointing label">Ajuda: {{ form.resumo.help_text }}</span>
+            {% endif %}
+            </br>
+            {% if form.resumo.errors %}
+            <span class="ui pointing red label">
             {{ form.resumo.errors }}
             </span>
-    {% endif %}
-</div>
+            {% endif %}
+        </div>
 
-{{ form.status }}
+        {{ form.status }}
 
-<input type="hidden" name="usuario" id="id_usuario" value="{{ user.id }}"/>
+        <input type="hidden" name="usuario" id="id_usuario" value="{{ user.id }}"/>
 
-<div class="ui two buttons">
-    <a class="ui button" href="{{ request.META.HTTP_REFERER }}"> Voltar </a>
-    <button class="ui green button" type="submit" name="submit">Cadastrar trabalho</button>
-</div>
+        <div class="ui two buttons">
+            <a class="ui button" href="{{ request.META.HTTP_REFERER }}"> Voltar </a>
+            <button class="ui green button" type="submit" name="submit">Cadastrar trabalho</button>
+        </div>
 
 
-{% if form.instance.id %}
+        {% if form.instance.id %}
     </form>
-{% else %}
-    </form>
+    {% else %}
+</form>
 {% endif %}
 {% endblock body_block %}

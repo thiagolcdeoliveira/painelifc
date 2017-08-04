@@ -31,6 +31,8 @@ class ConsultaTrabalhoView(View):
 
     @method_decorator(login_required)
     def get(self, request, id=None):
+        is_orientador = PessoaModel.objects.filter(pk=request.user.id, groups__in=[ORIENTADOR]).exists()
+        is_aluno = PessoaModel.objects.filter(pk=request.user.id, groups__in=[ALUNO]).exists()
         if id:
             try:
                 autorizacao = TrabalhoModel.objects.filter(
@@ -41,7 +43,8 @@ class ConsultaTrabalhoView(View):
                 admin = request.user.is_superuser or PessoaModel.objects.get(pk=request.user.id).groups.filter(pk=ADMIN)
                 if autorizacao or admin:
                     trabalho = TrabalhoModel.objects.get(pk=id)
-                    return render(request, self.template_consulta, {'trabalho': trabalho})
+                    return render(request, self.template_consulta,
+                                  {'trabalho': trabalho, 'orientador': is_orientador, 'aluno': is_aluno})
                 else:
                     return redirect('/')
             except:
@@ -52,9 +55,8 @@ class ConsultaTrabalhoView(View):
                     autor3__pk=request.user.id) | Q(autor4__pk=request.user.id) | Q(autor5__pk=request.user.id) | Q(
                     autor6__pk=request.user.id) | Q(autor7__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(
                     colaborador__pk=request.user.id) | Q(usuario=request.user.id)).distinct()
-            is_orientador = PessoaModel.objects.filter(pk=request.user.id, groups__in=[ORIENTADOR]).exists()
-            return render(request, self.template, {'trabalhos': trabalhos, 'orientador': is_orientador})
-
+            return render(request, self.template,
+                          {'trabalhos': trabalhos, 'orientador': is_orientador, 'aluno': is_aluno})
 
 
 class CadastroTrabalhoView(View):
@@ -62,7 +64,9 @@ class CadastroTrabalhoView(View):
 
     @method_decorator(login_required)
     def get(self, request, id=None):
-        grupo = request.user.groups.filter(pk=ORIENTADOR)
+        grupo_orientador = request.user.groups.filter(pk=ORIENTADOR)
+        grupo = request.user.groups.filter(pk=ALUNO)
+
         # ajax
         if 'turma_id' in request.GET:
             import json
@@ -90,7 +94,8 @@ class CadastroTrabalhoView(View):
 
         return render(request, self.template,
                       {'form': form, 'turmas': turmas, 'turma_usuario_logado': turma_usuario_logado,
-                       'turma_usuario_logado_id': turma_usuario_logado_id, 'grupo': grupo})
+                       'turma_usuario_logado_id': turma_usuario_logado_id, 'grupo_orientador': grupo_orientador,
+                       'grupo': grupo})
 
     @method_decorator(login_required)
     def post(self, request, id=None):
@@ -99,17 +104,16 @@ class CadastroTrabalhoView(View):
         if id:
             trabalho = TrabalhoModel.objects.get(pk=id)
             form = FormTrabalho(instance=trabalho, data=request.POST)
-            print(form)
         else:
             form = FormTrabalho(request.POST)
-            print(form)
 
         try:
-            lista_autores = [request.POST['autor1'], request.POST['autor2'], request.POST['autor3'], request.POST['autor4'],
+            lista_autores = [request.POST['autor1'], request.POST['autor2'], request.POST['autor3'],
+                             request.POST['autor4'],
                              request.POST['autor5'], request.POST['autor6']]
         except:
-            lista_autores=[]
-            erro="Quantidade de autores insuficientes!"
+            lista_autores = []
+            erro = "Quantidade de autores insuficientes!"
         try:
             lista_autores.append(request.POST['autor7'])
         except:
@@ -176,24 +180,23 @@ class ImprimeTrabalhoView(View):
         autor6 = trabalho.autor6
         autor7 = trabalho.autor7
 
-        autores += (str(autor1.first_name) + " " + str(autor1.last_name)).title() + " (" + str(autor1.turma) + "); "
-        autores += (str(autor2.first_name) + " " + str(autor2.last_name)).title() + " (" + str(autor2.turma) + "); "
-        autores += (str(autor3.first_name) + " " + str(autor3.last_name)).title() + " (" + str(autor3.turma) + "); "
-        autores += (str(autor4.first_name) + " " + str(autor4.last_name)).title() + " (" + str(autor4.turma) + "); "
-        autores += (str(autor5.first_name) + " " + str(autor5.last_name)).title() + " (" + str(autor5.turma) + "); "
-        autores += (str(autor6.first_name) + " " + str(autor6.last_name)).title() + " (" + str(autor6.turma) + "); "
+        autores += (autor1.nome).title().encode('utf-8') + " (" + str(autor1.turma) + "); "
+        autores += (autor2.nome).title().encode('utf-8') + " (" + str(autor2.turma) + "); "
+        autores += (autor3.nome).title().encode('utf-8') + " (" + str(autor3.turma) + "); "
+        autores += (autor4.nome).title().encode('utf-8') + " (" + str(autor4.turma) + "); "
+        autores += (autor5.nome).title().encode('utf-8') + " (" + str(autor5.turma) + "); "
+        autores += (autor6.nome).title().encode('utf-8') + " (" + str(autor6.turma) + "); "
         if autor7:
-            autores += (str(autor7.first_name) + " " + str(autor7.last_name)).title() + " (" + str(autor7.turma) + "); "
+            autores += (autor7.nome).title().encode('utf-8') + " (" + str(autor7.turma) + "); "
 
-        for orientador in trabalho.orientador.orientador.all():
-            orientadores += (str(orientador.orientador.first_name) + " " + str(
-                orientador.orientador.last_name)).title() + "; "
+        orientadores = (trabalho.orientador.nome).title().encode('utf-8') + "; "
 
         for colaborador in trabalho.colaborador.all():
-            colaboradoes += (str(colaborador.first_name) + " " + str(colaborador.last_name)).title() + "; "
+            colaboradoes += (str(colaborador.nome).title().encode('utf-8')) + "; "
 
         for disciplina in trabalho.disciplina.all():
-            disciplinas += str(disciplina.nome) + "; "
+            print((disciplina.nome).encode('utf-8'))
+            disciplinas += (disciplina.nome).encode('utf-8') + "; "
 
         logo = "static/media/image_upload/setting/sepe.png"
         imagem = Image(logo, 8.2 * inch, 1 * inch)
@@ -227,18 +230,21 @@ class AceitaTrabalhoView(View):
 
 class NegaTrabalhoView(View):
     def group_test(user):
-        return user.groups.filter(pk__in=[ORIENTADOR])
+        return user.groups.filter(pk__in=[ORIENTADOR, ALUNO])
 
     @method_decorator(user_passes_test(group_test))
     def get(self, request, id, status):
         template = 'trabalho/consulta.html'
         grupo = request.user.groups.filter(pk=ORIENTADOR)
-        print(grupo)
         trabalho = TrabalhoModel.objects.get(pk=id)
         if trabalho.orientador.pk == request.user.pk:
             trabalho.status = StatusModels.objects.get(pk=NEGADO_PROFESSOR)
             trabalho.save()
+        elif trabalho.usuario.pk == request.user.pk:
+            trabalho.status = StatusModels.objects.get(pk=CANCELADO_ALUNO)
+            trabalho.save()
         return render(request, template, {'status': trabalho.status, 'grupo': grupo})
+
 
 class AlteraTrabalhoView(View):
     def group_test(user):
