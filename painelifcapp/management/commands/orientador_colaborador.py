@@ -24,13 +24,14 @@ class Command(BaseCommand):
 
 
     def _create_orientador_colaborador(self):
-        with open('csv/servidores_import.csv') as csvfile:
+        with open('csv/servidores.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for i,row in enumerate(reader):
+                print(row)
                 nome = row["nome"].split()
                 first_name = nome[0].decode('utf-8').title()
                 last_name = " ".join(nome[1:]).decode('utf-8').title()
-                print(row)
+                # print(row)
                 if not PessoaModel.objects.filter(username=row['user']):
                     orientador_colaborador = PessoaModel(first_name=first_name,
                                         last_name=last_name,
