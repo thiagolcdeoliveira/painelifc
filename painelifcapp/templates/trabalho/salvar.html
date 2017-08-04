@@ -10,18 +10,18 @@
     <div class="ui warning message">
         <i class='close icon'></i>
         <div class="header">
-            <i class="info icon"></i> Dica
+            <i class="info icon"></i> Informações
         </div>
-            <p>Campos com <i class="asterisk icon red"></i> são obrigatórios!</p>
+            <p>Campos com <i class="asterisk icon red"></i> são obrigatórios! | O resumo deve ter no mínimo 1700 caracteres e no máximo 2400 caracteres.</p>
     </div>
     {% if erro %}
-    <div class='ui error message'>
-        <i class='close icon'></i>
-        <div class="header">
-            <i class="warning sign icon red"></i> Erro
+        <div class='ui error message'>
+            <i class='close icon'></i>
+            <div class="header">
+                <i class="warning sign icon red"></i> Erro
+            </div>
+            <p>{{ erro }}</p>
         </div>
-        <p>{{ erro }}</p>
-    </div>
     {% endif %}
     {% if form.instance.id %}
         <form method="POST" action="{% url 'edit-trabalho' form.instance.id %}" class='ui form'>
@@ -60,7 +60,7 @@
     </div>
     <div class=" field">
         <label>{{ form.autor1.label }}:</label>
-        <select class="disabled " name="autor1" id="id_autor1">
+        <select class="disabled" name="autor1" id="id_autor1">
             <option value="{{ user.id }}" selected="selected">{{ user.first_name }} {{ user.last_name }}</option>
         </select>
     </div>
@@ -75,7 +75,7 @@
 <div class="two fields">
     <div class="field">
         <label>Turma <i class="asterisk icon red"></i></label>
-        <select  name="turma2" id="id_turma2" onchange="turma_pesquisar(2)" class="search selection">
+        <select name="turma2" id="id_turma2" onchange="turma_pesquisar(2)" class="search selection">
             <option value="">Selecione uma turma</option>
             {% for turma in turmas %}
                 <option value="{{ turma.id }}">{{ turma.nome }}</option>

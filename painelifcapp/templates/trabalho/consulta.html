@@ -40,7 +40,7 @@
                             {{ trabalho.resumo }}
                         </div>
                         <br/>
-                        {% if trabalho.status.pk == 1 %}
+                        {% if trabalho.status.pk == 1 and grupo.pk == ORIENTADOR %}
                             <hr/>
                             <p><strong><i class="ui icon checkmark"></i> Status</strong></p>
                             <div class="ui info message">{{ trabalho.status.descricao }}</div>

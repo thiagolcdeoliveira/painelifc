@@ -217,12 +217,12 @@ class AceitaTrabalhoView(View):
     @method_decorator(user_passes_test(group_test))
     def get(self, request, id, status):
         template = 'index.html'
-
+        grupo = request.user.groups.filter(pk=ORIENTADOR)
         trabalho = TrabalhoModel.objects.get(pk=id)
         if trabalho.orientador.pk == request.user.pk:
             trabalho.status = StatusModels.objects.get(pk=SUBMETIDO)
             trabalho.save()
-        return render(request, template, {'status': trabalho.status})
+        return render(request, template, {'status': trabalho.status, 'grupo': grupo})
 
 
 class NegaTrabalhoView(View):
