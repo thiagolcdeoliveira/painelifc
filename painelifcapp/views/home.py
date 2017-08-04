@@ -52,8 +52,8 @@ class HomeAdminNegadoProfessorListView(ListView):
     context_object_name = 'trabalho'
 
 
-class HomeAdminProfessorListView(ListView):
+class HomeAdminListView(ListView):
     model = TrabalhoModel
-    queryset = TrabalhoModel.objects.filter(id=NEGADO_PROFESSOR)
+    queryset = TrabalhoModel.objects.all()
     template_name = 'admin/consulta.html'
     context_object_name = 'trabalho'

@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 # from appagenda.views import *
 from painelifcapp.views.home import HomeAdminAguardandoListView, HomeAdminSubmetidoListView, \
-    HomeAdminNegadoProfessorListView
+    HomeAdminNegadoProfessorListView, HomeAdminListView
 from painelifcapp.views.pessoa import ConsultaPessoaView, CadastroPessoaView
 from painelifcapp.views.trabalho import ConsultaTrabalhoView, CadastroTrabalhoView, AceitaTrabalhoView, NegaTrabalhoView, ImprimeTrabalhoView
 from django.conf.urls import include, url
@@ -35,8 +35,7 @@ urlpatterns = [
     url(r'^imprime-trabalho/(?P<id>\d+)/$', ImprimeTrabalhoView.as_view(), name='impri-trabalho'),
 
     url(r'^home/aguardando/$', HomeAdminAguardandoListView.as_view(), name='home-aguardando-list'),
-    url(r'^home/aguardando/$', HomeAdminSubmetidoListView.as_view(), name='home-submetido-list'),
-    url(r'^home/aguardando/$', HomeAdminNegadoProfessorListView.as_view(), name='home-negado-professor-list'),
-    url(r'^home/aguardando/$', HomeAdminListView.as_view(), name='home-list'),
-
+    url(r'^home/submetido/$', HomeAdminSubmetidoListView.as_view(), name='home-submetido-list'),
+    url(r'^home/negado/$', HomeAdminNegadoProfessorListView.as_view(), name='home-negado-professor-list'),
+    url(r'^home/listar/$', HomeAdminListView.as_view(), name='home-list'),
 ]
