@@ -24,22 +24,36 @@ class Command(BaseCommand):
 
 
     def _create_orientador_colaborador(self):
-        with open('csv/alunos.csv') as csvfile:
+        with open('csv/servidores_import.csv') as csvfile:
             reader = csv.DictReader(csvfile)
             for i,row in enumerate(reader):
-                if not PessoaModel.objects.filter(username=row['usuario']):
-                    orientador_colaborador = PessoaModel(first_name=row['nome'],
-                     last_name=row["sobrenome"],
-                     username=row["usuario"],
-                     password=make_password(row["matricula"]+"@painel")
-                    )
+                nome = row["nome"].split()
+                first_name = nome[0].decode('utf-8')
+                last_name = " ".join(nome[1:]).decode('utf-8')
+                print(row)
+                if not PessoaModel.objects.filter(username=row['user']):
+                    orientador_colaborador = PessoaModel(first_name=first_name,
+                                        last_name=last_name,
+                                        # group=Group.objects.get(pk__in=[ALUNO]),
+                                        username=row["user"],
+                                        password=make_password(row["pass"]),
+                                        matricula=row["matricula"],
 
+                                        )
+                    print(row["tipo"] == 'TAE')
+                    if row["tipo"] == 'TAE':
+                        orientador_colaborador.save()
 
-                    g=Group.objects.filter(pk__in=[ORIENTADOR,COLABORADOR])
-                    orientador_colaborador.save()
-                    for i in g:
-                        i.user_set.add(orientador_colaborador)
-                        i.save()
+                        g=Group.objects.get(pk__in=[COLABORADOR])
+                        g.user_set.add(orientador_colaborador)
+                        g.save()
+                    else:
+                        g=Group.objects.filter(pk__in=[ORIENTADOR,COLABORADOR])
+                        orientador_colaborador.save()
+                        for i in g:
+                            i.user_set.add(orientador_colaborador)
+                            i.save()
+
                         '''orientador_colaborador.save()
                     g=Group.objects.get(pk__in=[ORIENTADOR])
                     g.user_set.add(orientador_colaborador)

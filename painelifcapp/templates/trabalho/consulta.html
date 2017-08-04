@@ -28,7 +28,7 @@
                             {% endif %}
 
                         <h3><i class="ui icon talk"></i> Orientador</h3>
-                        {{ trabalho.orientador }};
+                        {{ trabalho.orientador.first_name }} {{ trabalho.oientador.last_name }};
 
                         <h3><i class="ui icon group talk outline"></i> Colaboradores</h3>
                         {% for colaborador in trabalho.colaborador.all %}

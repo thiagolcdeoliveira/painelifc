@@ -35,6 +35,22 @@ class FormTrabalho(forms.ModelForm):
 
         self.fields['orientador'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
                     choices=PessoaModel.objects.filter(pk__in=self.orientadores()).values_list('id','username'))
+        # self.fields['autor1'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+        #                                                 choices=PessoaModel.objects.filter(
+        #                                                     pk__in=self.autores()).values_list('id', 'username'))
+        self.fields['autor2'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+        self.fields['autor3'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+        self.fields['autor4'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+        self.fields['autor5'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+        self.fields['autor6'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+        self.fields['autor7'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+                                                        choices=PessoaModel.objects.filter(pk=0).values_list('id', 'username'))
+
         # self.fields['autor1'].widget.attrs['readonly'] = True
         self.fields['autor1'].required = False
         self.fields['autor2'].required = False
@@ -106,15 +122,17 @@ class FormTrabalho(forms.ModelForm):
                     orientadores_habilitados.append(orientador.pk)
         return orientadores_habilitados
 
-    # def autores(self):
-    #     autores_habilitados = []
-    #     configuracao = ConfiguracaoTrabalhoModel.objects.order_by("id").last()
-    #     autores = PessoaModel.objects.filter(groups__pk__contains=ALUNO)
-    #     if configuracao:
-    #         for autor in autores:
-    #             trabalhos = TrabalhoModel.objects.filter(autor=autor,status__in=[AGUARDANDO_PROFESSOR,SUBMETIDO,APROVADO])
-    #             print(len(trabalhos), configuracao.trabalhos_por_autor)
-    #             if (len(trabalhos) < configuracao.trabalhos_por_autor):
-    #                 autores_habilitados.append(autor.pk)
-    #     print(autores_habilitados)
-    #     return autores_habilitados
+    def autores(self):
+        # autores_habilitados = []
+        # configuracao = ConfiguracaoTrabalhoModel.objects.order_by("id").last()
+        # autores = PessoaModel.objects.filter(groups__pk__contains=ALUNO)
+        # if configuracao:
+        #     for autor in autores:
+        #         trabalhos = TrabalhoModel.objects.filter(autor=autor,status__in=[SUBMETIDO,APROVADO])
+        #         print(len(trabalhos), configuracao.trabalhos_por_autor)
+        #         if (len(trabalhos) < configuracao.trabalhos_por_autor):
+        #             autores_habilitados.append(autor.pk)
+        # print(autores_habilitados)
+
+        # return autores_habilitados
+        return PessoaModel.objects.filter(groups__pk__contains=ALUNO)

@@ -10,12 +10,15 @@ from django.db.models import Q
 def ValidarAutor(autores):
     configuracao = ConfiguracaoTrabalhoModel.objects.order_by('id').last()
     if configuracao:
-        lista_autores=[autores.cleaned_data.get('autor1'), autores.cleaned_data.get('autor2') ,
-                       autores.cleaned_data.get('autor3'), autores.cleaned_data.get('autor4'),
-                       autores.cleaned_data.get('autor5'), autores.cleaned_data.get('autor6')]
+        try:
+            lista_autores=[autores.cleaned_data.get('autor1'), autores.cleaned_data.get('autor2'),
+                           autores.cleaned_data.get('autor3'), autores.cleaned_data.get('autor4'),
+                           autores.cleaned_data.get('autor5'), autores.cleaned_data.get('autor6')]
+        except:
+            lista_autores=[]
         #
         for i,autor in enumerate(lista_autores):
-            if i != 7:
+            if i != 7 or (i==7 and autor!=None and autor!=''):
                 if autor:
                     print(autor.id)
                     trabalhos=TrabalhoModel.objects.filter(
@@ -33,7 +36,7 @@ def ValidarAutor(autores):
                     #         lista_autores_formatada.append(autor_lista)
                     #
                     for autor in lista_autores:
-                        if autor != None:
+                        if autor != None :
                             if lista_autores.count(autor) > 1:
                                 raise forms.ValidationError("O  autor %s  %s foi selecionado mais de uma vez" % (autor.first_name, autor.last_name))
 
@@ -46,6 +49,10 @@ def ValidarAutor(autores):
                         return autores
                 else:
                     raise forms.ValidationError(" Prencha pelo menos 6 autores" )
+            #elif i==7 and autor:
+
+
+
 
     return autores
 

@@ -90,21 +90,33 @@ class CadastroTrabalhoView(View):
 
         return render(request, self.template,
                       {'form': form, 'turmas': turmas, 'turma_usuario_logado': turma_usuario_logado,
-                       'turma_usuario_logado_id': turma_usuario_logado_id})
+                       'turma_usuario_logado_id': turma_usuario_logado_id,
+                       })
 
     @method_decorator(login_required)
     def post(self, request, id=None):
-
+        # erro = "Quantidade de autores insuficientes!"
         if id:
             trabalho = TrabalhoModel.objects.get(pk=id)
             form = FormTrabalho(instance=trabalho, data=request.POST)
+            print(form)
         else:
             form = FormTrabalho(request.POST)
-        lista_autores = [request.POST['autor1'], request.POST['autor2'], request.POST['autor3'], request.POST['autor4'],
-                         request.POST['autor5'], request.POST['autor6'], request.POST['autor7']]
+            print(form)
+
+        try:
+            lista_autores = [request.POST['autor1'], request.POST['autor2'], request.POST['autor3'], request.POST['autor4'],
+                             request.POST['autor5'], request.POST['autor6']]
+        except:
+            lista_autores=[]
+            erro="Quantidade de autores insuficientes!"
+        try:
+            lista_autores.append(request.POST['autor7'])
+        except:
+            pass
         configuracao = ConfiguracaoTrabalhoModel.objects.order_by('id').last()
         erro = ""
-        if len(lista_autores) <= 6 or len(lista_autores) <= 7:
+        if len(lista_autores) >= 6 and len(lista_autores) <= 7:
             for i, autor in enumerate(lista_autores):
                 if autor:
                     trabalhos = TrabalhoModel.objects.filter(

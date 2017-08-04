@@ -6,7 +6,7 @@ from painelifcapp.models.curso import CursoModel
 class TurmaModel(models.Model):
     nome = models.CharField(max_length=20)
     ano = models.CharField(max_length=30)
-    curso = models.ForeignKey(CursoModel, on_delete=models.CASCADE)
+    # curso = models.ForeignKey(CursoModel, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return self.nome
