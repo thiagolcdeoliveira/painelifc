@@ -37,6 +37,7 @@ class Command(BaseCommand):
                                         # group=Group.objects.get(pk__in=[ALUNO]),
                                         username=row["user"],
                                         password=make_password(row["pass"]),
+                                        nome=row["nome"].decode('utf-8'),
                                         matricula=row["matricula"],
 
                                         )

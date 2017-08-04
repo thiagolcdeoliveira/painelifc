@@ -31,25 +31,25 @@ class FormTrabalho(forms.ModelForm):
             pk=AGUARDANDO_PROFESSOR).values_list('id', 'descricao')
         super(FormTrabalho, self).__init__(*args, **kwargs)
         self.fields['colaborador'].widget = forms.SelectMultiple(attrs={'checked': True, 'class': 'search selection'},
-                    choices=PessoaModel.objects.filter(pk__in=self.colaboradores()).values_list('id', 'username'))
+                    choices=PessoaModel.objects.filter(pk__in=self.colaboradores()).values_list('id', 'nome'))
 
         self.fields['orientador'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
-                    choices=PessoaModel.objects.filter(pk__in=self.orientadores()).values_list('id','username'))
+                    choices=PessoaModel.objects.filter(pk__in=self.orientadores()).values_list('id','nome'))
         # self.fields['autor1'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
         #                                                 choices=PessoaModel.objects.filter(
-        #                                                     pk__in=self.autores()).values_list('id', 'username'))
+        #                                                     pk__in=self.autores()).values_list('id', 'nome'))
         self.fields['autor2'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
-                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+                                                        choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id', 'nome'))
         self.fields['autor3'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
-                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+                                                        choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id', 'nome'))
         self.fields['autor4'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
-                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+                                                        choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id', 'nome'))
         self.fields['autor5'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
-                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+                                                        choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id', 'nome'))
         self.fields['autor6'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
-                                                        choices=PessoaModel.objects.filter(groups__pk__contains=ALUNO).values_list('id', 'username'))
+                                                        choices=PessoaModel.objects.filter(pk__in=self.autores()).values_list('id', 'nome'))
         self.fields['autor7'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
-                                                        choices=PessoaModel.objects.filter(pk=0).values_list('id', 'username'))
+                                                        choices=PessoaModel.objects.filter(pk=0).values_list('id', 'nome'))
 
         # self.fields['autor1'].widget.attrs['readonly'] = True
         self.fields['autor1'].required = False
