@@ -50,7 +50,7 @@ class FormTrabalho(forms.ModelForm):
         self.fields['autor6'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
                                                         choices=autores)
         self.fields['autor7'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
-                                                        choices=autores)
+                                                        choices=PessoaModel.objects.filter(groups__pk__contains=[0]))
 
         # self.fields['autor1'].widget.attrs['readonly'] = True
         self.fields['autor1'].required = False
@@ -60,6 +60,8 @@ class FormTrabalho(forms.ModelForm):
         self.fields['autor5'].required = False
         self.fields['autor6'].required = False
         self.fields['autor7'].required = False
+        self.initial['autor2'] = '4'
+        self.fields['autor2'].initial = '3'
         self.fields['orientador'].required = False
         self.fields['colaborador'].required = False
         self.fields['disciplina'].required = False
