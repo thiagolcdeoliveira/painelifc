@@ -65,7 +65,7 @@ class CadastroTrabalhoView(View):
     @method_decorator(login_required)
     def get(self, request, id=None):
         grupo_orientador = request.user.groups.filter(pk=ORIENTADOR)
-        grupo = request.user.groups.filter(pk=ALUNO)
+        is_aluno = request.user.groups.filter(pk__in=[ALUNO])
 
         # ajax
         if 'turma_id' in request.GET:
@@ -95,7 +95,7 @@ class CadastroTrabalhoView(View):
         return render(request, self.template,
                       {'form': form, 'turmas': turmas, 'turma_usuario_logado': turma_usuario_logado,
                        'turma_usuario_logado_id': turma_usuario_logado_id, 'grupo_orientador': grupo_orientador,
-                       'grupo': grupo})
+                       'aluno': is_aluno})
 
     @method_decorator(login_required)
     def post(self, request, id=None):

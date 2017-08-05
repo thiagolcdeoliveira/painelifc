@@ -24,8 +24,8 @@ class Home(View):
                     autor7__pk=request.user.id) | Q(orientador__pk=request.user.id) | Q(
                     colaborador__pk=request.user.id) | Q(usuario=request.user.id)).distinct().count()
             possui_trabalhos = True if trabalhos > 0 else False
-            grupo = request.user.groups.filter(pk__in=[ALUNO])[0].pk
-            return render(request, self.template, {'possui_trabalhos': possui_trabalhos, 'grupo': grupo})
+            is_aluno = request.user.groups.filter(pk__in=[ALUNO])
+            return render(request, self.template, {'possui_trabalhos': possui_trabalhos, 'aluno': is_aluno})
         else:
             return HttpResponseRedirect(reverse('login'))
 

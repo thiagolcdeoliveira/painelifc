@@ -8,7 +8,9 @@
 <div class="ui grid">
     <div class="sixteen wide column">
         <h1 class="ui header">
-            {% if user|title != "Anonymoususer" %}
+            {% if user.first_name and user != "Anonymoususer" %}
+            <i class="ui icon user"></i> {{ user.first_name|title }} {{ user.last_name|title }}
+            {% else %}
             <i class="ui icon user"></i> {{ user|title }}
             {% endif %}
         </h1>
@@ -45,25 +47,27 @@
         <div class="ui inverted message sixteen wide column">
             <h1 class="header">Bem vindo {{ user|title }}!</h1>
         </div>
-        {% if possui_trabalhos %}
-        <a class="ui blue button" href="{% url 'consu-trabalho' %}">Seus trabalhos</a>
-        {% else %}
-        <div class="ui yellow message">
-            <div class="header">
-                Você não possui projetos cadastrados.
+        <div class="ui two buttons">
+            {% if possui_trabalhos %}
+            <a class="ui blue button" href="{% url 'consu-trabalho' %}">Seus trabalhos</a>
+            {% else %}
+            <div class="ui yellow message">
+                <div class="header">
+                    Você não possui projetos cadastrados.
+                </div>
             </div>
+            {% endif %}
+            {% if aluno %}
+            <a class="ui green button" href="{% url 'cad-trabalho' %}">Adicionar novo projeto</a>
+            {% endif %}
         </div>
-        {% endif %}
-        {% if grupo %}
-        <a class="ui green button" href="{% url 'cad-trabalho' %}">Adicionar novo projeto</a>
-        {% endif %}
     </div>
     {% endif %}
     {% else %}
     <div class="ui inverted message sixteen wide column">
         <i class="close icon"></i>
         <h1 class="header">Faça seu Login!</h1>
-        <span>Vocẽ precisa estar logado para visualizar os seus trabalhos.</span>
+        <span>Você precisa estar logado para visualizar os seus trabalhos.</span>
     </div>
     <a class="ui button green" href="{% url 'login' %}">Login</a>
     {% endif %}

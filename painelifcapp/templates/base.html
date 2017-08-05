@@ -21,7 +21,7 @@
         <div class="ui container">
             <li><a class="item" href="{% url 'home' %}"><i class="ui icon home"></i> Início</a></li>
             {% if user.is_authenticated %}
-                {% if grupo %}
+                {% if aluno %}
                     <li><a class="item" href="{% url 'cad-trabalho' %}"><i
                             class="ui icon plus"></i>Cadastrar um Projeto</a></li>
                 {% endif %}
@@ -48,8 +48,6 @@
     <div class="ui five column middle aligned centered inverted divided stackable grid">
         <div class="two wide column">
             <h2 class="ui inverted icon header">
-                <!--<i class="rebel icon"></i>-->
-                <!--<img src="{% logo %}" class="ui tiny image "/>-->
                 <a href="{% site %}"><img src="{% logo %}" class="ui medium image "/></a>
                 <div class="content">
                     <!--Fábrica de Software-->
