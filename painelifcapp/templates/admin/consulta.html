@@ -9,79 +9,69 @@
         <div class="sixteen wide column">
             <h1 class="ui header">{% nome %}</h1>
         </div>
-        <div class="ui four item menu">
-            <a class="item" href="{% url 'home-list' %}">
-                Todos os Trabalhos
-            </a>
-            <a class="item" href="{% url 'home-submetido-list' %}">
-                Trabalhos Submetidos
-            </a>
-            <a class="item" href="{% url 'home-aguardando-list' %}">
-                Trabalhos Aguardando Aprovação
-            </a>
-            <a class="item" href="{% url 'home-negado-professor-list' %}">
-                Trabalhos Negados pelo Professor
-            </a>
-        </div>
         {% if user.is_authenticated %}
-            {% if trabalho %}
-                <div class="sixteen wide column">
-                    <div class="ui segment">
-                        <h1><i class="ui icon file text outline"></i> {{ trabalho.titulo }}</h1>
-                        <hr style="border-color: #c6c6c6"/>
+            <div class="sixteen wide column">
+                <div class="ui four item inverted menu">
+                    <a class="item" href="{% url 'home-list' %}">
+                        Todos os Trabalhos
+                    </a>
+                    <a class="item" href="{% url 'home-submetido-list' %}">
+                        Trabalhos Submetidos
+                    </a>
+                    <a class="item" href="{% url 'home-aguardando-list' %}">
+                        Trabalhos Aguardando Aprovação
+                    </a>
+                    <a class="item" href="{% url 'home-negado-professor-list' %}">
+                        Trabalhos Negados pelo Professor
+                    </a>
+                </div>
+                {% if trabalhos %}
+                    <table class="ui celled inverted table">
+                        <thead>
+                        <tr>
+                            <th><i class="ui icon file text outline"></i> Título</th>
+                            <th><i class="ui icon talk"></i> Orientador</th>
+                            <th><i class="ui icon talk checkmark"></i> Status</th>
+                            <th><i class="ui icon setting"></i> Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                        <h3><i class="ui icon group"></i> Autores</h3>
-                        {{ trabalho.autor1.first_name }} {{ trabalho.autor1.last_name }};
-                        {{ trabalho.autor2 }} {{ trabalho.autor2.last_name }};
-                        {{ trabalho.autor3 }} {{ trabalho.autor3.last_name }};
-                        {{ trabalho.autor4 }} {{ trabalho.autor4.last_name }};
-                        {{ trabalho.autor5 }} {{ trabalho.autor5.last_name }};
-                        {{ trabalho.autor6 }} {{ trabalho.autor6.last_name }};
-                        {% if trabalho.autor7 %}
-                            {{ trabalho.autor7 }} {{ trabalho.autor7.last_name }};
-                        {% endif %}
-
-                        <h3><i class="ui icon talk"></i> Orientador</h3>
-                        {{ trabalho.orientador }};
-
-                        <h3><i class="ui icon group talk outline"></i> Colaboradores</h3>
-                        {% for colaborador in trabalho.colaborador.all %}
-                            {{ colaborador }};
+                        {% for trabalho in trabalhos %}
+                            <tr>
+                                <td>{{ trabalho.titulo }}</td>
+                                <td> {{ trabalho.orientador.first_name }} {{ trabalho.orientador.last_name }};</td>
+                                <td>{{ trabalho.status.descricao }}</td>
+                                <td><a href="{% url 'trabalho' trabalho.id %}"><i class="ui icon unhide"></i> Visualizar</a><br>
+                                    <a href="{% url 'impri-trabalho' trabalho.id %}"><i class="ui icon download"></i>
+                                        Download</a></td>
+                            </tr>
                         {% endfor %}
-
-                        <h3><i class="ui icon paragraph"></i> Resumo</h3>
-                        <div class="ui sixteen wide column" style="text-align: justify;">
-                            {{ trabalho.resumo }}
-                        </div>
-                        <br/>
-                        {% if trabalho.status.pk == 1 %}
-                            <hr/>
-                            <p><strong><i class="ui icon checkmark"></i> Status</strong></p>
-                            <div class="ui info message">{{ trabalho.status.descricao }}</div>
-                            <a href="{% url 'nega-trabalho' trabalho.pk 0 %}">
-                                <button class="item">Negar</button>
-                            </a>
-                            <a href="{% url 'aceita-trabalho' trabalho.pk 1 %}">
-                                <button class="ui button green">Aceitar</button>
-                            </a>
-                        {% endif %}
+                        </tbody>
+                    </table>
                     </div>
-                </div>
-            {% else %}
-                <div class="ui inverted message sixteen wide column">
-                    <h1 class="header">Submeta seu trabalho aqui</h1>
-                    <span>
-                        Quando você cadastrar ele ira aparecer aqui automaticamente na aqui.
-                    </span>
-                </div>
-            {% endif %}
-        {% else %}
-            <div class="ui inverted message sixteen wide column">
-                <h1 class="header">Faça seu Login!</h1>
-                <span>
-                    Você precisa estar logado para visualizar a lista de trabalhos.
-                </span>
-            </div>
+                {% else %}
+                    <table class="ui celled inverted table">
+                        <thead>
+                        <tr>
+                            <th><i class="ui icon file text outline"></i> Título</th>
+                            <th><i class="ui icon talk"></i> Orientador</th>
+                            <th><i class="ui icon talk checkmark"></i> Status</th>
+                            <th><i class="ui icon setting"></i> Ações</th>
+                        </tr>
+                        </thead>
+                        <tfoot class="full-width">
+                        <tr>
+                            <th class="ui inverted header" colspan="4">
+                                <i class="warning icon"></i>
+                                <h3 class="content">Não existem trabalhos com este status!
+                                    <p class="sub header">Clique em outro status para consultar.</p>
+                                </h3>
+                            </th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                {% endif %}
         {% endif %}
     </div>
 {% endblock body_block %}

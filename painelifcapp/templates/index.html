@@ -5,71 +5,73 @@
 {% block active_home %} active {% endblock active_home %}
 
 {% block body_block %}
-<div class="ui grid">
-    <div class="sixteen wide column">
-        <h1 class="ui header">
-            {% if user.first_name and user != "Anonymoususer" %}
-            <i class="ui icon user"></i> {{ user.first_name|title }} {{ user.last_name|title }}
-            {% else %}
-            <i class="ui icon user"></i> {{ user|title }}
-            {% endif %}
-        </h1>
-    </div>
-    {% if user.is_authenticated %}
-    {% if trabalhos %}
-    <div class="sixteen wide column">
-        <table class="ui celled inverted table">
-            <thead>
-            <tr>
-                <th><i class="ui icon file text outline"></i> Título</th>
-                <th><i class="ui icon talk"></i> Orientador</th>
-                <th><i class="ui icon talk checkmark"></i> Status</th>
-                <th><i class="ui icon setting"></i> Ações</th>
-            </tr>
-            </thead>
-            <tbody>
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <h1 class="ui header">
+                {% if user.first_name and user != "Anonymoususer" %}
+                    <i class="ui icon user"></i> {{ user.first_name|title }} {{ user.last_name|title }}
+                {% else %}
+                    <i class="ui icon user"></i> {{ user|title }}
+                {% endif %}
+            </h1>
+        </div>
+        {% if user.is_authenticated %}
+            {% if trabalhos %}
+                <div class="sixteen wide column">
+                    <table class="ui celled inverted stackable table">
+                        <thead>
+                        <tr>
+                            <th><i class="ui icon file text outline"></i> Título</th>
+                            <th><i class="ui icon talk"></i> Orientador</th>
+                            <th><i class="ui icon talk"></i> Colaboradores</th>
+                            <th><i class="ui icon talk checkmark"></i> Status</th>
+                            <th><i class="ui icon setting"></i> Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-            {% for trabalho in trabalhos %}
-            <tr>
-                <td>{{ trabalho.titulo }}</td>
-                <td> {{ trabalho.orientador.first_name }} {{ trabalho.orientador.last_name }};</td>
-                <td>{{ trabalho.status.descricao }}</td>
-                <td><a href="{% url 'trabalho' trabalho.id %}"><i class="ui icon unhide"></i> Visualizar</a><br>
-                    <a href="{% url 'impri-trabalho' trabalho.id %}"><i class="ui icon download"></i>
-                        Download</a></td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <div class="sixteen wide column">
-        <div class="ui inverted message sixteen wide column">
-            <h1 class="header">Bem vindo {{ user|title }}!</h1>
-        </div>
-        <div class="ui two buttons">
-            {% if possui_trabalhos %}
-            <a class="ui blue button" href="{% url 'consu-trabalho' %}">Seus trabalhos</a>
-            {% else %}
-            <div class="ui yellow message">
-                <div class="header">
-                    Você não possui projetos cadastrados.
+                        {% for trabalho in trabalhos %}
+                            <tr>
+                                <td>{{ trabalho.titulo }}</td>
+                                <td> {{ trabalho.orientador.nome }}</td>
+                                <td>{% for colaborador in trabalho.colaborador.all %}{{ colaborador.nome }}{% if not forloop.last %}; {% endif %}{% endfor %}</td>
+                                <td>{{ trabalho.status.descricao }}</td>
+                                <td><a href="{% url 'trabalho' trabalho.id %}"><i class="ui icon unhide"></i> Visualizar</a><br>
+                                    <a href="{% url 'impri-trabalho' trabalho.id %}"><i class="ui icon download"></i>
+                                        Download</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
+            {% else %}
+                <div class="sixteen wide column">
+                    <div class="ui inverted message sixteen wide column">
+                        <h1 class="header">Bem vindo {{ user|title }}!</h1>
+                    </div>
+                    <div class="ui two buttons">
+                        {% if possui_trabalhos %}
+                            <a class="ui blue button" href="{% url 'consu-trabalho' %}">Seus trabalhos</a>
+                        {% else %}
+                            <div class="ui yellow message">
+                                <div class="header">
+                                    Você não possui projetos cadastrados.
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if aluno %}
+                            <a class="ui green button" href="{% url 'cad-trabalho' %}">Adicionar novo projeto</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="ui inverted message sixteen wide column">
+                <i class="close icon"></i>
+                <h1 class="header">Faça seu Login!</h1>
+                <span>Você precisa estar logado para visualizar os seus trabalhos.</span>
             </div>
-            {% endif %}
-            {% if aluno %}
-            <a class="ui green button" href="{% url 'cad-trabalho' %}">Adicionar novo projeto</a>
-            {% endif %}
-        </div>
+            <a class="ui button green" href="{% url 'login' %}">Login</a>
+        {% endif %}
     </div>
-    {% endif %}
-    {% else %}
-    <div class="ui inverted message sixteen wide column">
-        <i class="close icon"></i>
-        <h1 class="header">Faça seu Login!</h1>
-        <span>Você precisa estar logado para visualizar os seus trabalhos.</span>
-    </div>
-    <a class="ui button green" href="{% url 'login' %}">Login</a>
-    {% endif %}
-</div>
 {% endblock body_block %}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load staticfiles system %}
+{% load staticfiles system user_tags %}
 
 <html lang="en">
 <head>
@@ -25,8 +25,10 @@
                     <li><a class="item" href="{% url 'cad-trabalho' %}"><i
                             class="ui icon plus"></i>Cadastrar um Projeto</a></li>
                 {% endif %}
-                <li><a class="item" href="{% url 'consu-trabalho' %}"><i
-                        class="ui list icon"></i>Meus projetos</a></li>
+                {% if request.user|has_group:"Admin" %}
+                    <li><a class="item" href="{% url 'home-list' %}"><i
+                            class="ui list icon"></i>Submissões</a></li>
+                {% endif %}
                 <li><a class="item" href="{% url 'password_change' %}"><i
                         class="ui key icon"></i> Alterar Senha</a></li>
                 <li><a class="item {% block active_logout %}{% endblock active_logout %}" href="{% url 'logout' %}"><i

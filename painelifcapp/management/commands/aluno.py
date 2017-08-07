@@ -44,8 +44,8 @@ class Command(BaseCommand):
             reader = csv.DictReader(csvfile)
             for i, row in enumerate(reader):
                 nome = row["nome"].split()
-                first_name = nome[0].encode('utf-8').title()
-                last_name = " ".join(nome[1:]).encode('utf-8').title()
+                first_name = nome[0].decode('utf-8').title()
+                last_name = " ".join(nome[1:]).decode('utf-8').title()
                 print(row)
                 if not PessoaModel.objects.filter(username=row['user']):
                     aluno = PessoaModel(first_name=first_name,
@@ -54,7 +54,7 @@ class Command(BaseCommand):
                                         # group=Group.objects.get(pk__in=[ALUNO]),
                                         username=row["user"],
                                         password=make_password(row["pass"]),
-                                        nome=row["nome"].encode('utf-8').title(),
+                                        nome=row["nome"].decode('utf-8').title(),
                                         telefone=row["telefone"],
                                         renda=row["renda"],
                                         email=row['e-mail'],

@@ -24,8 +24,8 @@ from painelifcapp.views.trabalho import ConsultaTrabalhoView, CadastroTrabalhoVi
 from django.conf.urls import include, url
 
 urlpatterns = [
-    url(r'^cadastro-pessoa/$', CadastroPessoaView.as_view(), name='cad-pessoa'),
-    url(r'^cadastro-pessoa/(?P<id>\d+)/$', CadastroPessoaView.as_view(), name='edit-pessoa'),
+    # url(r'^cadastro-pessoa/$', CadastroPessoaView.as_view(), name='cad-pessoa'),
+    # url(r'^cadastro-pessoa/(?P<id>\d+)/$', CadastroPessoaView.as_view(), name='edit-pessoa'),
     url(r'^cadastro-trabalho/$', CadastroTrabalhoView.as_view(), name='cad-trabalho'),
     url(r'^cadastro-trabalho/(?P<id>\d+)/$', CadastroTrabalhoView.as_view(), name='edit-trabalho'),
     url(r'^consulta-trabalho/$', ConsultaTrabalhoView.as_view(), name='consu-trabalho'),

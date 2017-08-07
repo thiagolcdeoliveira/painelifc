@@ -5,7 +5,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import ListView
 from django.views.generic.base import View
-
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 from painelifcapp.models.pessoa import PessoaModel
 from painelifcapp.models.trabalho import TrabalhoModel
 from django.db.models import Q
@@ -41,18 +42,18 @@ class HomeAdminSubmetidoListView(ListView):
     model = TrabalhoModel
     queryset = TrabalhoModel.objects.filter(id=SUBMETIDO)
     template_name = 'admin/consulta.html'
-    context_object_name = 'trabalho'
+    context_object_name = 'trabalhos'
 
 
 class HomeAdminNegadoProfessorListView(ListView):
     model = TrabalhoModel
     queryset = TrabalhoModel.objects.filter(id=NEGADO_PROFESSOR)
     template_name = 'admin/consulta.html'
-    context_object_name = 'trabalho'
+    context_object_name = 'trabalhos'
 
 
 class HomeAdminListView(ListView):
     model = TrabalhoModel
     queryset = TrabalhoModel.objects.all()
     template_name = 'admin/consulta.html'
-    context_object_name = 'trabalho'
+    context_object_name = 'trabalhos'

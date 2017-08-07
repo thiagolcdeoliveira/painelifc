@@ -169,8 +169,8 @@ class ImprimeTrabalhoView(View):
 
         autores = ""
         orientadores = ""
-        colaboradoes = ""
-        disciplinas = ""
+        colaboradoes = []
+        disciplinas = []
 
         autor1 = trabalho.autor1
         autor2 = trabalho.autor2
@@ -185,28 +185,28 @@ class ImprimeTrabalhoView(View):
         autores += (autor3.nome).title().encode('utf-8') + " (" + str(autor3.turma) + "); "
         autores += (autor4.nome).title().encode('utf-8') + " (" + str(autor4.turma) + "); "
         autores += (autor5.nome).title().encode('utf-8') + " (" + str(autor5.turma) + "); "
-        autores += (autor6.nome).title().encode('utf-8') + " (" + str(autor6.turma) + "); "
+        autores += (autor6.nome).title().encode('utf-8') + " (" + str(autor6.turma) + ")"
         if autor7:
-            autores += (autor7.nome).title().encode('utf-8') + " (" + str(autor7.turma) + "); "
+            autores += '; '+(autor7.nome).title().encode('utf-8') + " (" + str(autor7.turma) + ")"
 
-        orientadores = (trabalho.orientador.nome).title().encode('utf-8') + "; "
+        orientadores = (trabalho.orientador.nome).title().encode('utf-8')
 
         for colaborador in trabalho.colaborador.all():
-            colaboradoes += (str(colaborador.nome).title().encode('utf-8')) + "; "
+            colaboradoes.append(colaborador.nome.title())
+        colaboradoes = '; '.join(colaboradoes)
 
         for disciplina in trabalho.disciplina.all():
-            print((disciplina.nome).encode('utf-8'))
             disciplinas += (disciplina.nome).encode('utf-8') + "; "
 
         logo = "static/media/image_upload/setting/sepe.png"
         imagem = Image(logo, 8.2 * inch, 1 * inch)
         Story.append(imagem)
-        Story.append(Paragraph("<b>Título: </b>" + str(trabalho.titulo), styles["inicial"]))
-        Story.append(Paragraph("<b>Integrantes do grupo: </b>" + str(autores), styles["linhas"]))
-        Story.append(Paragraph("<b>Orientador: </b>" + str(orientadores), styles["linhas"]))
-        Story.append(Paragraph("<b>Colaborador(es): </b>" + str(colaboradoes), styles["linhas"]))
+        Story.append(Paragraph(u"<b>Título: </b> %s" % (trabalho.titulo), styles["inicial"]))
+        Story.append(Paragraph("<b>Integrantes do grupo: </b> %s" % (autores), styles["linhas"]))
+        Story.append(Paragraph("<b>Orientador: </b> %s" % (orientadores), styles["linhas"]))
+        Story.append(Paragraph("<b>Colaborador(es): </b> %s" % (colaboradoes), styles["linhas"]))
         resumo = str(trabalho.resumo)
-        Story.append(Paragraph("<b>Resumo: </b>" + resumo, styles["Justify"]))
+        Story.append(Paragraph("<b>Resumo: </b> %s" % resumo, styles["Justify"]))
         Story.append(Spacer(1, 12))
         doc.build(Story)
 
