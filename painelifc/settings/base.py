@@ -15,8 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-STATIC_PATH = os.path.join(BASE_DIR, 'static')
-MEDIA_PATH = os.path.join(BASE_DIR, 'media')
+STATIC_PATH = os.path.join(BASE_DIR, '../static')
+MEDIA_PATH = os.path.join(BASE_DIR, '../media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -26,7 +26,7 @@ SECRET_KEY = 'yuyao7%8gn18g&m7!9-0=a#4j(crlv7o391%poiq%4l47otj8#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+#DEBUG = False
 ALLOWED_HOSTS = ["*"]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -123,18 +123,20 @@ LOGIN_URL = '/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_PATH_MEDIA = os.path.join(BASE_DIR, '../static/media')
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '../static'),
 )
 
 STATIC_URL = '/static/'
 # MEDIA_URL = STATIC_URL + "media/"
+STATIC_ROOT = os.path.join(BASE_DIR)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, STATIC_PATH_MEDIA)
 MEDIA_URL = '/static/media/'
-
+#STATIC_ROOT = os.path.join(BASE_DIR, '../static')
 #
-# STATICFILES_DIRS = (
-#     STATIC_PATH,
-#     MEDIA_PATH,
-# )
+STATICFILES_DIRS = (
+     STATIC_PATH,
+     MEDIA_PATH,
+)

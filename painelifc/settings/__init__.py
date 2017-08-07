@@ -1,1 +1,1 @@
-from painelifc.settings.kauan_sqlite import *
+from painelifc.settings.thiago_sqlite import *

@@ -5,13 +5,13 @@ from painelifcapp.models.turma import TurmaModel
 
 
 class PessoaModel(User):
-    matricula = models.CharField(max_length=30,blank=True)
-    telefone = models.CharField(max_length=30,blank=True)
-    renda = models.CharField(max_length=30,blank=True)
-    datadenascimento =  models.CharField(max_length=30,blank=True)
-    rg =  models.CharField(max_length=30,blank=True)
-    cpf =  models.CharField(max_length=30,blank=True)
-    cidade =  models.CharField(max_length=30,blank=True)
+    matricula = models.CharField(max_length=50,blank=True)
+    telefone = models.CharField(max_length=50,blank=True)
+    renda = models.CharField(max_length=50,blank=True)
+    datadenascimento =  models.CharField(max_length=50,blank=True)
+    rg =  models.CharField(max_length=50,blank=True)
+    cpf =  models.CharField(max_length=50,blank=True)
+    cidade =  models.CharField(max_length=50,blank=True)
     nome =  models.CharField(max_length=50,blank=True)
     turma = models.ForeignKey(TurmaModel, on_delete=models.CASCADE, null=True, blank=True)
 

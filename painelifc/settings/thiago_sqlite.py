@@ -2,7 +2,7 @@
 '''
 Configurações do mysql
 '''
-from base import *
+from painelifc.settings.base import *
 
 DATABASES = {
     'default': {

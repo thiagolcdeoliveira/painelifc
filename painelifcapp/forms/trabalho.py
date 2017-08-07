@@ -27,12 +27,12 @@ class FormTrabalho(forms.ModelForm):
         super(FormTrabalho, self).__init__(*args, **kwargs)
         self.fields['colaborador'].widget = forms.SelectMultiple(attrs={'checked': True, 'class': 'search selection'},
                                                                  choices=PessoaModel.objects.filter(
-                                                                     pk__in=self.colaboradores()).values_list('id',
+                                                                     pk__in=self.colaboradores()).order_by("nome").values_list('id',
                                                                                                               'nome'))
 
         self.fields['orientador'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
                                                         choices=PessoaModel.objects.filter(
-                                                            pk__in=self.orientadores()).values_list('id', 'nome'))
+                                                            pk__in=self.orientadores()).order_by("nome").values_list('id', 'nome'))
         self.fields['autor2'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
                                                     choices=autores)
         self.fields['autor3'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},

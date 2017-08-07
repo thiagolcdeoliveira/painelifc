@@ -29,6 +29,8 @@
                     <li><a class="item" href="{% url 'home-list' %}"><i
                             class="ui list icon"></i>Submissões</a></li>
                 {% endif %}
+                <li> <a class="item" href="{% url 'consu-trabalho' %}"><i class="ui list icon"></i> Minhas Submissões</a></li>
+                            </li
                 <li><a class="item" href="{% url 'password_change' %}"><i
                         class="ui key icon"></i> Alterar Senha</a></li>
                 <li><a class="item {% block active_logout %}{% endblock active_logout %}" href="{% url 'logout' %}"><i
