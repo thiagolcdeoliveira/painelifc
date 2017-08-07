@@ -2,6 +2,7 @@
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from painelifcapp.forms.trabalho import FormTrabalho, ConfiguracaoTrabalhoModel
+from painelifcapp.models.setting import SettingModel
 from painelifcapp.models.status import StatusModels
 from painelifcapp.models.trabalho import TrabalhoModel
 # from painelifcapp.models.pessoa import PessoaModel
@@ -23,7 +24,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
-
+from painelifc.settings import MEDIA_ROOT
 
 class ConsultaTrabalhoView(View):
     template = 'index.html'
@@ -197,15 +198,16 @@ class ImprimeTrabalhoView(View):
 
         for disciplina in trabalho.disciplina.all():
             disciplinas += (disciplina.nome).encode('utf-8') + "; "
-
-        logo = "static/media/image_upload/setting/sepe.png"
+        logo=SettingModel.objects.order_by('id').last().imagem_impressao_trabalho
+        # print(logo)
+        logo = MEDIA_ROOT+"/"+str(logo)
         imagem = Image(logo, 8.2 * inch, 1 * inch)
         Story.append(imagem)
         Story.append(Paragraph(u"<b>Título: </b> %s" % (trabalho.titulo), styles["inicial"]))
         Story.append(Paragraph("<b>Integrantes do grupo: </b> %s" % (autores), styles["linhas"]))
         Story.append(Paragraph("<b>Orientador: </b> %s" % (orientadores), styles["linhas"]))
         Story.append(Paragraph("<b>Colaborador(es): </b> %s" % (colaboradoes), styles["linhas"]))
-        resumo = str(trabalho.resumo)
+        resumo = trabalho.resumo
         Story.append(Paragraph("<b>Resumo: </b> %s" % resumo, styles["Justify"]))
         Story.append(Spacer(1, 12))
         doc.build(Story)

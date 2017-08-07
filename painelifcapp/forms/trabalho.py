@@ -105,6 +105,7 @@ class FormTrabalho(forms.ModelForm):
                 trabalhos = TrabalhoModel.objects.filter(orientador=orientador, status__in=[SUBMETIDO, APROVADO])
                 if (len(trabalhos) < configuracao.trabalhos_por_orientador):
                     orientadores_habilitados.append(orientador.pk)
+        # print(orientadores_habilitados)
         return orientadores_habilitados
 
     def autores(self):
