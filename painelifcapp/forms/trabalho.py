@@ -119,7 +119,7 @@ class FormTrabalho(forms.ModelForm):
                         autor3__pk=autor.id) | Q(autor4__pk=autor.id) | Q(autor5__pk=autor.id) | Q(
                         autor6__pk=autor.id) | Q(autor7__pk=autor.id) | Q(
                         orientador__pk=autor.id) | Q(
-                        colaborador__pk=autor.id) | Q(usuario=autor.id)).distinct()
+                        colaborador__pk=autor.id) | Q(usuario=autor.id),status__in=[SUBMETIDO, APROVADO]).distinct()
 
                 if (len(trabalhos) < configuracao.trabalhos_por_autor):
                     autores_habilitados.append(autor.pk)

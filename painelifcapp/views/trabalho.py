@@ -85,7 +85,7 @@ class CadastroTrabalhoView(View):
             turmas = []
         else:
             form = FormTrabalho()
-            turmas = TurmaModel.objects.all()
+            turmas = TurmaModel.objects.all().order_by("nome")
 
             turma_usuario_logado = None
             turma_usuario_logado_id = None
@@ -128,7 +128,7 @@ class CadastroTrabalhoView(View):
                         Q(colaborador__pk=autor) | Q(orientador__pk=autor) | Q(
                             autor1__pk=autor) | Q(autor2__pk=autor) | Q(autor3__pk=autor) | Q(
                             autor4__pk=autor) | Q(autor5__pk=autor) | Q(autor6__pk=autor) | Q(
-                            autor7__pk=autor) | Q(usuario=autor)).distinct()
+                            autor7__pk=autor) | Q(usuario=autor),status__in=[SUBMETIDO, APROVADO]).distinct()
                     for autor in lista_autores:
                         if autor != None:
                             if lista_autores.count(autor) > 1:
@@ -139,7 +139,7 @@ class CadastroTrabalhoView(View):
             erro = "Quantidade de autores insuficientes!"
 
         if erro != "":
-            turmas = TurmaModel.objects.all()
+            turmas = TurmaModel.objects.all().order_by("nome")
             return render(request, self.template, {'form': form, 'turmas': turmas, "erro": erro})
 
         if form.is_valid():
@@ -149,7 +149,7 @@ class CadastroTrabalhoView(View):
             form_edit.autor1.id = request.user.id
             form_edit.save()
             return redirect('/')
-        turmas = TurmaModel.objects.all()
+        turmas = TurmaModel.objects.all().order_by("nome")
         return render(request, self.template, {'form': form, 'turmas': turmas, 'grupo': grupo})
 
 
