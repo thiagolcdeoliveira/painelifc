@@ -100,6 +100,7 @@ class CadastroTrabalhoView(View):
 
     @method_decorator(login_required)
     def post(self, request, id=None):
+        print("------ TESTE -----------")
         grupo = request.user.groups.filter(pk=ORIENTADOR)
         # erro = "Quantidade de autores insuficientes!"
         if id:
@@ -137,6 +138,15 @@ class CadastroTrabalhoView(View):
                         erro = "Autor já ta inscrito!"
         else:
             erro = "Quantidade de autores insuficientes!"
+        # print("orietando",request.POST['orientador'])
+        #teste=dict(request.POST)
+        # print(teste)
+        # print (teste["colaborador"])
+        # print("colaborador",str(request.POST['colaborador']))
+        # print(request.POST)
+        if request.POST['orientador'] in dict(request.POST)['colaborador']:
+            erro="O orientador não pode ser um colaborador!"
+
 
         if erro != "":
             turmas = TurmaModel.objects.all().order_by("nome")
@@ -216,6 +226,8 @@ class ImprimeTrabalhoView(View):
 
 
 class AceitaTrabalhoView(View):
+    template_consulta = 'trabalho/consulta.html'
+
     def group_test(user):
         return user.groups.filter(pk__in=[ORIENTADOR])
 
@@ -224,15 +236,47 @@ class AceitaTrabalhoView(View):
         template = 'trabalho/consulta.html'
         grupo = request.user.groups.filter(pk=ORIENTADOR)
         trabalho = TrabalhoModel.objects.get(pk=id)
+
+        trabalhos = TrabalhoModel.objects.filter(colaborador=trabalho.colaborador, status__in=[SUBMETIDO, APROVADO]).distinct()
+        configuracao=ConfiguracaoTrabalhoModel.objects.order_by('id').last()
+        is_orientador = True
+
+        if len(trabalhos)>configuracao.trabalhos_por_colaborador:
+            mensagem="Existem colaborador(es) em mais de %s trabalho(s)"  %configuracao.trabalhos_por_colaborador
+            return render(request, self.template_consulta,
+                                  {'trabalho': trabalho, 'orientador': is_orientador,'mensagem':mensagem})
+        trabalhos = TrabalhoModel.objects.filter(orietador=trabalho.orietador, status__in=[SUBMETIDO, APROVADO]).distinct()
+
+        if len(trabalhos) > configuracao.trabalhos_por_orietador:
+            is_orientador = True
+            mensagem = "Existem orietador(es) em mais de %s trabalho(s)" % configuracao.trabalhos_por_orietador
+            return render(request, self.template_consulta,
+                          {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem': mensagem})
+
+        trabalhos = TrabalhoModel.objects.filter(
+            Q(
+                autor1__pk=trabalho.autor) | Q(autor2__pk=trabalho.autor) | Q(autor3__pk=trabalho.autor) | Q(
+                autor4__pk=trabalho.autor) | Q(autor5__pk=trabalho.autor) | Q(autor6__pk=trabalho.autor) | Q(
+                autor7__pk=trabalho.autor) , status__in=[SUBMETIDO, APROVADO]).distinct()
+
+        if len(trabalhos) > configuracao.trabalhos_por_autor:
+            is_orientador = True
+            mensagem = "Existem autores em mais de %s trabalho(s)" % configuracao.trabalhos_por_autor
+            return render(request, self.template_consulta,
+                          {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem': mensagem})
+
         if trabalho.orientador.pk == request.user.pk:
             trabalho.status = StatusModels.objects.get(pk=SUBMETIDO)
             trabalho.save()
+
+
         return render(request, template, {'status': trabalho.status, 'grupo': grupo})
 
 
 class NegaTrabalhoView(View):
     def group_test(user):
-        return user.groups.filter(pk__in=[ORIENTADOR, ALUNO])
+        #return user.groups.filter(pk__in=[ORIENTADOR, ALUNO])
+        return user.groups.filter(pk__in=[ORIENTADOR])
 
     @method_decorator(user_passes_test(group_test))
     def get(self, request, id, status):

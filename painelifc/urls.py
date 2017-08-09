@@ -23,6 +23,7 @@ from django.contrib.auth.views import login, logout, password_change, password_c
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', Home.as_view(), name='home'),
+    url(r'^(?P<status>\d+)/$', Home.as_view(), name='home-admin'),
     url(r'^login/$', login, {'template_name': 'login/login.html'}, name='login'),
     url(r'^logout/$', logout, {'template_name': 'login/logout.html'}, name='logout'),
     url(r'^', include('painelifcapp.urls')),
