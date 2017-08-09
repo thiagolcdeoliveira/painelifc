@@ -266,6 +266,22 @@ class AceitaTrabalhoView(View):
         #     mensagem = "Existem autores em mais de %d trabalho(s)" % configuracao.trabalhos_por_autor
         #     return render(request, self.template_consulta,
         #                   {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem': mensagem})
+        lista_autores=[trabalho.autor1,trabalho.autor2,trabalho.autor3,trabalho.autor4,trabalho.autor5,trabalho.autor6]
+        if trabalho.autor7:
+            lista_autores.append(trabalho.autor7)
+        for i, autor in enumerate(lista_autores):
+            if autor:
+                trabalhos = TrabalhoModel.objects.filter(
+                    Q(
+                        autor1__pk=autor) | Q(autor2__pk=autor) | Q(autor3__pk=autor) | Q(
+                        autor4__pk=autor) | Q(autor5__pk=autor) | Q(autor6__pk=autor) | Q(
+                        autor7__pk=autor) ,status__in=[SUBMETIDO, APROVADO]).distinct()
+
+                if (len(trabalhos) > configuracao.trabalhos_por_autor):
+                    mensagem = "Existem autores em mais de %d trabalho(s)" % configuracao.trabalhos_por_autor
+                    return render(request, self.template_consulta,
+                                       {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem': mensagem})
+
 
         if trabalho.orientador.pk == request.user.pk:
             trabalho.status = StatusModels.objects.get(pk=SUBMETIDO)
