@@ -237,33 +237,35 @@ class AceitaTrabalhoView(View):
         grupo = request.user.groups.filter(pk=ORIENTADOR)
         trabalho = TrabalhoModel.objects.get(pk=id)
 
-        trabalhos = TrabalhoModel.objects.filter(colaborador=trabalho.colaborador, status__in=[SUBMETIDO, APROVADO]).distinct()
+        trabalhos = TrabalhoModel.objects.filter(colaborador__in=trabalho.colaborador.all(), status__in=[SUBMETIDO, APROVADO]).distinct()
+        print(trabalhos)
+        print("- ----  - - -- -")
         configuracao=ConfiguracaoTrabalhoModel.objects.order_by('id').last()
         is_orientador = True
-
-        if len(trabalhos)>configuracao.trabalhos_por_colaborador:
-            mensagem="Existem colaborador(es) em mais de %s trabalho(s)"  %configuracao.trabalhos_por_colaborador
+        print(trabalhos)
+        if len(trabalhos) > configuracao.trabalhos_por_colaborador:
+            mensagem="Existem colaborador(es) em mais de %d trabalho(s)"  %configuracao.trabalhos_por_colaborador
             return render(request, self.template_consulta,
                                   {'trabalho': trabalho, 'orientador': is_orientador,'mensagem':mensagem})
-        trabalhos = TrabalhoModel.objects.filter(orietador=trabalho.orietador, status__in=[SUBMETIDO, APROVADO]).distinct()
+        trabalhos = TrabalhoModel.objects.filter(orientador=trabalho.orientador, status__in=[SUBMETIDO, APROVADO]).distinct()
 
-        if len(trabalhos) > configuracao.trabalhos_por_orietador:
+        if len(trabalhos) > configuracao.trabalhos_por_orientador:
             is_orientador = True
-            mensagem = "Existem orietador(es) em mais de %s trabalho(s)" % configuracao.trabalhos_por_orietador
+            mensagem = "Existem orietador(es) em mais de %d trabalho(s)" % configuracao.trabalhos_por_orientador
             return render(request, self.template_consulta,
                           {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem': mensagem})
 
-        trabalhos = TrabalhoModel.objects.filter(
-            Q(
-                autor1__pk=trabalho.autor) | Q(autor2__pk=trabalho.autor) | Q(autor3__pk=trabalho.autor) | Q(
-                autor4__pk=trabalho.autor) | Q(autor5__pk=trabalho.autor) | Q(autor6__pk=trabalho.autor) | Q(
-                autor7__pk=trabalho.autor) , status__in=[SUBMETIDO, APROVADO]).distinct()
-
-        if len(trabalhos) > configuracao.trabalhos_por_autor:
-            is_orientador = True
-            mensagem = "Existem autores em mais de %s trabalho(s)" % configuracao.trabalhos_por_autor
-            return render(request, self.template_consulta,
-                          {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem': mensagem})
+        # trabalhos = TrabalhoModel.objects.filter(
+        #     Q(
+        #         autor1__pk=trabalho.autor) | Q(autor2__pk=trabalho.autor) | Q(autor3__pk=trabalho.autor) | Q(
+        #         autor4__pk=trabalho.autor) | Q(autor5__pk=trabalho.autor) | Q(autor6__pk=trabalho.autor) | Q(
+        #         autor7__pk=trabalho.autor) , status__in=[SUBMETIDO, APROVADO]).distinct()
+        #
+        # if len(trabalhos) > configuracao.trabalhos_por_autor:
+        #     is_orientador = True
+        #     mensagem = "Existem autores em mais de %d trabalho(s)" % configuracao.trabalhos_por_autor
+        #     return render(request, self.template_consulta,
+        #                   {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem': mensagem})
 
         if trabalho.orientador.pk == request.user.pk:
             trabalho.status = StatusModels.objects.get(pk=SUBMETIDO)
