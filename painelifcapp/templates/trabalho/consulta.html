@@ -21,7 +21,18 @@
         </div>
     </div>
     {% endif %}
+{% if  mensagem_sucesso %}
+    <div class="sixteen wide column">
 
+        <div class='ui success message'>
+            <i class='close icon'></i>
+            <div class="header">
+                <i class="sign icon green"></i>
+            </div>
+            <p>{{ mensagem_sucesso }}</p>
+        </div>
+    </div>
+    {% endif %}
     {% if user.is_authenticated %}
     {% if trabalho %}
     <div class="sixteen wide column">

@@ -244,14 +244,14 @@ class AceitaTrabalhoView(View):
         is_orientador = True
         print(trabalhos)
         if len(trabalhos) > configuracao.trabalhos_por_colaborador:
-            mensagem="Existem colaborador(es) em mais de %d trabalho(s)"  %configuracao.trabalhos_por_colaborador
+            mensagem="Existe(m) colaborador(es) em mais de %d trabalho(s)"  %configuracao.trabalhos_por_colaborador
             return render(request, self.template_consulta,
                                   {'trabalho': trabalho, 'orientador': is_orientador,'mensagem':mensagem})
         trabalhos = TrabalhoModel.objects.filter(orientador=trabalho.orientador, status__in=[SUBMETIDO, APROVADO]).distinct()
 
         if len(trabalhos) > configuracao.trabalhos_por_orientador:
             is_orientador = True
-            mensagem = "Existem orietador(es) em mais de %d trabalho(s)" % configuracao.trabalhos_por_orientador
+            mensagem = "Existe(m) orietador(es) em mais de %d trabalho(s)" % configuracao.trabalhos_por_orientador
             return render(request, self.template_consulta,
                           {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem': mensagem})
 
@@ -277,8 +277,8 @@ class AceitaTrabalhoView(View):
                         autor4__pk=autor) | Q(autor5__pk=autor) | Q(autor6__pk=autor) | Q(
                         autor7__pk=autor) ,status__in=[SUBMETIDO, APROVADO]).distinct()
 
-                if (len(trabalhos) > configuracao.trabalhos_por_autor):
-                    mensagem = "Existem autores em mais de %d trabalho(s)" % configuracao.trabalhos_por_autor
+                if (len(trabalhos) >= configuracao.trabalhos_por_autor):
+                    mensagem = "Existe(m) autor(es) em mais de %d trabalho(s)" % configuracao.trabalhos_por_autor
                     return render(request, self.template_consulta,
                                        {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem': mensagem})
 
@@ -286,9 +286,10 @@ class AceitaTrabalhoView(View):
         if trabalho.orientador.pk == request.user.pk:
             trabalho.status = StatusModels.objects.get(pk=SUBMETIDO)
             trabalho.save()
-
-
-        return render(request, template, {'status': trabalho.status, 'grupo': grupo})
+        mensagem_sucesso="Operação realizada com sucesso!"
+        return render(request, self.template_consulta,
+                      {'trabalho': trabalho, 'orientador': is_orientador, 'mensagem_sucesso': mensagem_sucesso})
+        # return render(request, template, {'status': trabalho.status, 'grupo': grupo})
 
 
 class NegaTrabalhoView(View):
