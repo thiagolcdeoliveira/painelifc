@@ -108,3 +108,4 @@ painelifc/db.sqlite3
 !/static/media/
 /static/media/
 /csv/
+/painelifc/db.sqlite3
