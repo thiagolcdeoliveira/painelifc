@@ -8,6 +8,7 @@ from painelifcapp.models.pessoa import PessoaModel
 from painelifcapp.forms.validador.colaborador import *
 from painelifcapp.forms.validador.orientador import *
 from painelifcapp.forms.validador.autor import *
+from painelifcapp.forms.validador.titulo import *
 from painelifcapp.forms.validador.disciplina import *
 from painelifcapp.forms.validador.resumo import *
 from painelifcapp.variaveis.variaveis import *
@@ -25,25 +26,25 @@ class FormTrabalho(forms.ModelForm):
             pk=AGUARDANDO_PROFESSOR).values_list('id', 'descricao')
         autores = PessoaModel.objects.filter(pk__in=self.autores()).order_by('nome').values_list('id', 'nome')
         super(FormTrabalho, self).__init__(*args, **kwargs)
-        self.fields['colaborador'].widget = forms.SelectMultiple(attrs={'checked': True, 'class': 'search selection'},
+        self.fields['colaborador'].widget = forms.SelectMultiple(attrs={'class': 'search selection'},
                                                                  choices=PessoaModel.objects.filter(
                                                                      pk__in=self.colaboradores()).order_by("nome").values_list('id',
                                                                                                               'nome'))
 
-        self.fields['orientador'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+        self.fields['orientador'].widget = forms.Select(attrs={ 'class': 'search selection'},
                                                         choices=PessoaModel.objects.filter(
                                                             pk__in=self.orientadores()).order_by("nome").values_list('id', 'nome'))
-        self.fields['autor2'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+        self.fields['autor2'].widget = forms.Select(attrs={ 'class': 'search selection'},
                                                     choices=autores)
-        self.fields['autor3'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+        self.fields['autor3'].widget = forms.Select(attrs={ 'class': 'search selection'},
                                                     choices=autores)
-        self.fields['autor4'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+        self.fields['autor4'].widget = forms.Select(attrs={ 'class': 'search selection'},
                                                     choices=autores)
-        self.fields['autor5'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+        self.fields['autor5'].widget = forms.Select(attrs={ 'class': 'search selection'},
                                                     choices=autores)
-        self.fields['autor6'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+        self.fields['autor6'].widget = forms.Select(attrs={'class': 'search selection'},
                                                     choices=autores)
-        self.fields['autor7'].widget = forms.Select(attrs={'checked': True, 'class': 'search selection'},
+        self.fields['autor7'].widget = forms.Select(attrs={ 'class': 'search selection'},
                                                     choices=PessoaModel.objects.filter(groups__pk__contains=[0]))
 
         self.fields['autor1'].required = False
@@ -77,6 +78,9 @@ class FormTrabalho(forms.ModelForm):
 
     def clean_orientador(self):
         return ValidarOrientador(self.cleaned_data.get('orientador'))
+
+    def clean_titulo(self):
+        return ValidarTitulo(self.cleaned_data.get('titulo'))
 
     def clean_resumo(self):
         return ValidarResumo(self.cleaned_data.get('resumo'))
@@ -119,7 +123,7 @@ class FormTrabalho(forms.ModelForm):
                         autor3__pk=autor.id) | Q(autor4__pk=autor.id) | Q(autor5__pk=autor.id) | Q(
                         autor6__pk=autor.id) | Q(autor7__pk=autor.id) | Q(
                         orientador__pk=autor.id) | Q(
-                        colaborador__pk=autor.id) | Q(usuario=autor.id)).distinct()
+                        colaborador__pk=autor.id) | Q(usuario=autor.id),status__in=[SUBMETIDO, APROVADO]).distinct()
 
                 if (len(trabalhos) < configuracao.trabalhos_por_autor):
                     autores_habilitados.append(autor.pk)

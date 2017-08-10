@@ -11,13 +11,13 @@ def ValidarColaborador(colaborador):
     if configuracao:
         #if len(colaborador) >= min_colaborador and len(colaborador) <= max_colabolador:
         if len(colaborador) >= configuracao.min_colaborador and len(colaborador) <= configuracao.max_colaborador:
-            trabalhos=TrabalhoModel.objects.filter(colaborador__in=colaborador,status__in=[SUBMETIDO,APROVADO])
-
-            if(len(trabalhos)< configuracao.trabalhos_por_colaborador):
+            trabalhos=TrabalhoModel.objects.filter(colaborador=colaborador,status__in=[SUBMETIDO,APROVADO]).distinct()
+            print (trabalhos)
+            if(len(trabalhos) < configuracao.trabalhos_por_colaborador):
 
                 return colaborador
             else:
-                raise forms.ValidationError("Existe colaboradores indisponiveis nessa lista.")
+                raise forms.ValidationError("Existem colaboradores indisponíveis nessa lista.")
             #return colaborador
         else:
             raise forms.ValidationError("Número de colaboradores incorreto. min: %d e max: %d" %(configuracao.min_colaborador,configuracao.max_colaborador))

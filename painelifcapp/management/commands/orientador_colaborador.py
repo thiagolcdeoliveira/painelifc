@@ -29,8 +29,8 @@ class Command(BaseCommand):
             for i,row in enumerate(reader):
                 print(row)
                 nome = row["nome"].split()
-                first_name = nome[0].decode('utf-8').title()
-                last_name = " ".join(nome[1:]).decode('utf-8').title()
+                first_name = nome[0].decode("utf-8").encode("utf-8")
+                last_name = " ".join(nome[1:]).title().decode("utf-8").encode("utf-8")
                 # print(row)
                 if not PessoaModel.objects.filter(username=row['user']):
                     orientador_colaborador = PessoaModel(first_name=first_name,
@@ -38,7 +38,7 @@ class Command(BaseCommand):
                                         # group=Group.objects.get(pk__in=[ALUNO]),
                                         username=row["user"],
                                         password=make_password(row["pass"]),
-                                        nome=row["nome"].decode('utf-8').title(),
+                                        nome=row["nome"].decode("utf-8").encode('utf-8').title(),
                                         matricula=row["matricula"],
 
                                         )
